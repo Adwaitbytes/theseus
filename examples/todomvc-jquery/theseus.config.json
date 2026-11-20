@@ -11,18 +11,58 @@
     "url": "http://localhost:4170",
     "source": "original"
   },
-  "docs": ["docs/todomvc-app-spec.md"],
+  "docs": [
+    "docs/todomvc-app-spec.md"
+  ],
   "targets": [
-    { "id": "nextjs", "label": "Next.js", "platform": "web", "stack": "Next.js (App Router, TypeScript)", "agent": "claude-code" },
-    { "id": "sveltekit", "label": "SvelteKit", "platform": "web", "stack": "SvelteKit with adapter-node (TypeScript)", "agent": "codex" },
-    { "id": "expo-android", "label": "Expo on Android", "platform": "android", "stack": "Expo (React Native, TypeScript)", "agent": "claude-code" },
-    { "id": "expo-ios", "label": "Expo on iOS", "platform": "ios", "stack": "Expo (React Native, TypeScript)", "agent": "claude-code" }
+    {
+      "id": "nextjs",
+      "label": "Next.js",
+      "platform": "web",
+      "stack": "Next.js (App Router, TypeScript)",
+      "agent": "codex"
+    },
+    {
+      "id": "sveltekit",
+      "label": "SvelteKit",
+      "platform": "web",
+      "stack": "SvelteKit with adapter-node (TypeScript)",
+      "agent": "codex"
+    },
+    {
+      "id": "expo-android",
+      "label": "Expo on Android",
+      "platform": "android",
+      "stack": "Expo (React Native, TypeScript)",
+      "agent": "codex"
+    },
+    {
+      "id": "expo-ios",
+      "label": "Expo on iOS",
+      "platform": "ios",
+      "stack": "Expo (React Native, TypeScript)",
+      "agent": "codex"
+    }
   ],
   "rounds": 5,
   "budgetCredits": 11200,
-  "concurrency": { "web": 2, "mobile": 1, "targets": 2 },
-  "strength": { "enabled": true, "mutants": 8, "maxRunsPerMutant": 5 },
-  "kane": { "timeoutS": 300, "creditsPerRun": 21 },
+  "concurrency": {
+    "web": 2,
+    "mobile": 1,
+    "targets": 2
+  },
+  "strength": {
+    "enabled": true,
+    "mutants": 8,
+    "maxRunsPerMutant": 5
+  },
+  "kane": {
+    "timeoutS": 300,
+    "creditsPerRun": 21
+  },
   "runsDir": "runs",
-  "workDir": ".theseus/work"
+  "workDir": ".theseus/work",
+  "draftAgent": {
+    "agent": "codex"
+  }
 }

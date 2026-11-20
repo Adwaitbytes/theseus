@@ -52,7 +52,7 @@ const OBJECTIVE_RULES = `Rules for every objective (Kane CLI executes them on a 
 - One outcome per behavior, under about 15 steps. Chain clauses in order: action, then extraction, then assertion.
 - End with explicit verifications of what is on screen ("verify the counter shows "2 items left""). The closing assertion is a look, not a trip: if the evidence is elsewhere, add the navigation as its own action first.
 - Never assert the control that triggered an action; assert the outcome.
-- For every value worth comparing across implementations, use the exact phrasing: store the <thing> as '<key>'. Keys are snake_case. List every key in "stores" and nothing else. Vague verbs like "read" or "note" do not store anything.
+- For every value worth comparing across implementations, use the exact phrasing: store the <thing> as '<key>'. Keys are snake_case. List every key in "stores" and nothing else. Vague verbs like "read" or "note" do not store anything. Store exact visible text, never an interpretation: prefer a status or counter text exactly as shown and lists of visible item labels in display order separated by commas, and say what to store when the thing is absent (the word none). Reuse the same key names across behaviors for the same kind of value so parity reads consistently.
 - Refer back to a stored value in plain English ("the stored item_count value"), never with braces.`;
 
 const BEHAVIOR_SHAPE = `Each behavior is a JSON object:
