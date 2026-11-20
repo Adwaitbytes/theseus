@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.next/
+.turbo/
+coverage/
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+.DS_Store
+.testmuai/evidence/
+.theseus/work/
+MASTER_PROMPT*.md
+.vercel
