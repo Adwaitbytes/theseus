@@ -12,6 +12,7 @@ import { latestResults } from "../kane/outcome.js";
 import { computeParity } from "../parity.js";
 import { regrowTarget } from "../regrow/index.js";
 import { nextStep } from "../regrow/loop.js";
+import { sanitizeForPersistence } from "../sanitize.js";
 import { strength } from "../strength.js";
 import { mapConcurrent } from "../util/concurrency.js";
 import { readCredits, readVoyage, voyagePaths, writeVoyage, type VoyagePaths } from "./store.js";
@@ -63,7 +64,8 @@ class VoyageWriter {
   }
 
   update(change: (voyage: Voyage | undefined) => Voyage): Promise<Voyage> {
-    const next = change(this.#voyage);
+    // Keep the in-memory copy identical to what is on disk, so a resumed run sees the same data.
+    const next = sanitizeForPersistence(change(this.#voyage));
     this.#voyage = next;
     const write = this.#chain.then(() => writeVoyage(this.#file, next));
     // The chain itself must not stay rejected, or every later write would fail too; the caller still sees this error.
