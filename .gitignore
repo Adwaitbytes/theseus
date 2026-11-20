@@ -13,3 +13,4 @@ coverage/
 MASTER_PROMPT*.md
 .vercel
 .claude/worktrees/
+.playwright-mcp/
