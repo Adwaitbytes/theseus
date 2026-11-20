@@ -25,7 +25,7 @@ function findRepoRoot(start: string): string {
   return dir;
 }
 
-export const REPO_ROOT = findRepoRoot(process.cwd());
+const REPO_ROOT = findRepoRoot(process.cwd());
 const RUNS_DIR = join(REPO_ROOT, "runs");
 
 function parseVoyageDir(dir: string, sample: boolean): LoadedVoyage {

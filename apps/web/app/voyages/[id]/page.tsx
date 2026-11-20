@@ -33,6 +33,7 @@ export default async function CertificatePage({ params }: PageProps<"/voyages/[i
   const origin = voyage.spec.app.origin;
   const regrowths = voyage.regrowths;
   const rowsByTarget = new Map(regrowths.map((r) => [r.target.id, new Map((r.parity?.rows ?? []).map((row) => [row.behaviorId, row]))]));
+  const issuedAt = regrowths.map((r) => r.endedAt).sort().at(-1);
   const baselineById = new Map(voyage.baseline.map((b) => [b.behaviorId, b]));
   const evidence = regrowths.flatMap((r) =>
     (r.rounds.at(-1)?.results ?? []).filter((x) => x.outcome.testUrl).map((x) => ({ target: r.target, result: x })),
@@ -52,7 +53,7 @@ export default async function CertificatePage({ params }: PageProps<"/voyages/[i
         </span>
       </nav>
 
-      <header className="mt-8 grid gap-8 border-b border-ink pb-10 lg:grid-cols-[3fr_2fr] lg:items-end">
+      <header className="mt-8 grid gap-8 pb-10 lg:grid-cols-[3fr_2fr] lg:items-end">
         <div>
           <h1 className="t-display !text-[clamp(2.75rem,1.6rem+4vw,5rem)]">Parity certificate</h1>
           <p className="mt-6 max-w-2xl text-lg text-ink-2">
@@ -66,6 +67,14 @@ export default async function CertificatePage({ params }: PageProps<"/voyages/[i
           </dd>
           <dt className="text-ink-3">Captured</dt>
           <dd className="t-num text-ink">{formatDate(voyage.spec.capturedAt)}</dd>
+          {issuedAt ? (
+            <>
+              <dt className="text-ink-3">Issued</dt>
+              <dd className="t-num text-ink">{formatDate(issuedAt)}</dd>
+            </>
+          ) : null}
+          <dt className="text-ink-3">Verified by</dt>
+          <dd className="text-ink">Kane CLI, in a real browser and on emulators</dd>
           <dt className="text-ink-3">Behaviors</dt>
           <dd className="t-num text-ink">{voyage.spec.behaviors.length}</dd>
           {voyage.strength ? (
@@ -82,7 +91,7 @@ export default async function CertificatePage({ params }: PageProps<"/voyages/[i
         </dl>
       </header>
 
-      <section aria-labelledby="targets-title" className="mt-12">
+      <section aria-labelledby="targets-title" className="border-t-4 border-double border-ink pt-12">
         <h2 id="targets-title" className="sr-only">
           Summary per target
         </h2>
@@ -111,7 +120,7 @@ export default async function CertificatePage({ params }: PageProps<"/voyages/[i
           </h2>
           <p className="text-sm text-ink-2">Values are what Kane stored while running each objective.</p>
         </div>
-        <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <div className="relative -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
           <table className="w-full min-w-[56rem] table-fixed border-separate border-spacing-0 text-sm">
             <thead>
               <tr className="text-left text-2xs text-ink-3">
@@ -177,7 +186,7 @@ export default async function CertificatePage({ params }: PageProps<"/voyages/[i
           ) : null}
         </div>
         {voyage.strength ? (
-          <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+          <div className="relative -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
             <table className="w-full min-w-[48rem] border-separate border-spacing-0 text-sm">
               <thead>
                 <tr className="text-left text-2xs text-ink-3">
@@ -312,7 +321,7 @@ function ParityCell({ row }: { row: ParityRow | undefined }) {
         }`}
       >
         <VerdictGlyph verdict={row.verdict} />
-        {verdictLabel[row.verdict]}
+        {row.verdict === "identical" ? <span className="sr-only">{verdictLabel[row.verdict]}</span> : verdictLabel[row.verdict]}
       </span>
       {row.verdict === "diverged" ? (
         <dl className="flex flex-col gap-1 font-mono text-xs">

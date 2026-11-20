@@ -44,7 +44,7 @@ export default function HomePage() {
 
       <section className="wrap" aria-labelledby="voyage-title">
         <div className="mb-2 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-          <h2 id="voyage-title" className="text-base font-medium text-ink">
+          <h2 id="voyage-title" className="font-serif text-2xl leading-tight text-ink">
             {voyage.title}
             <Ref id="todomvc" />
           </h2>
@@ -230,6 +230,7 @@ export default function HomePage() {
             <h2 id="numbers-title" className="t-h2">
               The log
             </h2>
+            <p className="max-w-xs text-sm text-ink-3">Totals across the baseline and every regrowth round, read from the voyage file.</p>
           </div>
           <dl className="divide-y divide-rule border-b border-rule">
             <LogRow label="Behaviors in the spec" value={formatInt(stats.behaviors)} note="Each proven on the original before any code was deleted." />
@@ -260,9 +261,12 @@ export default function HomePage() {
 
       <section className="wrap mt-32" aria-labelledby="install-title">
         <div className="grid grid-cols-[minmax(0,1fr)] gap-6 border-t border-ink pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-          <h2 id="install-title" className="t-h2">
+          <div className="flex flex-col gap-4">
+            <h2 id="install-title" className="t-h2">
             Run a voyage
           </h2>
+            <p className="max-w-xs text-sm text-ink-3">Theseus is a command line tool. The site is built from what it records.</p>
+          </div>
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-3">
               <CopyCommand command="npx theseus-cli demo" />

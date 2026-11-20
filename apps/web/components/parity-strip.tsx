@@ -2,15 +2,14 @@ import type { ParityVerdict } from "@theseus/schema";
 import { verdictLabel } from "@/lib/format";
 
 /** One square per behavior, in spec order: the certificate at a glance. */
-export function ParityStrip({ verdicts, size = "md" }: { verdicts: { id: string; verdict: ParityVerdict }[]; size?: "sm" | "md" }) {
-  const box = size === "sm" ? "size-2" : "size-3";
+export function ParityStrip({ verdicts }: { verdicts: { id: string; verdict: ParityVerdict }[] }) {
   return (
     <ul className="flex flex-wrap gap-[3px]" aria-label="Verdict per behavior">
       {verdicts.map((v) => (
         <li
           key={v.id}
           title={`${v.id}: ${verdictLabel[v.verdict]}`}
-          className={`${box} rounded-[1.5px] ${
+          className={`size-2.5 rounded-[1.5px] ${
             v.verdict === "identical" ? "bg-pass" : v.verdict === "diverged" ? "hatch border border-ink-2" : "bg-fail"
           }`}
         >

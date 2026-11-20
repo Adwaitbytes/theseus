@@ -9,12 +9,13 @@ export interface ReplayColumn {
   stack: string;
   platform: "web" | "android" | "ios";
   original: boolean;
+  /** Column header on narrow screens. */
+  short: string;
 }
 
 export interface ReplayRow {
   id: string;
   title: string;
-  area: string;
 }
 
 /** One cell change, in recorded order. Compact so the whole replay ships cheaply to the client. */
@@ -35,6 +36,8 @@ export interface ReplayData {
   columns: ReplayColumn[];
   rows: ReplayRow[];
   frames: ReplayFrame[];
+  /** "row:col" keys of cells that passed but whose stored values diverged from the original in the parity run. */
+  diverged: string[];
 }
 
 export interface CellSnapshot {
@@ -63,13 +66,19 @@ function failureNote(result: BehaviorResult): string {
   return outcome.failingStep?.remark ?? outcome.oneLiner;
 }
 
+/** "jQuery (2012)" reads as "jQuery", "Next.js" as "Next", "SvelteKit" as "Svelte". */
+export function shortLabel(label: string): string {
+  return label.replace(/\s*\(.*\)$/, "").replace(/\.js$/i, "").replace(/Kit$/, "");
+}
+
 function columnsOf(voyage: Voyage): ReplayColumn[] {
   const origin = voyage.spec.app.origin;
   return [
-    { id: origin.id, label: origin.label, stack: origin.stack, platform: origin.platform, original: true },
+    { id: origin.id, label: origin.label, short: shortLabel(origin.label), stack: origin.stack, platform: origin.platform, original: true },
     ...voyage.regrowths.map((r) => ({
       id: r.target.id,
       label: r.target.label,
+      short: shortLabel(r.target.label),
       stack: r.target.stack,
       platform: r.target.platform,
       original: false,
@@ -83,7 +92,7 @@ function columnsOf(voyage: Voyage): ReplayColumn[] {
  */
 export function buildReplay(voyage: Voyage, events: readonly TheseusEvent[]): ReplayData {
   const columns = columnsOf(voyage);
-  const rows: ReplayRow[] = voyage.spec.behaviors.map((b) => ({ id: b.id, title: b.title, area: b.area }));
+  const rows: ReplayRow[] = voyage.spec.behaviors.map((b) => ({ id: b.id, title: b.title }));
   const colIndex = new Map(columns.map((c, i) => [c.id, i]));
   const rowIndex = new Map(rows.map((r, i) => [r.id, i]));
   const frames: ReplayFrame[] = [];
@@ -125,7 +134,13 @@ export function buildReplay(voyage: Voyage, events: readonly TheseusEvent[]): Re
     }
   }
 
-  return { voyageId: voyage.id, columns, rows, frames };
+  const diverged = voyage.regrowths.flatMap((r) =>
+    (r.parity?.rows ?? [])
+      .filter((row) => row.verdict === "diverged")
+      .map((row) => `${rowIndex.get(row.behaviorId)}:${colIndex.get(r.target.id)}`),
+  );
+
+  return { voyageId: voyage.id, columns, rows, frames, diverged };
 }
 
 /** State of the matrix after applying the first `count` frames. */

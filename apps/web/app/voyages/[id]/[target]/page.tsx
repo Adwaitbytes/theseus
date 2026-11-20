@@ -104,10 +104,10 @@ export default async function TargetPage({ params }: PageProps<"/voyages/[id]/[t
           {regrowth.rounds.map((round) => {
             const ok = round.results.filter((r) => passed(r.outcome)).length;
             return (
-              <li key={round.n} className="min-w-[7.5rem] flex-1 bg-paper">
+              <li key={round.n} className="min-w-[8.5rem] flex-1 bg-paper">
                 <a href={`#round-${round.n}`} className="flex h-full flex-col gap-3 p-4 text-ink no-underline transition-colors duration-150 hover:bg-surface">
                   <span className="flex items-baseline justify-between gap-2">
-                    <span className="text-sm font-medium">Round {round.n}</span>
+                    <span className="whitespace-nowrap text-sm font-medium">Round {round.n}</span>
                     <span className={`t-num text-xs ${ok === round.results.length ? "text-pass" : "text-ink-2"}`}>
                       {ok}/{round.results.length}
                     </span>
@@ -219,6 +219,14 @@ function RoundSection({
             </blockquote>
           ) : null}
 
+          {failed.length > 0 && !failed.some((r) => hasShots(loaded, baselineOf(r.behaviorId), r.outcome)) ? (
+            <p className="text-xs text-ink-3">
+              {loaded.sample
+                ? "The sample data has no screenshots. Recorded runs show the original and the regrowth side by side under each failure."
+                : "Kane captured no screenshots for the failures in this round."}
+            </p>
+          ) : null}
+
           {failed.map((r) => (
             <FailedBehavior key={r.behaviorId} result={r} title={titleOf(r.behaviorId)} original={baselineOf(r.behaviorId)} loaded={loaded} targetLabel={targetLabel} />
           ))}
@@ -246,6 +254,10 @@ function RoundSection({
       </div>
     </section>
   );
+}
+
+function hasShots(loaded: LoadedVoyage, original: KaneOutcome | undefined, o: KaneOutcome): boolean {
+  return [original?.artifacts.finalShot, o.artifacts.finalShot, o.artifacts.failShot].some((p) => evidenceUrl(loaded, p) !== undefined);
 }
 
 function FailedBehavior({
@@ -329,13 +341,7 @@ function FailedBehavior({
           <ScreenshotFrame src={shots[1]} caption={`${targetLabel}, final state`} missing={missing} />
           <ScreenshotFrame src={shots[2]} caption={`${targetLabel}, failing step`} tone="fail" missing={missing} />
         </div>
-      ) : (
-        <p className="border-t border-dashed border-rule-strong px-5 py-3 text-2xs text-ink-3">
-          {loaded.sample
-            ? "Screenshots: the sample data has none. Recorded runs show the original and the regrowth side by side here."
-            : "Screenshots: Kane did not capture any for this run."}
-        </p>
-      )}
+      ) : null}
     </article>
   );
 }

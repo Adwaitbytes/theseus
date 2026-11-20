@@ -9,11 +9,15 @@ import type { CellState, ReplayData, ReplayFrame } from "@/lib/replay";
 /** A full replay plays in this many seconds regardless of how long the real voyage took. */
 const REPLAY_SECONDS = 40;
 
-const stateLabel: Record<CellState, string> = {
+/** What a cell shows: Kane's verdict, plus the parity result once the replay reaches the end. */
+type DisplayState = CellState | "diverged";
+
+const stateLabel: Record<DisplayState, string> = {
   pending: "Not run yet",
   running: "Kane is running it",
   passed: "Passed",
   failed: "Failed",
+  diverged: "Passed, but a stored value differs from the original",
 };
 
 const nf = new Intl.NumberFormat("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -42,6 +46,12 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
   const autoplayed = useRef(false);
 
   const snap = useMemo(() => snapshotAt(data, index), [data, index]);
+  const divergedCells = useMemo(() => new Set(data.diverged), [data]);
+  const atEnd = index >= total;
+  const displayState = (row: number, col: number): DisplayState => {
+    const state = snap.cells[row]![col]!.state;
+    return atEnd && state === "passed" && divergedCells.has(`${row}:${col}`) ? "diverged" : state;
+  };
   const marks = useMemo(() => roundMarks(data), [data]);
 
   // Playback: advance by elapsed time so speed is the same at 60 or 120 Hz.
@@ -138,6 +148,7 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
 
   const detail = selected ?? (current ? { row: current.row, col: current.col } : null);
   const detailCell = detail ? snap.cells[detail.row]![detail.col]! : null;
+  const detailState = detail ? displayState(detail.row, detail.col) : "pending";
   const detailColumn = detail ? data.columns[detail.col]! : null;
   const detailRow = detail ? data.rows[detail.row]! : null;
 
@@ -151,25 +162,30 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
           <Counter label="Kane credits" value={nf.format(snap.credits)} />
         </dl>
 
+        <div className="border-b border-rule py-3 lg:hidden">
+          <Legend />
+        </div>
+
         <div className="relative -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0" tabIndex={-1}>
           <table
             role="grid"
             aria-label="Voyage matrix: each behavior on the original and on every regrowth"
             aria-rowcount={data.rows.length + 1}
             aria-colcount={data.columns.length + 1}
-            className="w-full min-w-[28rem] table-fixed border-separate border-spacing-0 text-sm"
+            className="w-full table-fixed sm:min-w-[28rem] border-separate border-spacing-0 text-sm"
             onKeyDown={onGridKey}
           >
             <thead>
               <tr>
-                <th scope="col" className="sticky left-0 z-10 w-36 bg-paper sm:w-[34%] pb-3 pt-5 pr-3 text-left align-bottom text-2xs font-normal text-ink-3">
+                <th scope="col" className="sticky left-0 z-10 w-32 bg-paper pb-3 sm:w-[34%] pt-5 pr-3 text-left align-bottom text-2xs font-normal text-ink-3">
                   Behavior
                 </th>
                 {data.columns.map((c, ci) => (
-                  <th key={c.id} scope="col" className="px-1 pb-3 pt-5 text-center align-bottom font-normal">
+                  <th key={c.id} scope="col" className="px-0.5 pb-3 sm:px-1 pt-5 text-center align-bottom font-normal">
                     <ColumnHead
                       href={c.original ? certificateHref : `${certificateHref}/${c.id}`}
                       label={c.label}
+                      short={c.short}
                       tag={c.original ? "Original" : snap.roundByColumn[ci]! > 0 ? `R${snap.roundByColumn[ci]}` : "Waiting"}
                       active={playing && activeCol === ci}
                     />
@@ -182,16 +198,17 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
                 <tr key={r.id} className="group">
                   <th
                     scope="row"
-                    className="sticky left-0 z-10 max-w-40 border-t border-rule bg-paper py-1 pr-3 text-left font-normal leading-5 text-ink-2 sm:max-w-none"
+                    className="sticky left-0 z-10 border-t border-rule bg-paper py-1 pr-2 text-left text-xs font-normal leading-4 text-ink-2 sm:pr-3 sm:text-sm sm:leading-5"
                   >
                     {r.title}
                   </th>
                   {data.columns.map((c, ci) => {
                     const cell = snap.cells[ri]![ci]!;
+                    const state = displayState(ri, ci);
                     const isFocus = focus.row === ri && focus.col === ci;
                     const isSelected = selected?.row === ri && selected.col === ci;
                     return (
-                      <td key={c.id} role="gridcell" className="border-t border-rule px-1 py-0.5" aria-selected={isSelected}>
+                      <td key={c.id} role="gridcell" className="border-t border-rule px-0 py-0.5 sm:px-1" aria-selected={isSelected}>
                         <button
                           type="button"
                           ref={(el) => {
@@ -201,7 +218,7 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
                           }}
                           tabIndex={isFocus ? 0 : -1}
                           data-selected={isSelected}
-                          aria-label={`${r.title} on ${c.label}: ${stateLabel[cell.state]}${cell.state !== "pending" ? `, ${roundLabel(cell.round)}` : ""}`}
+                          aria-label={`${r.title} on ${c.label}: ${stateLabel[state]}${cell.state !== "pending" ? `, ${roundLabel(cell.round)}` : ""}`}
                           className="cell-btn"
                           onClick={() => {
                             setFocus({ row: ri, col: ci });
@@ -209,7 +226,7 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
                           }}
                           onFocus={() => setFocus({ row: ri, col: ci })}
                         >
-                          <span className="glyph" data-state={cell.state} />
+                          <span className="glyph" data-state={state} />
                         </button>
                       </td>
                     );
@@ -268,7 +285,9 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
       </div>
 
       <aside className="flex flex-col gap-8 text-sm" aria-label="Matrix details">
-        <Legend />
+        <div className="hidden border-b border-rule pb-4 lg:block">
+          <Legend />
+        </div>
 
         <section aria-live="off" className="min-h-44">
           <h3 className="mb-3 text-2xs text-ink-3">{selected ? "Selected" : "Latest change"}</h3>
@@ -280,8 +299,8 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
                 <span className="text-ink-3">, {detailColumn.stack}</span>
               </p>
               <p className="flex items-center gap-2">
-                <span className="glyph inline-block shrink-0" data-state={detailCell.state} aria-hidden="true" />
-                <span className="text-ink">{stateLabel[detailCell.state]}</span>
+                <span className="glyph inline-block shrink-0" data-state={detailState} aria-hidden="true" />
+                <span className="text-ink">{stateLabel[detailState]}</span>
                 {detailCell.state !== "pending" ? <span className="t-num text-xs text-ink-3">{roundLabel(detailCell.round)}</span> : null}
               </p>
               {detailCell.note ? (
@@ -334,18 +353,23 @@ function Counter({ label, value, suffix }: { label: string; value: string; suffi
 function ColumnHead({
   href,
   label,
+  short,
   tag,
   active,
 }: {
   href: string;
   label: string;
+  short: string;
   tag: string;
   active: boolean;
 }) {
   return (
-    <Link href={href} tabIndex={-1} className="group/col inline-flex flex-col items-center gap-1 rounded-sm px-1 text-ink no-underline">
-      <span className="text-xs font-medium leading-4 group-hover/col:underline">{label}</span>
-      <span className={`t-num text-2xs leading-4 transition-colors duration-150 ${active ? "text-accent" : "text-ink-3"}`}>
+    <Link href={href} tabIndex={-1} className="group/col inline-flex flex-col items-center gap-1 rounded-sm text-ink no-underline sm:px-1">
+      <span className="text-xs font-medium leading-4 group-hover/col:underline">
+        <span className="text-[0.6875rem] tracking-tight sm:hidden">{short}</span>
+        <span className="hidden sm:inline">{label}</span>
+      </span>
+      <span className={`t-num hidden text-2xs leading-4 sm:block transition-colors duration-150 ${active ? "text-accent" : "text-ink-3"}`}>
         {tag}
       </span>
     </Link>
@@ -353,14 +377,15 @@ function ColumnHead({
 }
 
 function Legend() {
-  const items: { state: CellState; label: string }[] = [
+  const items: { state: DisplayState; label: string }[] = [
     { state: "pending", label: "Not run" },
     { state: "running", label: "Running" },
     { state: "passed", label: "Passed" },
     { state: "failed", label: "Failed" },
+    { state: "diverged", label: "Diverged" },
   ];
   return (
-    <ul className="grid grid-cols-2 gap-x-4 gap-y-2 border-y border-rule py-4 lg:border-t-0 lg:pt-0" aria-label="Legend">
+    <ul className="grid grid-cols-3 gap-x-4 gap-y-2 text-xs lg:grid-cols-2 lg:text-sm" aria-label="Legend">
       {items.map((i) => (
         <li key={i.state} className="flex items-center gap-2.5 text-ink-2">
           <span className="grid size-4 place-items-center">

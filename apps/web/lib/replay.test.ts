@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { TheseusEvent, Voyage } from "@theseus/schema";
-import { buildReplay, roundMarks, snapshotAt } from "./replay";
+import { buildReplay, roundMarks, shortLabel, snapshotAt } from "./replay";
 import { formatDuration } from "./format";
 import { voyageStats } from "./stats";
 
@@ -67,10 +67,25 @@ describe("buildReplay", () => {
     expect(a.rounds).toBe(b.rounds);
   });
 
+  it("lists every diverged parity row as a cell key", () => {
+    const expected = voyage.regrowths.reduce((s, r) => s + (r.parity?.summary.diverged ?? 0), 0);
+    expect(data.diverged).toHaveLength(expected);
+    for (const key of data.diverged) expect(key).toMatch(/^\d+:[1-9]\d*$/);
+  });
+
   it("emits one round mark per column round", () => {
     const marks = roundMarks(data);
     const expected = 1 + voyage.regrowths.reduce((s, r) => s + r.rounds.length, 0);
     expect(marks).toHaveLength(expected);
+  });
+});
+
+describe("shortLabel", () => {
+  it("shortens column labels for narrow screens", () => {
+    expect(shortLabel("jQuery (2012)")).toBe("jQuery");
+    expect(shortLabel("Next.js")).toBe("Next");
+    expect(shortLabel("SvelteKit")).toBe("Svelte");
+    expect(shortLabel("iOS")).toBe("iOS");
   });
 });
 

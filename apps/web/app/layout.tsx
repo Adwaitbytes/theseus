@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
+import localFont from "next/font/local";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { heroVoyage } from "@/lib/data";
@@ -8,22 +9,31 @@ import "./globals.css";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
-  axes: ["opsz"],
-  style: ["normal", "italic"],
+  weight: "400",
   variable: "--font-newsreader",
   display: "swap",
 });
 
+// Newsreader instanced at its 72pt optical size: the text cut looks loose at display sizes.
+const newsreaderDisplay = localFont({
+  src: "./fonts/newsreader-display.woff",
+  weight: "400",
+  variable: "--font-newsreader-display",
+  display: "swap",
+  // Not preloaded: it would compete with the body font that paints the LCP text on slow links.
+  preload: false,
+});
+
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
   variable: "--font-plex-sans",
   display: "swap",
 });
 
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400"],
   variable: "--font-plex-mono",
   display: "swap",
 });
@@ -50,7 +60,7 @@ const themeScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { voyage, sample } = heroVoyage();
   return (
-    <html lang="en" className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${newsreader.variable} ${newsreaderDisplay.variable} ${plexSans.variable} ${plexMono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
