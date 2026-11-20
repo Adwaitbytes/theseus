@@ -1,0 +1,15 @@
+{
+  "platform": "ios",
+  "device": {
+    "deviceName": "iPhone 18 Pro",
+    "osVersion": "27.2",
+    "deviceId": "A532783E-C023-43F2-91A5-A9556BFA4F52"
+  },
+  "appId": "dev.theseus.expohello",
+  "artifact": "fixtures/expo-hello/ios/build/ExpoHello.zip",
+  "deviceReadyS": 5,
+  "buildS": 57,
+  "installAndLaunchS": 22,
+  "screenshot": "proof/ios-launch.png",
+  "at": "2026-11-20T22:08:02.281Z"
+}
