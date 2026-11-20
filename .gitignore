@@ -12,3 +12,8 @@ coverage/
 .theseus/work/
 MASTER_PROMPT*.md
 .vercel
+
+# apps/web build output
+apps/web/out/
+apps/web/public/evidence/
+apps/web/next-env.d.ts
