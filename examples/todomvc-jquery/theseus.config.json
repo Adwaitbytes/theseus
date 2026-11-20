@@ -1,0 +1,28 @@
+{
+  "id": "todomvc-jquery",
+  "title": "jQuery TodoMVC, regrown",
+  "app": {
+    "name": "TodoMVC",
+    "description": "The classic TodoMVC todo list: add, edit, complete, filter and clear todos, with a live counter and data that survives a reload."
+  },
+  "original": {
+    "label": "jQuery TodoMVC (2012)",
+    "stack": "jQuery 2, Handlebars, Director",
+    "url": "http://localhost:4170",
+    "source": "original"
+  },
+  "docs": ["docs/todomvc-app-spec.md"],
+  "targets": [
+    { "id": "nextjs", "label": "Next.js", "platform": "web", "stack": "Next.js (App Router, TypeScript)", "agent": "claude-code" },
+    { "id": "sveltekit", "label": "SvelteKit", "platform": "web", "stack": "SvelteKit with adapter-node (TypeScript)", "agent": "codex" },
+    { "id": "expo-android", "label": "Expo on Android", "platform": "android", "stack": "Expo (React Native, TypeScript)", "agent": "claude-code" },
+    { "id": "expo-ios", "label": "Expo on iOS", "platform": "ios", "stack": "Expo (React Native, TypeScript)", "agent": "claude-code" }
+  ],
+  "rounds": 5,
+  "budgetCredits": 11200,
+  "concurrency": { "web": 2, "mobile": 1, "targets": 2 },
+  "strength": { "enabled": true, "mutants": 8, "maxRunsPerMutant": 5 },
+  "kane": { "timeoutS": 300, "creditsPerRun": 21 },
+  "runsDir": "runs",
+  "workDir": ".theseus/work"
+}
