@@ -2,7 +2,7 @@ import { KaneOutcome, type KaneBug, type KaneStatus } from "@theseus/schema";
 import { z } from "zod";
 import { expandHome, type ExtractedEvidence } from "./evidence.js";
 import type { ErrorEvent, KaneEvent, ProgressLine, RunEnd, Verdict } from "./ndjson.js";
-import { statusFromExit, type KaneProcessResult } from "./process.js";
+import { browserCrashed, statusFromExit, type KaneProcessResult } from "./process.js";
 
 export interface NormalizeInput {
   /** Every attempt in order; the last one is the outcome, earlier ones were retried infrastructure failures. */
@@ -103,6 +103,7 @@ function baseReason(
 
 /** The exit code decides, except that a clean exit whose run_end says otherwise is not a pass. */
 export function outcomeStatus(result: KaneProcessResult): KaneStatus {
+  if (browserCrashed(result)) return "error";
   const status = statusFromExit(result.exitCode, result.timedOut);
   const runEnd = findRunEnd(result.events);
   return status === "passed" && runEnd !== undefined && runEnd.status !== "passed" ? "failed" : status;

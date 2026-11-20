@@ -13,7 +13,7 @@ export interface KaneClientOptions {
   readonly bin?: string;
   /** Environment for every kane-cli process; defaults to `process.env`. */
   readonly env?: NodeJS.ProcessEnv;
-  /** Backoff for exit-2 infrastructure failures; defaults to 3 attempts from 2 s. */
+  /** Backoff for exit-2 infrastructure failures and Kane browser crashes; defaults to 3 attempts from 2 s. */
   readonly retry?: RetryPolicy;
   /** Devices for local runs; agent-mode mobile runs need one here or saved with `kane-cli config`. */
   readonly devices?: { readonly android?: DeviceSelection; readonly ios?: DeviceSelection };

@@ -151,8 +151,17 @@ export function statusFromExit(exitCode: number | null, timedOut: boolean): Kane
 /** Exit-2 causes that retrying cannot fix: no sign-in, or the device hub refusing the plan. */
 const PERMANENT_INFRA_FAILURE = /not authenticated|could not resolve credentials|failed to open the mobile hub session/i;
 
+/** Kane's own browser dying mid-run says nothing about the app under test (seen live as TargetClosedError). */
+const BROWSER_CRASH = /TargetClosedError|Target page, context or browser has been closed|browser has disconnected/i;
+
+export function browserCrashed(result: KaneProcessResult): boolean {
+  return result.exitCode !== 0 && !result.timedOut && (BROWSER_CRASH.test(result.stdout) || BROWSER_CRASH.test(result.stderr));
+}
+
 export function isRetryableInfraFailure(result: KaneProcessResult): boolean {
-  return result.exitCode === 2 && !result.timedOut && !PERMANENT_INFRA_FAILURE.test(result.stderr);
+  if (result.timedOut) return false;
+  if (browserCrashed(result)) return true;
+  return result.exitCode === 2 && !PERMANENT_INFRA_FAILURE.test(result.stderr);
 }
 
 export interface RetryPolicy {
