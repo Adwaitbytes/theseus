@@ -1,0 +1,15 @@
+{
+  "platform": "android",
+  "device": {
+    "deviceName": "opx_pixel",
+    "osVersion": "15",
+    "deviceId": "emulator-5554"
+  },
+  "appId": "dev.theseus.expohello",
+  "artifact": "fixtures/expo-hello/android/app/build/outputs/apk/release/app-release.apk",
+  "deviceReadyS": 0,
+  "buildS": 69,
+  "installAndLaunchS": 9,
+  "screenshot": "proof/android-launch.png",
+  "at": "2026-11-20T22:06:32.779Z"
+}
