@@ -35,6 +35,16 @@ export async function baseline(ctx: PhaseContext, spec: Spec, options: { redraft
   let behaviors = [...spec.behaviors];
   const results = new Map((await run(behaviors, "baseline")).map((result) => [result.behaviorId, result]));
 
+  // An error or timeout is Kane's infrastructure, not a verdict on the original, so it earns one clean rerun before anything is dropped.
+  const unjudged = behaviors.filter((behavior) => {
+    const status = results.get(behavior.id)?.outcome.status;
+    return status === "error" || status === "timeout";
+  });
+  if (unjudged.length > 0) {
+    deps.bus.log("info", `rerunning ${unjudged.map((behavior) => behavior.id).join(", ")}: kane infrastructure error, not a verdict`);
+    for (const result of await run(unjudged, "baseline rerun")) results.set(result.behaviorId, result);
+  }
+
   const redraftable: RedraftItem[] = behaviors.flatMap((behavior) => {
     const outcome = results.get(behavior.id)?.outcome;
     if (outcome === undefined || isPassed(outcome) || !isAutomationBug(outcome)) return [];
