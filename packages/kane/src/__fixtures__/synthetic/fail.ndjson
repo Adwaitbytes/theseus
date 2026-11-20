@@ -1,0 +1,7 @@
+{"type":"stream_start","cli_version":"0.10.7","surface":"run","pid":16665,"v":1,"ts":"2026-11-21T09:00:00.000Z"}
+{"step":1,"status":"running","remark":"Navigate to amazon.in","v":1,"ts":"2026-11-21T09:00:01.000Z"}
+{"step":1,"status":"done","remark":"Navigated to amazon.in","v":1,"ts":"2026-11-21T09:00:02.000Z"}
+{"step":2,"status":"done","remark":"Typed 'laptop' in search box","v":1,"ts":"2026-11-21T09:00:05.000Z"}
+{"step":3,"status":"running","remark":"Step 3","v":1,"ts":"2026-11-21T09:00:06.000Z"}
+{"step":3,"status":"failed","remark":"Could not find Add to Cart button","v":1,"ts":"2026-11-21T09:00:20.000Z"}
+{"type":"run_end","status":"failed","summary":"Searched for laptop but could not add to cart","one_liner":"Add to Cart button missing","reason":"Could not find Add to Cart button","duration":31.5,"credits_consumed":8.25,"final_state":{},"session_dir":"/tmp/kane-session-fail","result_code":750,"reason_code":"assertion_error.step_not_achievable","verdict":{"confirmed":false,"family":"product_bug","category":"missing_element","severity":"major","root_cause":"The product page renders no Add to Cart button.","suggestion":"Render the Add to Cart button for in-stock products.","one_liner":"Add to Cart button missing","confidence":0.8},"v":1,"ts":"2026-11-21T09:00:31.000Z"}

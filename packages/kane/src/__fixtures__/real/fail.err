@@ -1,0 +1,5 @@
+Skill update available: not installed → 0.1.4 — run `kane-cli install skill`
+
+Running on: Desktop · Chrome
+evidence: 1 status_disagrees advisory(ies) — self-explained by triaged failure record(s)
+evidence: view locally with `kane-cli evidence serve /Users/tester/.testmuai/kaneai/sessions/6d03a06f-3a71-449a-9e00-8fa63966338b/evidence/809bb04e-9654-4b3c-bdd2-d090e185daaa.evidence`

@@ -1,0 +1,5 @@
+{"type":"stream_start","cli_version":"0.10.7","surface":"run","pid":16666,"v":1,"ts":"2026-11-21T10:00:00.000Z"}
+{"step":2,"status":"done","remark":"navigate: Navigate to http://localhost:4170","v":1,"ts":"2026-11-21T10:00:01.000Z"}
+{"step":3,"status":"done","remark":"click: Clicked Clear completed","v":1,"ts":"2026-11-21T10:00:05.000Z"}
+{"step":4,"status":"failed","remark":"assert: completed todos are still listed after Clear completed","v":1,"ts":"2026-11-21T10:00:09.000Z"}
+{"type":"run_end","status":"failed","summary":"Clear completed did not remove completed todos","one_liner":"Clear completed leaves completed todos behind","reason":"Confirmed product bug","duration":40,"credits":12.5,"final_state":{"items_left":"0 items left"},"result_code":"740","verdict":{"confirmed":true,"family":"product_bug","category":"functional","severity":"high","one_liner":"Clear completed leaves completed todos in the list","confidence":0.92},"v":1,"ts":"2026-11-21T10:00:10.000Z"}

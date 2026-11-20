@@ -1,0 +1,9 @@
+{"type":"stream_start","cli_version":"0.10.7","surface":"run","pid":16664,"v":1,"ts":"2026-11-21T08:47:26.889Z"}
+{"type":"bifurcation","flows":"[\"Add a todo and store the counter\"]","count":1,"v":1,"ts":"2026-11-21T08:47:30.000Z"}
+{"step":2,"status":"running","remark":"Step 1","v":1,"ts":"2026-11-21T08:47:31.000Z"}
+{"step":2,"status":"done","remark":"navigate: Navigate to http://localhost:4170","v":1,"ts":"2026-11-21T08:47:31.100Z"}
+{"step":3,"status":"running","remark":"Step 2","v":1,"ts":"2026-11-21T08:47:32.000Z"}
+{"step":3,"status":"done","remark":"type: Typed 'Buy milk' into the todo input","v":1,"ts":"2026-11-21T08:47:35.000Z"}
+{"step":4,"status":"running","remark":"Step 3","v":1,"ts":"2026-11-21T08:47:36.000Z"}
+{"step":4,"status":"done","remark":"analyze: stored the footer counter text","v":1,"ts":"2026-11-21T08:47:40.000Z"}
+{"type":"run_end","status":"passed","summary":"Added Buy milk and read the counter","one_liner":"Added a todo on TodoMVC","reason":"Objective completed","duration":45.2,"credits_consumed":11.9,"final_state":{"url":"http://localhost:4170/#/all","items_left":"1 item left","todo_count":1},"context":{"memory":{},"variables":{},"pointer":"(passed) Added Buy milk"},"session_dir":"~/.testmuai/kaneai/sessions/a1b2c3d4-e5f6-7890-abcd-ef1234567890","test_url":"https://test-manager.lambdatest.com/projects/123/test-cases/456","result_code":100,"reason_code":"success.complete","v":1,"ts":"2026-11-21T08:47:45.000Z"}

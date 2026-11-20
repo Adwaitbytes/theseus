@@ -1,0 +1,2 @@
+{"type":"stream_start","cli_version":"0.10.7","surface":"run","pid":16667,"v":1,"ts":"2026-11-21T11:00:00.000Z"}
+{"type":"error","message":"Chrome failed to launch: CDP endpoint not reachable","v":1,"ts":"2026-11-21T11:00:02.000Z"}

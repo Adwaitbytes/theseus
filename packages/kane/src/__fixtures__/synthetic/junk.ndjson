@@ -1,0 +1,14 @@
+Skill update available: not installed -> 0.1.4
+{"type":"stream_start","cli_version":"0.10.7","surface":"run","pid":16668,"v":1,"ts":"2026-11-21T12:00:00.000Z"}
+
+{"type":"step","step":99,"status":"done","remark":"a typed step line must not count"}
+{"type":"recording_state","enabled":true,"session_id":"x","persist":false}
+{"type":"warning","code":"unresolved_variables","message":"1 variable(s) have no value","variables":[{"name":"todo","reason":"not_declared"}]}
+{"step":2,"status":"done","remark":"navigate: opened the app","brand_new_field":{"nested":true}}
+{"step":"three","status":"done","remark":"bad step index"}
+{"step":3,"status":"done","remark":"truncated line"
+[1,2,3]
+"just a string"
+{"step":4,"status":"done","remark":"stored the counter","child_id":"flow-2"}
+{"type":"something_new","payload":42}
+{"type":"run_end","status":"passed","one_liner":"Stored the counter","reason":"Objective completed","duration":"not a number","credits_consumed":5,"final_state":{"items_left":"1 item left"},"test_url":"not a url","unknown_top_level":true}
