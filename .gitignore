@@ -12,3 +12,4 @@ coverage/
 .theseus/work/
 MASTER_PROMPT*.md
 .vercel
+.claude/worktrees/

@@ -2,7 +2,7 @@
  * The engine's outward-facing seams. Kane and mobile builds are implemented in
  * their own packages; core only ever sees these interfaces.
  */
-export type { KaneClient, KaneStepEvent, RunBehaviorOptions } from "@theseus/kane/contract";
+export type { KaneClient, KaneStepEvent, RunBehaviorOptions } from "@theseus/kane";
 
 export type MobilePlatform = "android" | "ios";
 
