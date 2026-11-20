@@ -1,4 +1,4 @@
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { setTimeout as delay } from "node:timers/promises";
 import { type DetachedSpawner, type LogFn, type RunOptions, type Runner, runCommand, spawnDetached } from "./exec.js";
@@ -11,6 +11,8 @@ export interface System {
   readonly now: () => number;
   readonly exists: (path: string) => boolean;
   readonly listDir: (path: string) => readonly string[];
+  /** File contents, or undefined when the file does not exist. */
+  readonly readText: (path: string) => string | undefined;
   readonly env: Readonly<Record<string, string | undefined>>;
   readonly homeDir: string;
 }
@@ -22,6 +24,7 @@ export const nodeSystem: System = {
   now: () => Date.now(),
   exists: existsSync,
   listDir: (path) => (existsSync(path) ? readdirSync(path) : []),
+  readText: (path) => (existsSync(path) ? readFileSync(path, "utf8") : undefined),
   env: process.env,
   homeDir: homedir(),
 };

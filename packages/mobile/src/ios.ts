@@ -276,6 +276,17 @@ async function bundleIdentifier(ctx: Context, appBundle: string): Promise<string
   return result.stdout.trim();
 }
 
+/** Runs a simctl command against one device, turning "device is not booted" into a typed no-device error. */
+async function simctlOnDevice(ctx: Context, spec: CommandSpec, udid: string, timeoutMs: number) {
+  const result = await ctx.sys.run(spec, step(ctx, "simctl", timeoutMs));
+  if (result.exitCode !== 0 && /current state: Shutdown/.test(result.stderr)) {
+    throw new MobileError("no-device", `simulator ${udid} is shut down`, "Boot it with ensureDevice('ios') right before installing or launching.", {
+      logTail: tailLines(result.stderr),
+    });
+  }
+  return result;
+}
+
 // ---------- app lifecycle ----------
 
 /** Accepts the `.zip` Kane takes or a bare `.app`; a zip is expanded to a temp directory first. */
@@ -294,7 +305,7 @@ export async function installIosApp(ctx: Context, appPath: string, deviceId: str
     }
     const appId = await bundleIdentifier(ctx, appBundle);
     const install = simctl("install", udid, appBundle);
-    const result = await ctx.sys.run(install, step(ctx, "simctl", timeoutMs));
+    const result = await simctlOnDevice(ctx, install, udid, timeoutMs);
     if (result.exitCode !== 0) {
       throw new MobileError("install-failed", `simctl install of ${appPath} on ${udid} failed`, "Check the build targets the simulator SDK (not iphoneos) and arm64.", {
         logTail: tailLines(`${result.stdout}\n${result.stderr}`),
@@ -311,7 +322,7 @@ export async function installIosApp(ctx: Context, appPath: string, deviceId: str
 export async function uninstallIosApp(ctx: Context, appId: string, deviceId: string | undefined, timeoutMs: number): Promise<void> {
   const udid = await resolveUdid(ctx, deviceId);
   const spec = simctl("uninstall", udid, appId);
-  const result = await ctx.sys.run(spec, step(ctx, "simctl", timeoutMs));
+  const result = await simctlOnDevice(ctx, spec, udid, timeoutMs);
   if (result.exitCode !== 0 && !/not installed|No such file/i.test(result.stderr)) {
     throw commandFailed("simctl", spec, result, "Erase the simulator (xcrun simctl erase <udid>) if the app cannot be removed.");
   }
@@ -320,7 +331,7 @@ export async function uninstallIosApp(ctx: Context, appId: string, deviceId: str
 export async function launchIosApp(ctx: Context, appId: string, deviceId: string | undefined, timeoutMs: number): Promise<void> {
   const udid = await resolveUdid(ctx, deviceId);
   const spec = simctl("launch", udid, appId);
-  const result = await ctx.sys.run(spec, step(ctx, "simctl", timeoutMs));
+  const result = await simctlOnDevice(ctx, spec, udid, timeoutMs);
   if (result.exitCode !== 0) {
     throw new MobileError("launch-failed", `could not launch ${appId} on ${udid}`, "Check the app is installed on this simulator.", { logTail: tailLines(result.stderr) });
   }
@@ -329,5 +340,6 @@ export async function launchIosApp(ctx: Context, appId: string, deviceId: string
 export async function screenshotIos(ctx: Context, outPath: string, deviceId: string | undefined, timeoutMs: number): Promise<void> {
   const udid = await resolveUdid(ctx, deviceId);
   const spec = simctl("io", udid, "screenshot", outPath);
-  await runChecked(ctx.sys.run, spec, step(ctx, "simctl", timeoutMs), (r) => commandFailed("simctl", spec, r, "Check the simulator is booted."));
+  const result = await simctlOnDevice(ctx, spec, udid, timeoutMs);
+  if (result.exitCode !== 0) throw commandFailed("simctl", spec, result, "Check the simulator is booted.");
 }

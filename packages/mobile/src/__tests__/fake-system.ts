@@ -7,7 +7,9 @@ export interface FakeSystem extends System {
   /** Every command run, as `command arg1 arg2`, in order. */
   readonly calls: string[];
   readonly detached: CommandSpec[];
-  /** Set by tests to advance fake time. */
+  /** File contents `readText` returns; tests may add entries while a run is in progress. */
+  readonly texts: Record<string, string>;
+  /** Advanced by `sleep`, so polling loops run instantly. */
   clock: number;
 }
 
@@ -26,6 +28,7 @@ export function fakeSystem(
   const fake: FakeSystem = {
     calls: [],
     detached: [],
+    texts: {},
     clock: 0,
     run: async (spec, options) => {
       fake.calls.push(line(spec));
@@ -42,6 +45,7 @@ export function fakeSystem(
     now: () => fake.clock,
     exists: (path) => files.includes(path),
     listDir: (path) => dirs[path] ?? [],
+    readText: (path) => fake.texts[path],
     env,
     homeDir: "/home/test",
   };

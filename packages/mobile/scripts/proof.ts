@@ -34,10 +34,11 @@ const progress = (line: LogLine) => {
 };
 
 async function prove(platform: MobilePlatform) {
+  const build = await buildExpo(fixture, platform, { onLog: progress });
+  // Booted after the build: a long xcodebuild can restart CoreSimulatorService and shut simulators down.
   const t0 = Date.now();
   const device = await ensureDevice(platform, { onLog: progress });
   const bootMs = Date.now() - t0;
-  const build = await buildExpo(fixture, platform, { onLog: progress });
   await uninstallApp(platform, build.appId, { deviceId: device.deviceId, onLog: progress });
   const t1 = Date.now();
   await installApp(platform, build.appPath, { deviceId: device.deviceId, onLog: progress });

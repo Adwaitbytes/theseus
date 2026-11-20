@@ -1,4 +1,5 @@
 import { writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { MobileError, type MobileErrorCode } from "./errors.js";
 import { type CommandSpec, commandFailed, runChecked, tailLines } from "./exec.js";
@@ -156,7 +157,10 @@ export async function ensureAndroidDevice(ctx: Context, options: EnsureAndroidOp
     );
   }
   const running = await runningEmulators(ctx, sdk);
-  const wanted = options.avd ?? ctx.sys.env.THESEUS_AVD ?? running.find((d) => d.avd !== undefined)?.avd ?? avds[0];
+  const missingImage = (avd: string) => avdMissingImage(ctx, sdk, avd);
+  const explicit = options.avd ?? ctx.sys.env.THESEUS_AVD;
+  const wanted =
+    explicit ?? running.find((d) => d.avd !== undefined)?.avd ?? avds.find((avd) => missingImage(avd) === undefined) ?? avds[0];
   if (wanted === undefined || !avds.includes(wanted)) {
     throw new MobileError("no-avd", `AVD "${wanted ?? ""}" does not exist`, `Use one of: ${avds.join(", ")}.`);
   }
@@ -164,9 +168,24 @@ export async function ensureAndroidDevice(ctx: Context, options: EnsureAndroidOp
   const deadline = ctx.sys.now() + options.bootTimeoutMs;
   let serial = running.find((d) => d.avd === wanted)?.serial;
   if (serial === undefined) {
-    info(ctx, "emulator", `booting AVD ${wanted}`);
-    await ctx.sys.spawnDetached(emulatorLaunchCommand(sdk, wanted, options.headless));
+    const image = missingImage(wanted);
+    if (image !== undefined) {
+      throw new MobileError(
+        "no-avd",
+        `AVD ${wanted} points at a system image that is not installed (${image})`,
+        `Install it (sdkmanager "${image.replace(/\/$/, "").replaceAll("/", ";")}") or pick another AVD: ${avds.filter((a) => a !== wanted).join(", ") || "none"}.`,
+      );
+    }
+    const logFile = join(tmpdir(), `theseus-emulator-${wanted}.log`);
+    info(ctx, "emulator", `booting AVD ${wanted} (log: ${logFile})`);
+    await ctx.sys.spawnDetached(emulatorLaunchCommand(sdk, wanted, options.headless), logFile);
     while (serial === undefined) {
+      const fatal = /^(FATAL|PANIC).*$/m.exec(ctx.sys.readText(logFile) ?? "");
+      if (fatal !== null) {
+        throw new MobileError("device-boot-timeout", `the emulator exited while booting ${wanted}: ${fatal[0]}`, "Fix the AVD named in the error, or pick another AVD.", {
+          logTail: tailLines(ctx.sys.readText(logFile) ?? ""),
+        });
+      }
       if (ctx.sys.now() > deadline) throw bootTimeout(wanted, options.bootTimeoutMs);
       await ctx.sys.sleep(POLL_MS);
       serial = (await runningEmulators(ctx, sdk)).find((d) => d.avd === wanted)?.serial;
@@ -182,6 +201,20 @@ export async function ensureAndroidDevice(ctx: Context, options: EnsureAndroidOp
   const osVersion = await shellProp(ctx, sdk, serial, "ro.build.version.release");
   info(ctx, "emulator", `${wanted} booted (Android ${osVersion}, ${serial})`);
   return { deviceName: wanted, osVersion, deviceId: serial };
+}
+
+/** `image.sysdir.1=system-images/android-36/google_apis/arm64-v8a/` from an AVD's config.ini. */
+export function parseAvdImageDir(configIni: string): string | undefined {
+  return /^image\.sysdir\.1\s*=\s*(.+)$/m.exec(configIni)?.[1]?.trim();
+}
+
+/** The system image an AVD needs when it is not installed, else undefined (also when the config is unreadable). */
+function avdMissingImage(ctx: Context, sdk: AndroidSdk, avd: string): string | undefined {
+  const avdHome = ctx.sys.env.ANDROID_AVD_HOME ?? join(ctx.sys.homeDir, ".android", "avd");
+  const config = ctx.sys.readText(join(avdHome, `${avd}.avd`, "config.ini"));
+  const image = config === undefined ? undefined : parseAvdImageDir(config);
+  if (image === undefined) return undefined;
+  return ctx.sys.exists(join(sdk.root, image)) ? undefined : image;
 }
 
 function bootTimeout(avd: string, timeoutMs: number): MobileError {
@@ -299,12 +332,31 @@ export async function uninstallAndroidApp(ctx: Context, appId: string, deviceId:
 export async function launchAndroidApp(ctx: Context, appId: string, deviceId: string | undefined, timeoutMs: number): Promise<void> {
   const sdk = resolveAndroidSdk(ctx.sys);
   const serial = await resolveSerial(ctx, sdk, deviceId);
-  const spec = adb(sdk, serial, "shell", "monkey", "-p", appId, "-c", "android.intent.category.LAUNCHER", "1");
-  const result = await ctx.sys.run(spec, step(ctx, "adb", timeoutMs));
-  const output = `${result.stdout}\n${result.stderr}`;
-  if (result.exitCode !== 0 || /No activities found|monkey aborted/i.test(output)) {
-    throw new MobileError("launch-failed", `could not launch ${appId} on ${serial}`, "Check the app is installed and declares a LAUNCHER activity.", { logTail: tailLines(output) });
+  // `monkey` exits non-zero even when it launches the app, so resolve the launcher activity and start it explicitly.
+  const resolveSpec = adb(sdk, serial, "shell", "cmd", "package", "resolve-activity", "--brief", "-c", "android.intent.category.LAUNCHER", appId);
+  const resolved = await ctx.sys.run(resolveSpec, step(ctx, "adb", timeoutMs));
+  const component = parseLauncherComponent(resolved.stdout);
+  if (resolved.exitCode !== 0 || component === undefined) {
+    throw new MobileError("launch-failed", `${appId} has no launcher activity on ${serial}`, "Check the app is installed (installApp) and declares a LAUNCHER activity.", {
+      logTail: tailLines(`${resolved.stdout}\n${resolved.stderr}`),
+    });
   }
+  const start = adb(sdk, serial, "shell", "am", "start", "-W", "-n", component);
+  const started = await ctx.sys.run(start, step(ctx, "adb", timeoutMs));
+  if (started.exitCode !== 0 || !/^Status: ok/m.test(started.stdout)) {
+    throw new MobileError("launch-failed", `could not start ${component} on ${serial}`, "Read the log tail; run adb logcat for a crash on startup.", {
+      logTail: tailLines(`${started.stdout}\n${started.stderr}`),
+    });
+  }
+}
+
+/** The `package/.Activity` line of `cmd package resolve-activity --brief`. */
+export function parseLauncherComponent(stdout: string): string | undefined {
+  return stdout
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => /^[\w.]+\/[\w.$]+$/.test(l))
+    .at(-1);
 }
 
 export async function screenshotAndroid(ctx: Context, outPath: string, deviceId: string | undefined, timeoutMs: number): Promise<void> {

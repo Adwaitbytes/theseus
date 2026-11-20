@@ -6,11 +6,13 @@ import {
   ensureAndroidDevice,
   gradleAssembleCommand,
   installAndroidApp,
+  launchAndroidApp,
   listingHasJsBundle,
   parseAdbDevices,
   parseAvdList,
   parseBadgingPackage,
   parseEmuAvdName,
+  parseLauncherComponent,
   uninstallAndroidApp,
 } from "../android.js";
 import { createContext } from "../system.js";
@@ -160,6 +162,48 @@ describe("ensureAndroidDevice", () => {
     });
   });
 
+  const avdResponder = (spec: { command: string; args: readonly string[] }) => {
+    const cmd = line(spec);
+    if (cmd.endsWith("-list-avds")) return { stdout: "broken_pixel\ngood_pixel\n" };
+    return { stdout: "List of devices attached\n" };
+  };
+  const avdConfig = (image: string) => `AvdId=x\nimage.sysdir.1=${image}\n`;
+
+  it("skips an AVD whose system image is not installed when choosing a default", async () => {
+    const sys = fakeSystem(avdResponder, [...sdkFiles, `${SDK}/system-images/android-35/google_apis/arm64-v8a/`], sdkDirs);
+    sys.texts["/home/test/.android/avd/broken_pixel.avd/config.ini"] = avdConfig("system-images/android-36/google_apis/arm64-v8a/");
+    sys.texts["/home/test/.android/avd/good_pixel.avd/config.ini"] = avdConfig("system-images/android-35/google_apis/arm64-v8a/");
+    await expect(ensureAndroidDevice(createContext({ system: sys }), { avd: undefined, headless: true, bootTimeoutMs: 4_000 })).rejects.toMatchObject({
+      code: "device-boot-timeout",
+    });
+    expect(sys.detached.map((s) => s.args[1])).toEqual(["good_pixel"]);
+  });
+
+  it("refuses to boot an explicitly requested AVD with a missing image and names the sdkmanager package", async () => {
+    const sys = fakeSystem(avdResponder, sdkFiles, sdkDirs);
+    sys.texts["/home/test/.android/avd/broken_pixel.avd/config.ini"] = avdConfig("system-images/android-36/google_apis/arm64-v8a/");
+    await expect(ensureAndroidDevice(createContext({ system: sys }), { avd: "broken_pixel", headless: true, bootTimeoutMs: 4_000 })).rejects.toMatchObject({
+      code: "no-avd",
+      remedy: expect.stringContaining('sdkmanager "system-images;android-36;google_apis;arm64-v8a"'),
+    });
+    expect(sys.detached).toEqual([]);
+  });
+
+  it("fails fast with the emulator's FATAL line instead of waiting for the timeout", async () => {
+    const sys = fakeSystem(avdResponder, sdkFiles, sdkDirs);
+    const original = sys.spawnDetached;
+    const withCrash: typeof original = async (spec, logFile) => {
+      await original(spec, logFile);
+      sys.texts[logFile] = "INFO | starting\nFATAL        | Cannot find AVD system path. Please define ANDROID_SDK_ROOT\n";
+    };
+    const ctx = createContext({ system: { ...sys, spawnDetached: withCrash } });
+    await expect(ensureAndroidDevice(ctx, { avd: "good_pixel", headless: true, bootTimeoutMs: 600_000 })).rejects.toMatchObject({
+      code: "device-boot-timeout",
+      message: expect.stringContaining("Cannot find AVD system path"),
+    });
+    expect(sys.clock).toBe(0);
+  });
+
   it("rejects an unknown AVD name and lists the real ones", async () => {
     const sys = fakeSystem((spec) => (line(spec).endsWith("-list-avds") ? { stdout: "pixel\n" } : { stdout: "List of devices attached\n" }), sdkFiles, sdkDirs);
     await expect(ensureAndroidDevice(createContext({ system: sys }), { avd: "nope", headless: true, bootTimeoutMs: 1_000 })).rejects.toMatchObject({
@@ -254,6 +298,27 @@ describe("app lifecycle", () => {
   it("asks for a deviceId when several devices are connected", async () => {
     const sys = fakeSystem((spec) => (line(spec).endsWith(" devices") ? { stdout: "emulator-5554\tdevice\nemulator-5556\tdevice\n" } : {}), sdkFiles, sdkDirs);
     await expect(installAndroidApp(createContext({ system: sys }), apk, undefined, 10_000)).rejects.toMatchObject({ code: "no-device" });
+  });
+
+  it("parses the launcher component and rejects 'No activity found'", () => {
+    expect(parseLauncherComponent("priority=0 preferredOrder=0 match=0x108000\ndev.theseus.expohello/.MainActivity\n")).toBe("dev.theseus.expohello/.MainActivity");
+    expect(parseLauncherComponent("No activity found\n")).toBeUndefined();
+  });
+
+  it("launches the resolved activity and requires Status: ok", async () => {
+    const sys = fakeSystem((spec) => {
+      const cmd = line(spec);
+      if (cmd.includes("resolve-activity")) return { stdout: "priority=0\ndev.theseus.expohello/.MainActivity\n" };
+      if (cmd.includes("am start")) return { stdout: "Starting: Intent\nStatus: ok\nLaunchState: COLD\n" };
+      return {};
+    }, sdkFiles, sdkDirs);
+    await launchAndroidApp(createContext({ system: sys }), "dev.theseus.expohello", "emulator-5554", 10_000);
+    expect(sys.calls.at(-1)).toBe(`${ADB} -s emulator-5554 shell am start -W -n dev.theseus.expohello/.MainActivity`);
+  });
+
+  it("reports launch-failed when the package has no launcher activity", async () => {
+    const sys = fakeSystem(() => ({ stdout: "No activity found\n" }), sdkFiles, sdkDirs);
+    await expect(launchAndroidApp(createContext({ system: sys }), "no.such.app", "emulator-5554", 10_000)).rejects.toMatchObject({ code: "launch-failed" });
   });
 
   it("treats uninstalling a missing package as success", async () => {

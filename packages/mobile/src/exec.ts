@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { closeSync, openSync } from "node:fs";
 import { MobileError } from "./errors.js";
 
 export interface CommandSpec {
@@ -159,17 +160,23 @@ export const runCommand: Runner = (spec, options) =>
     });
   });
 
-export type DetachedSpawner = (spec: CommandSpec) => Promise<void>;
+export type DetachedSpawner = (spec: CommandSpec, logFile: string) => Promise<void>;
 
-/** Starts a long-lived process (the emulator) that outlives this one; resolves once it has spawned. */
-export const spawnDetached: DetachedSpawner = (spec) =>
+/**
+ * Starts a long-lived process (the emulator) that outlives this one, with stdout and stderr
+ * written to `logFile` (truncated first) so an early crash can be diagnosed. Resolves once it has spawned.
+ */
+export const spawnDetached: DetachedSpawner = (spec, logFile) =>
   new Promise<void>((resolve, reject) => {
+    const fd = openSync(logFile, "w");
     const child = spawn(spec.command, [...spec.args], {
       cwd: spec.cwd,
       env: { ...process.env, ...spec.env },
       detached: true,
-      stdio: "ignore",
+      stdio: ["ignore", fd, fd],
     });
+    // The child holds its own copy of the descriptor.
+    closeSync(fd);
     child.once("error", (error) =>
       reject(new MobileError("command-failed", `could not start ${formatCommand(spec)}: ${error.message}`, "Check the binary path and permissions.", { cause: error })),
     );

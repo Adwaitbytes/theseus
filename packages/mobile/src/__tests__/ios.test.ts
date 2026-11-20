@@ -214,6 +214,14 @@ describe("app lifecycle", () => {
     await expect(installIosApp(createContext({ system: sys }), "/b/ExpoHello.app", undefined, 1_000)).rejects.toMatchObject({ code: "no-device" });
   });
 
+  it("reports a shut down simulator as no-device with a remedy", async () => {
+    const sys = fakeSystem(() => ({ exitCode: 149, stderr: "An error was encountered processing the command (domain=com.apple.CoreSimulator.SimError, code=405):\nUnable to lookup in current state: Shutdown" }));
+    await expect(uninstallIosApp(createContext({ system: sys }), "dev.theseus.expohello", "PRO", 1_000)).rejects.toMatchObject({
+      code: "no-device",
+      remedy: expect.stringContaining("ensureDevice"),
+    });
+  });
+
   it("surfaces an uninstall failure that is not 'not installed'", async () => {
     const sys = fakeSystem(() => ({ exitCode: 1, stderr: "An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=60)" }));
     await expect(uninstallIosApp(createContext({ system: sys }), "dev.theseus.expohello", "PRO", 1_000)).rejects.toMatchObject({ code: "command-failed" });

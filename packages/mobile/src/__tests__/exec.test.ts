@@ -1,4 +1,6 @@
 import { EventEmitter } from "node:events";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { PassThrough } from "node:stream";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { LogLine } from "../exec.js";
@@ -131,15 +133,17 @@ describe("runCommand", () => {
 });
 
 describe("spawnDetached", () => {
-  it("spawns detached with ignored stdio and resolves on spawn", async () => {
-    const pending = spawnDetached({ command: "/sdk/emulator/emulator", args: ["-avd", "pixel"] });
+  const logFile = join(tmpdir(), `theseus-exec-test-${process.pid}.log`);
+
+  it("spawns detached with output going to the log file and resolves on spawn", async () => {
+    const pending = spawnDetached({ command: "/sdk/emulator/emulator", args: ["-avd", "pixel"] }, logFile);
     lastChild().emit("spawn");
     await pending;
-    expect(spawnMock.mock.calls[0]?.[2]).toMatchObject({ detached: true, stdio: "ignore" });
+    expect(spawnMock.mock.calls[0]?.[2]).toMatchObject({ detached: true, stdio: ["ignore", expect.any(Number), expect.any(Number)] });
   });
 
   it("rejects when the binary cannot start", async () => {
-    const pending = spawnDetached({ command: "/missing", args: [] });
+    const pending = spawnDetached({ command: "/missing", args: [] }, logFile);
     lastChild().emit("error", new Error("spawn /missing ENOENT"));
     await expect(pending).rejects.toMatchObject({ code: "command-failed" });
   });
