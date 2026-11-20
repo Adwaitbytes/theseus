@@ -1,0 +1,430 @@
+@import "tailwindcss";
+
+/*
+ * Theseus design tokens. One accent (ultramarine) for interaction and "running".
+ * Green and red appear only as Kane verdicts. Everything else is ink on paper.
+ */
+:root {
+  color-scheme: light;
+  --paper: #f6f6f3;
+  --surface: #ffffff;
+  --sunken: #eeeeea;
+  --ink: #121316;
+  --ink-2: #4b4f58;
+  --ink-3: #686c75;
+  --rule: #e2e2dd;
+  --rule-strong: #cbcbc4;
+  --accent: #2a45d4;
+  --accent-ink: #ffffff;
+  --accent-soft: rgb(42 69 212 / 0.08);
+  --pass: #12784a;
+  --pass-soft: rgb(18 120 74 / 0.1);
+  --fail: #c02e1d;
+  --fail-soft: rgb(192 46 29 / 0.09);
+  --hatch: rgb(18 19 22 / 0.28);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0b0c0e;
+    --surface: #121418;
+    --sunken: #08090a;
+    --ink: #ecedef;
+    --ink-2: #a5a9b1;
+    --ink-3: #82868f;
+    --rule: #1f2228;
+    --rule-strong: #2e323a;
+    --accent: #8c9eff;
+    --accent-ink: #0b0c0e;
+    --accent-soft: rgb(140 158 255 / 0.12);
+    --pass: #4cc38a;
+    --pass-soft: rgb(76 195 138 / 0.12);
+    --fail: #ff7563;
+    --fail-soft: rgb(255 117 99 / 0.12);
+    --hatch: rgb(236 237 239 / 0.3);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0b0c0e;
+  --surface: #121418;
+  --sunken: #08090a;
+  --ink: #ecedef;
+  --ink-2: #a5a9b1;
+  --ink-3: #82868f;
+  --rule: #1f2228;
+  --rule-strong: #2e323a;
+  --accent: #8c9eff;
+  --accent-ink: #0b0c0e;
+  --accent-soft: rgb(140 158 255 / 0.12);
+  --pass: #4cc38a;
+  --pass-soft: rgb(76 195 138 / 0.12);
+  --fail: #ff7563;
+  --fail-soft: rgb(255 117 99 / 0.12);
+  --hatch: rgb(236 237 239 / 0.3);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-pass: var(--pass);
+  --color-pass-soft: var(--pass-soft);
+  --color-fail: var(--fail);
+  --color-fail-soft: var(--fail-soft);
+}
+
+@theme {
+  --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
+  --font-display: var(--font-newsreader-display), var(--font-newsreader), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Type scale: perfect fourth (1.333) from a 16px base, display sizes fluid. */
+  --text-2xs: 0.75rem;
+  --text-2xs--line-height: 1rem;
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.25rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.375rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.625rem;
+  --text-lg: 1.1875rem;
+  --text-lg--line-height: 1.875rem;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.875rem;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 2.125rem;
+  --text-3xl: clamp(2rem, 1.4rem + 2.2vw, 2.75rem);
+  --text-3xl--line-height: 1.1;
+  --text-display: clamp(3rem, 1.6rem + 5.6vw, 6.25rem);
+  --text-display--line-height: 0.93;
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-feature-settings: "tnum" 1;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Single-track grids shrink below their content (wide tables and code scroll inside instead). */
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+
+  .t-display {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+  }
+  .t-h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    line-height: 1.08;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+  .t-h3 {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .t-prose {
+    font-family: var(--font-serif);
+    font-size: 1.1875rem;
+    line-height: 1.7;
+  }
+  .t-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums slashed-zero;
+  }
+
+  /* A link that reads as text until hovered: underline grows from the rule colour to ink. */
+  .link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    transition: text-decoration-color 150ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .link:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-inline: 1rem;
+    border-radius: 6px;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      transform 140ms var(--ease-out),
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-quiet {
+    border: 1px solid var(--rule-strong);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-quiet:hover {
+      border-color: var(--ink-3);
+    }
+  }
+
+  /* Hatching marks a diverged value: not a failure, not identical. */
+  .hatch {
+    background-image: repeating-linear-gradient(135deg, var(--hatch) 0 1px, transparent 1px 5px);
+  }
+
+  /* A value that differs from the original: boxed, dashed, never coloured as a verdict. */
+  .diverged-value {
+    background: transparent;
+    color: var(--ink);
+    padding: 0 0.3em;
+    border: 1px dashed var(--ink-2);
+    border-radius: 3px;
+  }
+
+  .footnote-ref {
+    font-family: var(--font-mono);
+    font-size: 0.68em;
+    vertical-align: super;
+    line-height: 0;
+    margin-left: 0.1em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+}
+
+/* ---------- Voyage matrix ---------- */
+
+.cell-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2rem;
+  margin-inline: auto;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cell-btn:hover {
+    background: var(--sunken);
+  }
+}
+.cell-btn[data-selected="true"] {
+  background: var(--accent-soft);
+}
+
+.glyph {
+  position: relative;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 2px;
+  transform: scale(1);
+  transition:
+    transform 200ms var(--ease-out),
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+.glyph[data-state="pending"] {
+  transform: scale(0.36);
+  background: var(--ink-3);
+  border-radius: 50%;
+}
+.glyph[data-state="running"] {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.glyph[data-state="running"]::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px var(--accent);
+  opacity: 0;
+  animation: cell-pulse 900ms var(--ease-out) infinite;
+}
+/* Passes recede a little so failures and divergences, the exceptions, carry the matrix. */
+.glyph[data-state="passed"] {
+  transform: scale(0.8);
+  background: color-mix(in oklab, var(--pass) 82%, var(--paper));
+}
+.glyph[data-state="diverged"] {
+  box-shadow: inset 0 0 0 1.5px var(--ink-2);
+  background-image: repeating-linear-gradient(135deg, var(--ink-2) 0 1px, transparent 1px 4px);
+}
+.glyph[data-state="failed"] {
+  background: var(--fail);
+}
+/* The cross keeps a failed cell distinct from a passed one without relying on colour. */
+.glyph[data-state="failed"]::before,
+.glyph[data-state="failed"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 2px;
+  background: var(--paper);
+  border-radius: 1px;
+}
+.glyph[data-state="failed"]::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.glyph[data-state="failed"]::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.glyph[data-state="running"][data-static]::after {
+  animation: none;
+  opacity: 0;
+}
+
+@keyframes cell-pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+/* Scrubber: a native range, restyled. Native keeps arrows, Home, End and Page keys. */
+.scrubber {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2.75rem;
+  background: transparent;
+  cursor: pointer;
+}
+.scrubber::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(to right, var(--accent) var(--progress), var(--rule-strong) var(--progress));
+  border-radius: 1px;
+}
+.scrubber::-moz-range-track {
+  height: 2px;
+  background: var(--rule-strong);
+  border-radius: 1px;
+}
+.scrubber::-moz-range-progress {
+  height: 2px;
+  background: var(--accent);
+}
+.scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--accent);
+  transition: transform 150ms var(--ease-out);
+}
+.scrubber::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--accent);
+}
+.scrubber:active::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+.scrubber:focus-visible {
+  outline-offset: -4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glyph,
+  .cell-btn,
+  .btn,
+  .link {
+    transition-duration: 0ms;
+  }
+  .glyph[data-state="running"]::after {
+    animation: none;
+  }
+  .btn:active {
+    transform: none;
+  }
+}

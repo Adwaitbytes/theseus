@@ -14,3 +14,8 @@ MASTER_PROMPT*.md
 .vercel
 .claude/worktrees/
 .playwright-mcp/
+
+# apps/web build output
+apps/web/out/
+apps/web/public/evidence/
+apps/web/next-env.d.ts
