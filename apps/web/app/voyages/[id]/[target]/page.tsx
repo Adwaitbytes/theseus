@@ -5,7 +5,7 @@ import type { BehaviorResult, KaneOutcome, Round } from "@theseus/schema";
 import { RoundStrip } from "@/components/parity-strip";
 import { ScreenshotFrame } from "@/components/screenshot-frame";
 import { VerdictGlyph } from "@/components/verdict";
-import { evidenceUrl, getRegrowth, getVoyage, loadVoyages } from "@/lib/data";
+import { evidenceUrl, getRegrowth, getVoyage, loadVoyages, targetRouteParams } from "@/lib/data";
 import type { LoadedVoyage } from "@/lib/data";
 import { agentLabel, formatClock, formatCredits, formatDate, formatDuration, platformLabel } from "@/lib/format";
 import { summarizeTarget } from "@/lib/stats";
@@ -13,11 +13,7 @@ import { summarizeTarget } from "@/lib/stats";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  const params = loadVoyages().flatMap(({ voyage }) => voyage.regrowths.map((r) => ({ id: voyage.id, target: r.target.id })));
-  if (params.length > 0) return params;
-  // A static export must emit at least one route; before any regrowth exists this placeholder renders the 404 page.
-  const first = loadVoyages()[0];
-  return first ? [{ id: first.voyage.id, target: "pending" }] : [];
+  return targetRouteParams();
 }
 
 export async function generateMetadata({ params }: PageProps<"/voyages/[id]/[target]">): Promise<Metadata> {

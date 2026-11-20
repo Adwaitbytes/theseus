@@ -114,3 +114,15 @@ export function evidenceUrl(loaded: LoadedVoyage, relativePath: string | undefin
   if (!existsSync(join(loaded.dir, normalized))) return undefined;
   return `/evidence/${loaded.voyage.id}/${normalized}`;
 }
+
+/**
+ * Static params for the per-target routes. A static export must emit at least one route,
+ * so before any regrowth exists a placeholder target is returned and its page renders 404.
+ */
+export function targetRouteParams(): { id: string; target: string }[] {
+  const voyages = loadVoyages();
+  const params = voyages.flatMap(({ voyage }) => voyage.regrowths.map((r) => ({ id: voyage.id, target: r.target.id })));
+  if (params.length > 0) return params;
+  const first = voyages[0];
+  return first ? [{ id: first.voyage.id, target: "pending" }] : [];
+}
