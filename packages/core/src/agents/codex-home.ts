@@ -4,6 +4,7 @@ import { join } from "node:path";
 
 const CONFIG = `# Written by Theseus. Builders run in this isolated Codex home so personal plugins,
 # MCP servers, skills and config rewrites from other tools cannot change or break a build.
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 `;
 
