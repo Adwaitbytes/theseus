@@ -42,7 +42,9 @@ browser keeps its session token in localStorage; a token for a seed user stays v
 
 ## Seed accounts (demo only, not real people)
 
-All three sign in with the password `conduit-demo`.
+All three sign in with the password `conduit-demo`. `seed/SEED.md` describes the whole seed
+precisely; `theseus.config.json` hands it to Theseus as `state.seedDoc`, so drafted behaviors name
+these accounts and every regrown app ships the same seed and reset endpoint.
 
 | Username | Email | Seed state |
 | --- | --- | --- |

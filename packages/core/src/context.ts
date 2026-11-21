@@ -8,6 +8,7 @@ import type { CreditLedger } from "./kane/budget.js";
 import type { KaneRunContext } from "./kane/run.js";
 import type { KaneClient, MobileBuilder } from "./ports.js";
 import type { AppLauncher } from "./regrow/launcher.js";
+import { stateResetter, type HttpFetch, type StateReset } from "./state.js";
 import type { VoyagePaths } from "./voyage/store.js";
 
 /** Everything with a side effect the engine depends on, injected so tests can replace each one. */
@@ -18,6 +19,8 @@ export interface EngineDeps {
   readonly mobile?: MobileBuilder;
   readonly crawl?: (options: CrawlOptions) => Promise<CrawlResult>;
   readonly launcher?: AppLauncher;
+  /** HTTP used for state resets; defaults to the global fetch. */
+  readonly fetch?: HttpFetch;
 }
 
 export interface PhaseContext {
@@ -39,8 +42,20 @@ export function originTarget(config: ResolvedConfig): Target {
   };
 }
 
+/** The reset hook for this voyage, or undefined when the app keeps no shared state. */
+export function stateResetterFor(ctx: PhaseContext): StateReset | undefined {
+  const state = ctx.config.state;
+  if (state === undefined) return undefined;
+  return stateResetter(state, {
+    ...(ctx.deps.fetch === undefined ? {} : { fetch: ctx.deps.fetch }),
+    ...(ctx.signal === undefined ? {} : { signal: ctx.signal }),
+  });
+}
+
 export function kaneContext(ctx: PhaseContext, kaneDirName: string): KaneRunContext {
+  const resetState = stateResetterFor(ctx);
   return {
+    ...(resetState === undefined ? {} : { resetState }),
     kane: ctx.deps.kane,
     bus: ctx.deps.bus,
     ledger: ctx.ledger,

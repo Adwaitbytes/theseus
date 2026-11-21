@@ -2,8 +2,9 @@ import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { loadConfig, parseConfig } from "./config.js";
+import { loadConfig, parseConfig, webConcurrency } from "./config.js";
 import { TheseusError } from "./errors.js";
+import { readSeedDoc } from "./state.js";
 
 const minimal = {
   id: "todomvc-jquery",
@@ -60,6 +61,31 @@ describe("parseConfig", () => {
     expect(() => parseConfig({ ...minimal, targets: [] }, "c.json", "/repo")).toThrow(TheseusError);
     expect(() => parseConfig({ ...minimal, original: { stack: "x", url: "not a url" } }, "c.json", "/repo")).toThrow(/original.url/);
   });
+
+  it("has no state block by default and keeps the configured web concurrency", () => {
+    const config = parseConfig(minimal, "c.json", "/repo");
+    expect(config.state).toBeUndefined();
+    expect(webConcurrency(config)).toBe(2);
+  });
+
+  it("accepts a state block, defaults the method to POST, resolves the seed doc and forces web concurrency to 1", () => {
+    const config = parseConfig(
+      { ...minimal, concurrency: { web: 4 }, state: { resetUrl: "/__theseus/reset", seedDoc: "seed/SEED.md" } },
+      "examples/app/theseus.config.json",
+      "/repo",
+    );
+    expect(config.state).toEqual({ resetUrl: "/__theseus/reset", method: "POST", seedDoc: "/repo/examples/app/seed/SEED.md" });
+    expect(config.concurrency.web).toBe(4);
+    expect(webConcurrency(config)).toBe(1);
+  });
+
+  it("rejects a reset URL that is not a path, a method other than POST and a missing seed doc", () => {
+    const parse = (state: unknown) => () => parseConfig({ ...minimal, state }, "c.json", "/repo");
+    expect(parse({ resetUrl: "http://localhost:4171/__theseus/reset", seedDoc: "SEED.md" })).toThrow(/state.resetUrl: expected a path starting with \//);
+    expect(parse({ resetUrl: "/reset?now=1", seedDoc: "SEED.md" })).toThrow(/state.resetUrl/);
+    expect(parse({ resetUrl: "/reset", method: "GET", seedDoc: "SEED.md" })).toThrow(/state.method/);
+    expect(parse({ resetUrl: "/reset" })).toThrow(/state.seedDoc/);
+  });
 });
 
 describe("loadConfig", () => {
@@ -76,5 +102,19 @@ describe("loadConfig", () => {
     expect(config.targets.map((target) => target.id)).toEqual(["nextjs", "sveltekit", "expo-android", "expo-ios"]);
     expect(config.original.url).toBe("http://localhost:4170");
     expect(JSON.parse(await readFile(path, "utf8"))).toBeTypeOf("object");
+  });
+
+  it("accepts the shipped RealWorld example with its state block and a seed doc naming every account", async () => {
+    const root = resolve(import.meta.dirname, "../../..");
+    const config = await loadConfig(resolve(root, "examples/realworld-angularjs/theseus.config.json"), root);
+    expect(config.state).toEqual({
+      resetUrl: "/__theseus/reset",
+      method: "POST",
+      seedDoc: resolve(root, "examples/realworld-angularjs/seed/SEED.md"),
+    });
+    expect(webConcurrency(config)).toBe(1);
+    const seed = await readSeedDoc(config.state?.seedDoc ?? "");
+    expect(seed.emails).toEqual(["alice@example.com", "bob@example.com", "carol@example.com"]);
+    expect(seed.text).toContain("conduit-demo");
   });
 });

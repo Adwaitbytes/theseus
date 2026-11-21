@@ -21,7 +21,7 @@
       "platform": "web",
       "stack": "Next.js (App Router, TypeScript) with its own API route handlers and SQLite or file storage",
       "agent": "codex",
-      "brief": "Implement both the UI and the backend in this one Next.js app: route handlers under /api follow the RealWorld API, data lives in SQLite or a JSON file in the workspace, passwords are hashed and sessions use a JWT kept in localStorage. Start from the same seed data as the original (users alice, bob and carol at example.com, password conduit-demo, the same 8 articles, comments, follow and favorite listed in SPEC.md), and expose POST /__theseus/reset that restores that seed."
+      "brief": "Implement both the UI and the backend in this one Next.js app: route handlers under /api follow the RealWorld API, data lives in SQLite or a JSON file in the workspace, passwords are hashed and sessions use a JWT kept in localStorage. Ship the seed and the reset endpoint described under \"Data and reset contract\" in SPEC.md."
     }
   ],
   "rounds": 5,
@@ -31,6 +31,11 @@
   },
   "strength": {
     "enabled": false
+  },
+  "state": {
+    "resetUrl": "/__theseus/reset",
+    "method": "POST",
+    "seedDoc": "seed/SEED.md"
   },
   "runsDir": "runs",
   "workDir": ".theseus/work",

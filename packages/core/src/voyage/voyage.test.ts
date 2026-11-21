@@ -10,6 +10,7 @@ import type { EngineDeps } from "../context.js";
 import { EventBus } from "../events/bus.js";
 import { readEvents } from "../events/recorder.js";
 import type { AppLauncher } from "../regrow/launcher.js";
+import type { HttpFetch } from "../state.js";
 import { completedPhases, runVoyage } from "./index.js";
 import { readVoyage, voyagePaths } from "./store.js";
 
@@ -151,5 +152,95 @@ describe("runVoyage", () => {
     const run = deps();
     await expect(runVoyage(tight, run.deps)).rejects.toMatchObject({ code: "budget-exceeded" });
     expect(run.kane.calls).toHaveLength(0);
+  });
+});
+
+const SEED_DOC = "# Seed\n\n| alice | alice@example.com | conduit-demo |\n";
+const seededDraft = Array.from({ length: 10 }, (_, i) =>
+  behavior(`seeded-${i + 1}`, {
+    objective: `Starting from the seeded app, sign in with email "alice@example.com" and password "conduit-demo", store the feed as 'seeded_${i + 1}', and verify it shows.`,
+  }),
+);
+
+async function setupStateful(options: { rounds?: number } = {}): Promise<ResolvedConfig> {
+  const root = await mkdtemp(join(tmpdir(), "theseus-stateful-"));
+  await writeFile(join(root, "SEED.md"), SEED_DOC, "utf8");
+  return parseConfig(
+    {
+      id: "conduit",
+      title: "Conduit voyage",
+      app: { name: "Conduit", description: "a Medium clone" },
+      original: { stack: "AngularJS", url: "http://localhost:4171" },
+      targets: [{ id: "nextjs", label: "Next.js", platform: "web", stack: "Next.js" }],
+      concurrency: { web: 3 },
+      strength: { enabled: false },
+      rounds: options.rounds ?? 5,
+      state: { resetUrl: "/__theseus/reset", seedDoc: "SEED.md" },
+    },
+    "theseus.config.json",
+    root,
+  );
+}
+
+/** Kane runs and reset requests land in one log, so their interleaving is the thing under test. */
+function statefulDeps(resetStatus: (url: string) => number): { deps: EngineDeps; agent: FakeAgent; log: string[]; bus: EventBus } {
+  const log: string[] = [];
+  const kane = new FakeKaneClient((b, target) => {
+    log.push(`kane ${target.id} ${b.id}`);
+    return outcome({ finalState: { [b.stores[0] ?? "x"]: "2" } });
+  });
+  const agent = new FakeAgent(async (input) => {
+    if (input.prompt.includes("behavioral specification")) {
+      await writeFile(join(input.cwd, "behaviors.json"), JSON.stringify({ behaviors: seededDraft }), "utf8");
+    } else {
+      await writeFile(join(input.cwd, "page.tsx"), "export default 1;\n", "utf8");
+    }
+  });
+  const fetch: HttpFetch = (url, init) => {
+    log.push(`${init.method} ${url}`);
+    return Promise.resolve({ status: resetStatus(url), text: () => Promise.resolve("") });
+  };
+  const bus = new EventBus();
+  return { deps: { kane, bus, createAgent: () => agent, crawl: fakeCrawl, launcher: fakeLauncher, fetch }, agent, log, bus };
+}
+
+describe("runVoyage with state", () => {
+  it("drafts from the seed, resets before every run one at a time, and writes the contract into SPEC.md", async () => {
+    const config = await setupStateful();
+    const run = statefulDeps(() => 200);
+    const voyage = await runVoyage(config, run.deps);
+    expect(voyage.regrowths[0]?.parity?.summary.identical).toBe(10);
+
+    expect(run.agent.prompts[0]).toContain("Read seed/SEED.md closely");
+    expect(await readFile(join(config.runsDir, config.id, "artifacts", "capture", "seed", "SEED.md"), "utf8")).toBe(SEED_DOC);
+
+    const originReset = "POST http://localhost:4171/__theseus/reset";
+    const appReset = "POST http://127.0.0.1:3999/__theseus/reset";
+    expect(run.log).toEqual([
+      ...seededDraft.flatMap((b) => [originReset, `kane original ${b.id}`]),
+      appReset,
+      ...seededDraft.flatMap((b) => [appReset, `kane nextjs ${b.id}`]),
+    ]);
+
+    const spec = await readFile(join(config.workDir, config.id, "nextjs", "SPEC.md"), "utf8");
+    expect(spec).toContain("## Data and reset contract");
+    expect(spec).toContain(SEED_DOC.trim());
+    expect(spec).toContain("Implement `POST /__theseus/reset`");
+
+    const events = await readEvents(voyagePaths(config.runsDir, config.id).events);
+    expect(events.some((e) => e.type === "log" && e.message.startsWith("state: web Kane concurrency forced from 3 to 1"))).toBe(true);
+  });
+
+  it("treats a regrown app whose reset fails as a build failure and tells the builder what to implement", async () => {
+    const config = await setupStateful({ rounds: 2 });
+    const run = statefulDeps((url) => (url.includes(":3999/") ? 404 : 200));
+    const voyage = await runVoyage(config, run.deps);
+    const rounds = voyage.regrowths[0]?.rounds ?? [];
+    expect(rounds).toHaveLength(2);
+    expect(rounds[0]?.results[0]?.outcome.reason).toContain("build failed: the app started but its reset failed");
+    expect(run.log.filter((line) => line.startsWith("kane nextjs"))).toEqual([]);
+    const feedback = run.agent.prompts.at(-1) ?? "";
+    expect(feedback).toContain("The app did not build or start");
+    expect(feedback).toContain('Implement POST /__theseus/reset that restores the seed in SPEC.md ("Data and reset contract")');
   });
 });

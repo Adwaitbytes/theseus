@@ -21,6 +21,19 @@ export const TargetConfig = z.object({
 });
 export type TargetConfig = z.infer<typeof TargetConfig>;
 
+/**
+ * How a stateful original (one with a shared backend) is put back to a known seed. Every Kane run
+ * on a web target starts from this seed, and every regrown app must ship the same seed and reset.
+ */
+export const StateConfig = z.object({
+  /** Path resolved against each web target's base URL, e.g. "/__theseus/reset". */
+  resetUrl: z.string().regex(/^\/[^\s?#]*$/, "expected a path starting with /, without query or fragment"),
+  method: z.literal("POST").default("POST"),
+  /** Markdown file describing the seed data and test accounts. Relative to the config file. */
+  seedDoc: z.string().min(1),
+});
+export type StateConfig = z.infer<typeof StateConfig>;
+
 export const TheseusConfig = z
   .object({
     id: slug,
@@ -67,6 +80,8 @@ export const TheseusConfig = z
       .prefault({}),
     /** Agent used for drafting behaviors and planting mutants. */
     draftAgent: z.object({ agent: AgentName.default("claude-code"), model: z.string().optional() }).prefault({}),
+    /** Set when the app keeps shared server-side state that every run must start from. */
+    state: StateConfig.optional(),
     /** Where voyages are written. Relative to the working directory. */
     runsDir: z.string().default("runs"),
     /** Where clean-room workspaces live. Relative to the working directory. */
@@ -92,6 +107,11 @@ export interface ResolvedConfig extends TheseusConfig {
   readonly original: TheseusConfig["original"];
 }
 
+/** With state set, web Kane runs share one seeded backend, so they must run one at a time. */
+export function webConcurrency(config: TheseusConfig): number {
+  return config.state === undefined ? config.concurrency.web : 1;
+}
+
 export function formatZodIssues(error: z.ZodError): string {
   return error.issues
     .map((issue) => `  ${issue.path.length > 0 ? issue.path.join(".") : "(root)"}: ${issue.message}`)
@@ -115,6 +135,7 @@ export function parseConfig(json: unknown, configPath: string, cwd: string): Res
     ...config,
     configPath: resolve(cwd, configPath),
     original,
+    ...(config.state === undefined ? {} : { state: { ...config.state, seedDoc: fromConfig(config.state.seedDoc) } }),
     docs: config.docs.map(fromConfig),
     runsDir: fromCwd(config.runsDir),
     workDir: fromCwd(config.workDir),

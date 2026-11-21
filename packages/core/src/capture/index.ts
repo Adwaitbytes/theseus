@@ -3,12 +3,24 @@ import { basename, join, relative } from "node:path";
 import type { Spec } from "@theseus/schema";
 import { originTarget, type PhaseContext } from "../context.js";
 import { crawl as playwrightCrawl, renderCrawlSummary } from "./crawl.js";
-import { draftBehaviors } from "./draft.js";
+import { readSeedDoc } from "../state.js";
+import { draftBehaviors, type SeedContext } from "./draft.js";
 
 export const CRAWL_SUMMARY_FILE = "crawl.md";
 
 export function captureDir(ctx: PhaseContext): string {
   return join(ctx.paths.artifacts, "capture");
+}
+
+/** Copies the seed doc next to the crawl so the drafting agent can read it; undefined when the app keeps no state. */
+export async function stageSeedDoc(ctx: PhaseContext, dir: string): Promise<SeedContext | undefined> {
+  const state = ctx.config.state;
+  if (state === undefined) return undefined;
+  const seed = await readSeedDoc(state.seedDoc);
+  const file = join("seed", basename(state.seedDoc));
+  await mkdir(join(dir, "seed"), { recursive: true });
+  await writeFile(join(dir, file), seed.text, "utf8");
+  return { file, emails: seed.emails };
 }
 
 /** Crawls the running original, then has the drafting agent turn the crawl and the docs into behaviors. */
@@ -41,11 +53,18 @@ export async function capture(ctx: PhaseContext): Promise<Spec> {
     docFiles.push(name);
   }
 
+  const seed = await stageSeedDoc(ctx, dir);
   const agent = deps.createAgent(config.draftAgent.agent, config.draftAgent.model);
   const behaviors = await draftBehaviors({
     agent,
     cwd: dir,
-    input: { appName: config.app.name, appDescription: config.app.description, crawlSummaryFile: CRAWL_SUMMARY_FILE, docFiles },
+    input: {
+      appName: config.app.name,
+      appDescription: config.app.description,
+      crawlSummaryFile: CRAWL_SUMMARY_FILE,
+      docFiles,
+      ...(seed === undefined ? {} : { seed }),
+    },
     onOutput: (text) => deps.bus.emit({ type: "agent-output", targetId: origin.id, round: 1, text }),
     ...(ctx.signal === undefined ? {} : { signal: ctx.signal }),
   });

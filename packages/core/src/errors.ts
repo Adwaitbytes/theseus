@@ -6,6 +6,7 @@ export type TheseusErrorCode =
   | "agent-output-invalid"
   | "process-failed"
   | "app-start-failed"
+  | "state-reset-failed"
   | "baseline-empty"
   | "phase-precondition"
   | "patch-failed"

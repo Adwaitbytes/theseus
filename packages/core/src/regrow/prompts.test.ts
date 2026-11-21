@@ -88,3 +88,38 @@ describe("renderSpecMarkdown", () => {
     expect(md).toContain("## Behaviors (3)");
   });
 });
+
+describe("renderSpecMarkdown with state", () => {
+  const spec = {
+    version: 1 as const,
+    app: { name: "Conduit", description: "A Medium clone.", origin: { id: "original", label: "Original", platform: "web" as const, stack: "AngularJS", original: true } },
+    capturedAt: "2026-11-21T00:00:00.000Z",
+    behaviors: [behavior("publish", { area: "Editor" })],
+  };
+  const seedDoc = "# Conduit seed data\n\n| alice | alice@example.com | conduit-demo |\n";
+  const state = { method: "POST" as const, resetPath: "/__theseus/reset", seedDoc };
+  const web: TargetConfig = { id: "nextjs", label: "Next.js", platform: "web", stack: "Next.js", agent: "codex" };
+  const android: TargetConfig = { id: "expo-android", label: "Expo", platform: "android", stack: "Expo", agent: "codex" };
+
+  it("renders the data and reset contract with the seed verbatim for every target", () => {
+    for (const target of [web, android]) {
+      const md = renderSpecMarkdown(spec, target, [], state);
+      expect(md).toContain("## Data and reset contract");
+      expect(md).toContain(seedDoc.trim());
+      expect(md).toContain("The app must ship this seed.");
+      expect(md).toContain(
+        "Implement `POST /__theseus/reset`. It must restore exactly this seed, discarding every change made since, in under 2 seconds, and answer with a 2xx status.",
+      );
+      expect(md.indexOf("## Data and reset contract")).toBeLessThan(md.indexOf("## Behaviors (1)"));
+    }
+  });
+
+  it("tells web targets they own their API and storage, and leaves stateless specs unchanged", () => {
+    expect(renderSpecMarkdown(spec, web, [], state)).toContain(
+      "The app owns its own API and storage: implement every endpoint it needs inside this project, never call the original app's backend or any other server, and keep all persistence local (SQLite or a JSON file in the workspace).",
+    );
+    const plain = renderSpecMarkdown(spec, web, []);
+    expect(plain).not.toContain("Data and reset contract");
+    expect(plain).not.toContain("owns its own API");
+  });
+});

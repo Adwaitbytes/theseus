@@ -3,7 +3,7 @@ import { dirname, relative } from "node:path";
 import type { BehaviorResult, Regrowth, Voyage } from "@theseus/schema";
 import { baseline } from "../baseline.js";
 import { capture } from "../capture/index.js";
-import type { ResolvedConfig } from "../config.js";
+import { webConcurrency, type ResolvedConfig } from "../config.js";
 import { originTarget, type EngineDeps, type PhaseContext } from "../context.js";
 import { TheseusError, errorMessage, isAbortError } from "../errors.js";
 import { recordEvents } from "../events/recorder.js";
@@ -113,6 +113,12 @@ export async function runVoyage(config: ResolvedConfig, deps: EngineDeps, option
       if (wanted.has(phase)) deps.bus.log("info", `${phase}: already complete in voyage.json, skipping (use --force-phase ${phase} to redo)`);
     };
     const targets = config.targets.filter((target) => options.targets === undefined || options.targets.includes(target.id));
+    if (config.state !== undefined && config.concurrency.web > 1) {
+      deps.bus.log(
+        "info",
+        `state: web Kane concurrency forced from ${config.concurrency.web} to ${webConcurrency(config)}; every run resets the shared seed with ${config.state.method} ${config.state.resetUrl}, so parallel runs would see each other's writes`,
+      );
+    }
 
     if (shouldRun("capture")) {
       deps.bus.emit({ type: "phase", phase: "capture", detail: config.original.url });
