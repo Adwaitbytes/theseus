@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "corepack enable && pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm --filter @theseus/schema build && NEXT_PUBLIC_SITE_URL=https://theseus-umber.vercel.app pnpm --filter web build",
+  "outputDirectory": "apps/web/out",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)opengraph-image(.*)",
+      "headers": [{ "key": "Content-Type", "value": "image/png" }, { "key": "Cache-Control", "value": "public, max-age=3600" }]
+    }
+  ]
+}
