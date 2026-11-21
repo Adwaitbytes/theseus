@@ -242,6 +242,9 @@ importers:
       '@theseus/kane':
         specifier: workspace:*
         version: link:../kane
+      '@theseus/mobile':
+        specifier: workspace:*
+        version: link:../mobile
       '@theseus/schema':
         specifier: workspace:*
         version: link:../schema

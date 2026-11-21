@@ -3,9 +3,15 @@
   "version": "0.1.0",
   "description": "Delete an app's code and regrow it in any stack while Kane CLI proves every behavior matches the original.",
   "type": "module",
-  "bin": { "theseus": "./dist/index.js" },
-  "files": ["dist"],
-  "engines": { "node": ">=22" },
+  "bin": {
+    "theseus": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.test.json",
@@ -17,7 +23,8 @@
     "@theseus/schema": "workspace:*",
     "commander": "15.1.0",
     "ink": "8.0.0",
-    "react": "19.3.1"
+    "react": "19.3.1",
+    "@theseus/mobile": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "19.3.0",
