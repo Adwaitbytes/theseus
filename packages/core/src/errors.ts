@@ -29,6 +29,20 @@ export function errorMessage(error: unknown): string {
   return String(error);
 }
 
+/**
+ * The message plus any remedy and log tail an error carries (as @theseus/mobile build errors do),
+ * so a builder agent fed this text can see why a native build failed, not only that it did.
+ */
+export function errorDetail(error: unknown): string {
+  const parts = [errorMessage(error)];
+  if (typeof error === "object" && error !== null) {
+    const record = error as Record<string, unknown>;
+    if (typeof record["remedy"] === "string" && record["remedy"] !== "") parts.push(`Remedy: ${record["remedy"]}`);
+    if (typeof record["logTail"] === "string" && record["logTail"] !== "") parts.push(`Build log (last lines):\n${record["logTail"]}`);
+  }
+  return parts.join("\n");
+}
+
 export function isAbortError(error: unknown): boolean {
   return (
     (error instanceof TheseusError && error.code === "aborted") ||

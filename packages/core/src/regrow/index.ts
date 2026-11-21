@@ -3,7 +3,7 @@ import { join } from "node:path";
 import type { Regrowth, Spec, Target } from "@theseus/schema";
 import { webConcurrency, type TargetConfig } from "../config.js";
 import { kaneContext, stateResetterFor, type PhaseContext } from "../context.js";
-import { TheseusError, errorMessage, isAbortError } from "../errors.js";
+import { TheseusError, errorDetail, errorMessage, isAbortError } from "../errors.js";
 import { systemClock } from "../events/bus.js";
 import { runBehaviorSet } from "../kane/run.js";
 import { readSeedDoc } from "../state.js";
@@ -125,7 +125,7 @@ export async function regrowTarget(
       return { ok: true, target: { ...target, app: appPath }, stop: async () => {} };
     } catch (error) {
       if (isAbortError(error) || (error instanceof TheseusError && error.code === "phase-precondition")) throw error;
-      return { ok: false, error: errorMessage(error) };
+      return { ok: false, error: errorDetail(error) };
     }
   };
 
