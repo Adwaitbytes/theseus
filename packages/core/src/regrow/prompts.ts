@@ -44,6 +44,7 @@ function dataContract(state: StateContract): string[] {
     "",
     "- The app must ship this seed. On first start the data is exactly the seed below: the same accounts and passwords, the same content, the same counts and order. Behaviors sign in with these accounts and refer to this content by its exact text.",
     `- Implement \`${endpoint}\`. It must restore exactly this seed, discarding every change made since, in under 2 seconds, and answer with a 2xx status.`,
+    "- Check the route is really reachable: some frameworks ignore path segments that start with an underscore (Next.js App Router treats `_folder` as private, so use a rewrite or the `%5F` escaped folder name). Call it once yourself after `npm run start` and confirm a 2xx.",
     `- \`${endpoint}\` is called once right after the app starts and before every behavior run. If it is missing or fails, the round counts as a build failure.`,
     "",
     "### Seed",
