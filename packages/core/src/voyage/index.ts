@@ -1,5 +1,5 @@
 import { mkdirSync, renameSync, writeFileSync } from "node:fs";
-import { dirname } from "node:path";
+import { dirname, relative } from "node:path";
 import type { BehaviorResult, Regrowth, Voyage } from "@theseus/schema";
 import { baseline } from "../baseline.js";
 import { capture } from "../capture/index.js";
@@ -14,6 +14,7 @@ import { regrowTarget } from "../regrow/index.js";
 import { nextStep } from "../regrow/loop.js";
 import { sanitizeForPersistence } from "../sanitize.js";
 import { strength } from "../strength.js";
+import { suiteDir, suiteTarget } from "../suite.js";
 import { mapConcurrent } from "../util/concurrency.js";
 import { readCredits, readVoyage, voyagePaths, writeVoyage, type VoyagePaths } from "./store.js";
 
@@ -190,6 +191,13 @@ export async function runVoyage(config: ResolvedConfig, deps: EngineDeps, option
           }),
         };
       });
+      // The proof outlives the voyage: each target's suite is committed so Kane can replay it on its own.
+      for (const regrowth of voyage.regrowths) {
+        if (!ids.has(regrowth.id)) continue;
+        const dir = suiteDir(paths, regrowth.id);
+        await deps.kane.exportTestMd(voyage.spec.behaviors, suiteTarget(regrowth.target), dir);
+        deps.bus.log("info", `${regrowth.id}: Kane suite written to ${relative(process.cwd(), dir) || dir}`);
+      }
     } else skip("parity");
 
     deps.bus.emit({ type: "phase", phase: "done", detail: `${Math.round(ledger.used)} credits used` });

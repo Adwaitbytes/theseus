@@ -1,0 +1,12 @@
+{"type":"stream_start","cli_version":"0.10.7","surface":"testrun","pid":21011,"v":1,"ts":"2026-11-21T09:00:00.000Z"}
+{"type":"testrun_plan","members":[{"path":"/work/spec/nextjs/add-todo_test.md","test_id":"t-add","tags":["smoke"]},{"path":"/work/spec/nextjs/footer-counter_test.md","test_id":"t-counter","tags":[]}],"valid":true,"parallel":2,"v":1,"ts":"2026-11-21T09:00:00.100Z"}
+{"type":"testrun_start","execution_id":"exec-77","members":["/work/spec/nextjs/add-todo_test.md","/work/spec/nextjs/footer-counter_test.md"],"parallel":2,"v":1,"ts":"2026-11-21T09:00:00.200Z"}
+{"type":"testrun_member_start","path":"/work/spec/nextjs/add-todo_test.md","test_id":"t-add","session_id":"s-1","log_path":"/work/.testmuai/logs/s-1.ndjson","v":1,"ts":"2026-11-21T09:00:01.000Z"}
+{"type":"testrun_progress","running":["/work/spec/nextjs/add-todo_test.md"],"pending":1,"done":0,"total":2,"v":1,"ts":"2026-11-21T09:00:01.001Z"}
+{"type":"testrun_member_start","path":"/work/spec/nextjs/footer-counter_test.md","test_id":"t-counter","session_id":"s-2","log_path":"/work/.testmuai/logs/s-2.ndjson","v":1,"ts":"2026-11-21T09:00:01.200Z"}
+Replaying recorded steps
+{"type":"testrun_member_end","path":"/work/spec/nextjs/add-todo_test.md","test_id":"t-add","status":"passed","duration_s":21.4,"session_id":"s-1","log_path":"/work/.testmuai/logs/s-1.ndjson","v":1,"ts":"2026-11-21T09:00:22.400Z"}
+{"type":"testrun_member_end","path":"/work/spec/nextjs/footer-counter_test.md","test_id":"t-counter","status":"passed","duration_s":25,"session_id":"s-2","log_path":"/work/.testmuai/logs/s-2.ndjson","v":1,"ts":"2026-11-21T09:00:26.200Z"}
+{"type":"testrun_evidence_ingest","status":"ok","evidence_id":"ev-1","v":1,"ts":"2026-11-21T09:00:27.000Z"}
+{"type":"testrun_summary","totals":{"tests":2,"passed":2,"failed":0,"broken":0,"skipped":0,"authored":0},"duration_s":27.3,"upload":"ok","cancelled":false,"execution":{"id":"exec-77","status":"passed"},"v":1,"ts":"2026-11-21T09:00:27.300Z"}
+{"type":"testrun_done","execution_id":"exec-77","overall_status":"passed","coverage":{"status":"written","pct":100},"v":1,"ts":"2026-11-21T09:00:27.400Z"}

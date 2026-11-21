@@ -54,7 +54,7 @@ function seedFor(config: ResolvedConfig, voyage: Voyage | undefined): ViewSeed {
 }
 
 /** Ctrl-C aborts the engine cleanly instead of killing it mid-write. */
-function interruptSignal(): { signal: AbortSignal; dispose: () => void } {
+export function interruptSignal(): { signal: AbortSignal; dispose: () => void } {
   const controller = new AbortController();
   const onSigint = (): void => controller.abort(new TheseusError("aborted", "interrupted"));
   process.once("SIGINT", onSigint);
@@ -62,7 +62,10 @@ function interruptSignal(): { signal: AbortSignal; dispose: () => void } {
 }
 
 export async function runPhases(configPath: string, phases: readonly PhaseName[] | undefined, options: PhaseOptions): Promise<number> {
-  const config = await loadConfig(configPath);
+  return runConfig(await loadConfig(configPath), phases, options);
+}
+
+export async function runConfig(config: ResolvedConfig, phases: readonly PhaseName[] | undefined, options: PhaseOptions): Promise<number> {
   const existing = await readVoyage(voyagePaths(config.runsDir, config.id).voyageJson);
   const sink: EventSink = options.json === true ? jsonSink() : tuiSink(seedFor(config, existing));
   const bus = new EventBus();

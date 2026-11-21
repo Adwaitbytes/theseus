@@ -15,6 +15,8 @@ export interface KaneProcessOptions {
   readonly killGraceMs?: number;
   readonly signal?: AbortSignal;
   readonly onEvent?: (event: KaneEvent) => void;
+  /** Every complete stdout line, for streams other than `run` (such as `testrun`) that parse their own vocabulary. */
+  readonly onLine?: (line: string) => void;
 }
 
 export interface KaneProcessResult {
@@ -72,17 +74,23 @@ export function runKaneProcess(options: KaneProcessOptions): Promise<KaneProcess
       killTimer = setTimeout(() => killGroup(pid, "SIGKILL"), options.killGraceMs ?? DEFAULT_KILL_GRACE_MS);
     };
 
-    const handleLine = (line: string): void => {
-      const event = parseKaneLine(line);
-      if (event === null) return;
-      events.push(event);
-      if (options.onEvent === undefined || callbackError !== undefined) return;
+    const notify = (callback: () => void): void => {
+      if (callbackError !== undefined) return;
       try {
-        options.onEvent(event);
+        callback();
       } catch (error) {
         callbackError = error;
         terminate();
       }
+    };
+
+    const handleLine = (line: string): void => {
+      const { onLine, onEvent } = options;
+      if (onLine !== undefined) notify(() => onLine(line));
+      const event = parseKaneLine(line);
+      if (event === null) return;
+      events.push(event);
+      if (onEvent !== undefined) notify(() => onEvent(event));
     };
 
     const wallClock = setTimeout(() => {

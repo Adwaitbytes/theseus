@@ -41,7 +41,7 @@ export function valuesEqual(original: string | null, candidate: string | null): 
   return numA !== undefined && numB !== undefined && numA === numB;
 }
 
-function compareValues(keys: readonly string[], original: Record<string, string>, candidate: Record<string, string>): ParityValue[] {
+export function compareValues(keys: readonly string[], original: Record<string, string>, candidate: Record<string, string>): ParityValue[] {
   return keys.map((key) => {
     const a = original[key] ?? null;
     const b = candidate[key] ?? null;

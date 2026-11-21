@@ -84,7 +84,8 @@ describe("runVoyage", () => {
     expect(regrowth?.rounds).toHaveLength(1);
     expect(regrowth?.parity?.summary).toEqual({ identical: 12, diverged: 0, failed: 0, total: 12 });
     expect(regrowth?.creditsUsed).toBe(240);
-    expect(first.kane.exports).toHaveLength(1);
+    expect(first.kane.exports.map((entry) => entry.outDir)).toEqual([paths.spec, join(paths.spec, regrowth?.id ?? "")]);
+    expect(first.kane.exports[1]?.target.url).toBe("http://localhost:3000");
 
     const onDisk = JSON.parse(await readFile(paths.voyageJson, "utf8")) as unknown;
     expect(Voyage.safeParse(onDisk).success).toBe(true);

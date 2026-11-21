@@ -1,8 +1,8 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { AgentInfo, Behavior, KaneOutcome, Target } from "@theseus/schema";
+import type { AgentInfo, Behavior, KaneOutcome, Regrowth, Target, Voyage } from "@theseus/schema";
 import type { AgentRunInput, BuilderAgent } from "../agents/types.js";
-import type { KaneClient, RunBehaviorOptions } from "../ports.js";
+import type { KaneClient, RunBehaviorOptions, RunSuiteOptions, SuiteResult } from "../ports.js";
 
 export function outcome(overrides: Partial<KaneOutcome> = {}): KaneOutcome {
   return {
@@ -48,7 +48,8 @@ export type KaneDecider = (behavior: Behavior, target: Target) => KaneOutcome;
 /** A KaneClient that answers from a function and records every call. */
 export class FakeKaneClient implements KaneClient {
   readonly calls: { behaviorId: string; target: Target; options: RunBehaviorOptions }[] = [];
-  readonly exports: { behaviors: readonly Behavior[]; outDir: string }[] = [];
+  readonly exports: { behaviors: readonly Behavior[]; target: Target; outDir: string }[] = [];
+  readonly suites: RunSuiteOptions[] = [];
   decide: KaneDecider;
 
   constructor(decide: KaneDecider = () => outcome()) {
@@ -71,9 +72,14 @@ export class FakeKaneClient implements KaneClient {
     return this.decide(b, target);
   }
 
-  exportTestMd(behaviors: readonly Behavior[], _target: Target, outDir: string): Promise<string[]> {
-    this.exports.push({ behaviors, outDir });
+  exportTestMd(behaviors: readonly Behavior[], target: Target, outDir: string): Promise<string[]> {
+    this.exports.push({ behaviors, target, outDir });
     return Promise.resolve(behaviors.map((b) => join(outDir, `${b.id}_test.md`)));
+  }
+
+  runSuite(options: RunSuiteOptions): Promise<SuiteResult> {
+    this.suites.push(options);
+    return Promise.resolve({ status: "passed", exitCode: 0, planValid: true, planned: [], refused: [], members: [], durationS: 0 });
   }
 }
 
@@ -102,4 +108,54 @@ export class FakeAgent implements BuilderAgent {
 
 export async function writeJson(dir: string, file: string, value: unknown): Promise<void> {
   await writeFile(join(dir, file), JSON.stringify(value), "utf8");
+}
+
+const AT = "2026-11-21T10:00:00.000Z";
+
+/** A regrowth whose rounds hold the given results, keyed by behavior id; enough for race and verify tests. */
+export function regrowth(
+  id: string,
+  agent: AgentInfo["name"],
+  rounds: readonly Readonly<Record<string, KaneOutcome>>[],
+  options: { stack?: string; platform?: Target["platform"]; credits?: number } = {},
+): Regrowth {
+  return {
+    id,
+    target: { id, label: id, platform: options.platform ?? "web", stack: options.stack ?? "Next.js", original: false },
+    agent: { name: agent, model: "default", version: "1.0.0" },
+    startedAt: AT,
+    endedAt: AT,
+    rounds: rounds.map((results, index) => ({
+      n: index + 1,
+      startedAt: AT,
+      endedAt: AT,
+      diffStat: { files: 1, additions: 1, deletions: 0 },
+      results: Object.entries(results).map(([behaviorId, result]) => ({ behaviorId, targetId: id, outcome: result })),
+    })),
+    creditsUsed: options.credits ?? 0,
+  };
+}
+
+export function voyageOf(
+  behaviors: readonly Behavior[],
+  regrowths: readonly Regrowth[],
+  baseline: Readonly<Record<string, KaneOutcome>> = {},
+): Voyage {
+  return {
+    version: 1,
+    id: "todo",
+    title: "Todo, regrown",
+    spec: {
+      version: 1,
+      app: {
+        name: "Todo",
+        description: "A todo list",
+        origin: { id: "original", label: "Original", platform: "web", stack: "jQuery", url: "http://localhost:4170", original: true },
+      },
+      capturedAt: AT,
+      behaviors: [...behaviors],
+    },
+    baseline: Object.entries(baseline).map(([behaviorId, result]) => ({ behaviorId, targetId: "original", outcome: result })),
+    regrowths: [...regrowths],
+  };
 }

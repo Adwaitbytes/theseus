@@ -1,0 +1,3 @@
+{"type":"stream_start","cli_version":"0.10.7","surface":"testrun","pid":21013,"v":1,"ts":"2026-11-21T09:20:00.000Z"}
+{"type":"testrun_plan","members":[{"path":"/work/spec/nextjs/add-todo_test.md","tags":[]},{"path":"/work/spec/nextjs/edit-todo_test.md","tags":[],"failure":"project_mismatch"}],"valid":false,"parallel":1,"v":1,"ts":"2026-11-21T09:20:00.100Z"}
+{"type":"error","code":"PROJECT_MISMATCH","message":"These tests belong to more than one project","v":1,"ts":"2026-11-21T09:20:00.200Z"}

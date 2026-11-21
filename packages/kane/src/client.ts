@@ -6,6 +6,7 @@ import { extractEvidence, locatePack } from "./evidence.js";
 import type { KaneEvent } from "./ndjson.js";
 import { findRunEnd, normalizeOutcome, outcomeStatus } from "./outcome.js";
 import { DEFAULT_RETRY, runKaneProcess, runKaneWithRetry, type RetryPolicy } from "./process.js";
+import { runKaneSuite } from "./suite.js";
 import { writeTestMdFiles } from "./testmd.js";
 
 export interface KaneClientOptions {
@@ -137,6 +138,10 @@ export function createKaneClient(options: KaneClientOptions = {}): KaneClient {
 
     exportTestMd(behaviors, target, outDir) {
       return writeTestMdFiles(behaviors, target, outDir);
+    },
+
+    runSuite(suiteOptions) {
+      return runKaneSuite(bin, env, suiteOptions);
     },
   };
 }

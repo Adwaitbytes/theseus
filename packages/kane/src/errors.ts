@@ -30,6 +30,11 @@ export class KaneTargetError extends KaneError {
   override readonly name = "KaneTargetError";
 }
 
+/** A suite has nothing to run: the directory holds no `_test.md` files, or a named file is not one. */
+export class KaneSuiteError extends KaneError {
+  override readonly name = "KaneSuiteError";
+}
+
 /** The caller's AbortSignal fired; the kane-cli process group was killed. */
 export class KaneAbortedError extends KaneError {
   override readonly name = "KaneAbortedError";
