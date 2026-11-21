@@ -12,14 +12,16 @@ Built for the [KaneCLI Online Hackathon](https://www.kaneclihack.sh) by TestMu A
 
 Hero voyage: the 2012 jQuery TodoMVC (`examples/todomvc-jquery`, MIT, vendored unchanged).
 
-| Step | Result so far |
+| Step | Result |
 |---|---|
 | Capture | 22 behaviors drafted from a crawl of the running app and the official TodoMVC spec |
-| Baseline | 22 of 22 proven by Kane on the original |
-| SvelteKit regrowth (Codex, clean room) | 22 of 22 proven on the first build |
-| Next.js regrowth (Codex, clean room) | 20 of 22 proven on the first build, round 2 in progress |
-| Expo on Android (Codex, clean room) | in progress |
+| Baseline | 22 of 22 proven by Kane on the original; a later `theseus verify` showed one of them (`persist-items`) had been a false green, and the certificate records that |
+| SvelteKit regrowth (Codex, clean room) | 22 of 22 proven on the first build; parity: 20 identical, 1 diverged, 1 failed on the original |
+| Next.js regrowth (Codex, clean room) | 22 of 22 by round 4; the final regression pass caught `counter-plural` again (Kane's own root cause says the app is right), ending at 21 of 22; parity: 19 identical |
+| Expo on Android (Codex, clean room) | native release build running on the emulator, Kane verifying |
 | Second voyage: AngularJS RealWorld "Conduit", full stack | baseline running |
+
+Use them live (Kane re-verified both regrowths against these public URLs): [original jQuery TodoMVC](https://theseus-todomvc-original.vercel.app), [Next.js regrowth](https://theseus-todomvc-nextjs.vercel.app), [SvelteKit regrowth](https://theseus-todomvc-sveltekit.vercel.app). Certificates and round-by-round replays: [theseus-umber.vercel.app](https://theseus-umber.vercel.app/voyages/todomvc-jquery). The regrown source code is in `examples/todomvc-jquery/regrown/`, with each round's commit in `ROUNDS.md`. One honest note: Codex pinned Next.js 15.5.2, which Vercel blocks as vulnerable, so the deployed copy runs the patched 15.5.29; the committed source is unchanged.
 
 Every number in this table comes from a recorded run under `runs/`. Nothing here is projected.
 

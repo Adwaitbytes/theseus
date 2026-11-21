@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { liveDeployments } from "@/lib/live";
 import { notFound } from "next/navigation";
 import type { ParityRow, Regrowth } from "@theseus/schema";
 import { ParityStrip } from "@/components/parity-strip";
@@ -32,6 +33,7 @@ export default async function CertificatePage({ params }: PageProps<"/voyages/[i
   const { voyage } = loaded;
   const origin = voyage.spec.app.origin;
   const regrowths = voyage.regrowths;
+  const live = liveDeployments[voyage.id];
   const rowsByTarget = new Map(regrowths.map((r) => [r.target.id, new Map((r.parity?.rows ?? []).map((row) => [row.behaviorId, row]))]));
   const issuedAt = regrowths.map((r) => r.endedAt).sort().at(-1);
   const baselineById = new Map(voyage.baseline.map((b) => [b.behaviorId, b]));
@@ -111,6 +113,31 @@ export default async function CertificatePage({ params }: PageProps<"/voyages/[i
             <VerdictGlyph verdict="failed-candidate" /> Failed on the regrowth after the last round
           </span>
         </p>
+        {live === undefined ? null : (
+          <div className="mt-10">
+            <h3 className="text-sm font-medium text-ink">Use them live</h3>
+            <p className="mt-1 max-w-prose text-sm text-ink-2">
+              The original and each web regrowth are deployed. Kane re-verified the regrowths against these public URLs.
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-3">
+              {[{ id: "original", label: voyage.spec.app.origin.label }, ...regrowths.map((r) => ({ id: r.target.id, label: r.target.label }))]
+                .filter((entry) => live[entry.id] !== undefined)
+                .map((entry) => (
+                  <li key={entry.id}>
+                    <a
+                      href={live[entry.id]}
+                      className="inline-flex items-center gap-2 rounded-md border border-rule px-3 py-2 font-mono text-xs text-ink transition-colors hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    >
+                      {entry.label}
+                      <span aria-hidden="true" className="text-ink-3">
+                        {new URL(live[entry.id] ?? "").hostname}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       <section aria-labelledby="behaviors-title" className="mt-20">
