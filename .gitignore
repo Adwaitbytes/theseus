@@ -19,3 +19,4 @@ MASTER_PROMPT*.md
 apps/web/out/
 apps/web/public/evidence/
 apps/web/next-env.d.ts
+.theseus/logs/

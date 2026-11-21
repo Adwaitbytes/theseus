@@ -7,6 +7,7 @@ import { kaneContext, originTarget, type PhaseContext } from "./context.js";
 import { TheseusError } from "./errors.js";
 import { isAutomationBug, isPassed, rcaRootCause } from "./kane/outcome.js";
 import { runBehaviorSet } from "./kane/run.js";
+import { recordedPasses } from "./resume.js";
 
 export interface BaselineResult {
   /** The spec narrowed to behaviors proven on the original (some possibly redrafted). */
@@ -33,7 +34,10 @@ export async function baseline(ctx: PhaseContext, spec: Spec, options: { redraft
   };
 
   let behaviors = [...spec.behaviors];
-  const results = new Map((await run(behaviors, "baseline")).map((result) => [result.behaviorId, result]));
+  const results = await recordedPasses(ctx.paths.events, origin.id, 0);
+  const toRun = behaviors.filter((behavior) => !results.has(behavior.id));
+  if (results.size > 0) deps.bus.log("info", `resuming baseline: reusing ${results.size} passes already recorded, running ${toRun.length}`);
+  if (toRun.length > 0) for (const result of await run(toRun, "baseline")) results.set(result.behaviorId, result);
 
   // An error or timeout is Kane's infrastructure, not a verdict on the original, so it earns one clean rerun before anything is dropped.
   const unjudged = behaviors.filter((behavior) => {
