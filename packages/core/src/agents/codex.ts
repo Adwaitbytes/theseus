@@ -1,5 +1,6 @@
 import type { AgentInfo } from "@theseus/schema";
 import { runChecked, runProcess } from "../util/process.js";
+import { ensureIsolatedCodexHome } from "./codex-home.js";
 import { parseCodexStreamLine } from "./stream.js";
 import type { AgentRunInput, BuilderAgent } from "./types.js";
 
@@ -53,8 +54,10 @@ export class CodexAgent implements BuilderAgent {
   }
 
   async run(input: AgentRunInput): Promise<{ exitCode: number }> {
+    const codexHome = await ensureIsolatedCodexHome();
     const result = await this.#runner(this.#binary, codexArgs(input.prompt, input.cwd, this.#model), {
       cwd: input.cwd,
+      env: { ...process.env, CODEX_HOME: codexHome },
       ...(input.signal === undefined ? {} : { signal: input.signal }),
       onStdoutLine: (line) => {
         for (const text of parseCodexStreamLine(line, input.cwd).lines) input.onOutput(text);
