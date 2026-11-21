@@ -89,3 +89,10 @@ describe("list spacing", () => {
     expect(valuesEqual("Blurred", "Blurred\n×")).toBe(false);
   });
 });
+
+describe("json lists", () => {
+  it("treats a JSON array Kane returned as the same comma-joined list", () => {
+    expect(valuesEqual("Buy milk", '["Buy milk"]')).toBe(true);
+    expect(valuesEqual("A, B", '["A","B"]')).toBe(true);
+  });
+});

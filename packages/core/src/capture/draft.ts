@@ -103,6 +103,7 @@ ${seed === undefined ? CLEAN_START_RULE : seededStartRules(seed)}
 - End with explicit verifications of what is on screen ("verify the counter shows "2 items left""). The closing assertion is a look, not a trip: if the evidence is elsewhere, add the navigation as its own action first.
 - Never assert the control that triggered an action; assert the outcome.
 - For every value worth comparing across implementations, use the exact phrasing: store the <thing> as '<key>'. Keys are snake_case. List every key in "stores" and nothing else. Vague verbs like "read" or "note" do not store anything. Store exact visible text, never an interpretation: prefer a status or counter text exactly as shown and lists of visible item labels in display order separated by commas, and say what to store when the thing is absent (the word none). Reuse the same key names across behaviors for the same kind of value so parity reads consistently.
+- For persistence, say "reload the app in the same session (on a phone, close and relaunch it)". Never say only "close and reopen": a browser test opens a fresh session and the data is gone, which makes the behavior meaningless. Never let an objective re-enter data after the reload.
 - Refer back to a stored value in plain English ("the stored item_count value"), never with braces.`;
 }
 

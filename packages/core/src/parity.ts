@@ -6,6 +6,15 @@ export function normalizeValue(value: string): string {
   let text = value.trim().replace(/\s+/g, " ");
   const quoted = /^(["'`])(.*)\1$/s.exec(text);
   if (quoted?.[2] !== undefined) text = quoted[2].trim();
+  // Kane sometimes returns a list as a JSON array; compare it as the same comma-joined list.
+  if (text.startsWith("[") && text.endsWith("]")) {
+    try {
+      const parsed: unknown = JSON.parse(text);
+      if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) text = parsed.join(", ");
+    } catch {
+      // Not JSON after all: compare the text as written.
+    }
+  }
   // Kane chooses its own spacing when it joins a list ("A,B" or "A, B"); the app's content is the same.
   // Numbers keep their thousands separators untouched.
   return /^[-+]?[\d.,\s]+$/.test(text) ? text : text.replace(/\s*,\s*/g, ", ");
