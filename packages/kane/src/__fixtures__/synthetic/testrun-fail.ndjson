@@ -1,0 +1,12 @@
+{"type":"stream_start","cli_version":"0.10.7","surface":"testrun","pid":21012,"v":1,"ts":"2026-11-21T09:10:00.000Z"}
+{"type":"testrun_plan","members":[{"path":"/work/spec/nextjs/add-todo_test.md","tags":[]},{"path":"/work/spec/nextjs/edit-todo_test.md","tags":[]},{"path":"/work/spec/nextjs/clear-completed_test.md","tags":[]}],"valid":true,"parallel":1,"v":1,"ts":"2026-11-21T09:10:00.100Z"}
+{"type":"testrun_start","execution_id":"exec-78","members":["/work/spec/nextjs/add-todo_test.md","/work/spec/nextjs/edit-todo_test.md"],"parallel":1,"v":1,"ts":"2026-11-21T09:10:00.200Z"}
+{"type":"testrun_member_start","path":"/work/spec/nextjs/add-todo_test.md","session_id":"s-3","log_path":"/work/.testmuai/logs/s-3.ndjson","v":1,"ts":"2026-11-21T09:10:01.000Z"}
+{"type":"testrun_member_end","path":"/work/spec/nextjs/add-todo_test.md","status":"passed","duration_s":19,"session_id":"s-3","log_path":"/work/.testmuai/logs/s-3.ndjson","v":1,"ts":"2026-11-21T09:10:20.000Z"}
+{"type":"testrun_member_start","path":"/work/spec/nextjs/edit-todo_test.md","session_id":"s-4","log_path":"/work/.testmuai/logs/s-4.ndjson","v":1,"ts":"2026-11-21T09:10:20.100Z"}
+{"type":"testrun_investigations_wait","count":1,"v":1,"ts":"2026-11-21T09:10:40.000Z"}
+{"type":"testrun_member_end","path":"/work/spec/nextjs/edit-todo_test.md","status":"failed","duration_s":"slow","session_id":"s-4","log_path":"/work/.testmuai/logs/s-4.ndjson","failure":{"message":"Double-clicking the todo did not open an edit field","step_index":3},"v":1,"ts":"2026-11-21T09:10:41.000Z"}
+{"type":"testrun_authored_member_start","path":"spec/nextjs/clear-completed_test.md","session_id":"s-5","log_path":"/work/.testmuai/logs/s-5.ndjson","v":1,"ts":"2026-11-21T09:10:42.000Z"}
+{"type":"testrun_authored_member_end","path":"spec/nextjs/clear-completed_test.md","status":"exploded","duration_s":50,"session_id":"s-5","log_path":"/work/.testmuai/logs/s-5.ndjson","v":1,"ts":"2026-11-21T09:11:32.000Z"}
+{"type":"testrun_summary","totals":{"tests":3,"passed":1,"failed":1,"broken":1,"skipped":0,"authored":1},"duration_s":92,"upload":"ok","cancelled":false,"execution":{"id":"exec-78","status":"failed"},"v":1,"ts":"2026-11-21T09:11:32.500Z"}
+{"type":"testrun_done","execution_id":"exec-78","overall_status":"failed","v":1,"ts":"2026-11-21T09:11:32.600Z"}

@@ -1,4 +1,23 @@
-export type { KaneClient, KaneStepEvent, RunBehaviorOptions } from "./contract.js";
+export type {
+  KaneClient,
+  KaneStepEvent,
+  RunBehaviorOptions,
+  RunSuiteOptions,
+  SuiteMember,
+  SuiteMemberEvent,
+  SuiteMemberStatus,
+  SuiteResult,
+  SuiteStatus,
+  SuiteTotals,
+} from "./contract.js";
+export {
+  buildTestrunArgs,
+  parseTestrunLine,
+  parseTestrunStream,
+  summarizeSuite,
+  suiteStatusFromExit,
+  type TestrunEvent,
+} from "./testrun.js";
 export { createKaneClient, parseBalance, type KaneClientOptions } from "./client.js";
 export { buildObjective, buildRunArgs, type DeviceSelection } from "./command.js";
 export {
@@ -6,6 +25,7 @@ export {
   KaneCommandError,
   KaneError,
   KaneSpawnError,
+  KaneSuiteError,
   KaneTargetError,
   NotLoggedInError,
 } from "./errors.js";

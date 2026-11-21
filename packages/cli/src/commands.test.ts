@@ -83,5 +83,23 @@ describe("program", () => {
     await expect(program.parseAsync(["node", "theseus", "voyage", "c.json", "--force-phase", "nope"])).rejects.toThrow(/expected one of/);
     await expect(program.parseAsync(["node", "theseus", "demo", "--speed", "0"])).rejects.toThrow(/positive number/);
     await expect(program.parseAsync(["node", "theseus", "regrow", "c.json"])).rejects.toThrow(/--target/);
+    await expect(program.parseAsync(["node", "theseus", "regrow", "http://localhost:4170"])).rejects.toThrow(/--to <stacks> is required/);
+    await expect(program.parseAsync(["node", "theseus", "regrow", "http://localhost:4170", "--to", "rails"])).rejects.toThrow(/unknown stack rails/);
+    await expect(program.parseAsync(["node", "theseus", "init", "http://a.test", "--to", "nextjs", "--race", "codex,gpt"])).rejects.toThrow(/expected one of claude-code, codex/);
+    await expect(program.parseAsync(["node", "theseus", "suite", "runs/x", "--target", "nextjs", "--parallel", "0"])).rejects.toThrow(/whole number/);
+  });
+
+  it("gives every command a summary and examples, with no dashes or emojis in the copy", () => {
+    const program = buildProgram(() => {});
+    const names = program.commands.map((command) => command.name());
+    expect(names).toEqual(["regrow", "init", "voyage", "capture", "baseline", "strength", "parity", "verify", "suite", "doctor", "serve", "demo"]);
+    for (const command of program.commands) {
+      let help = "";
+      command.configureOutput({ writeOut: (text) => (help += text) });
+      command.outputHelp();
+      expect(command.summary().length).toBeGreaterThan(10);
+      expect(help).toContain("Examples:");
+      expect(help).not.toMatch(/[\u2013\u2014]|\p{Extended_Pictographic}/u);
+    }
   });
 });

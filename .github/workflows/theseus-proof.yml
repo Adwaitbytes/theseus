@@ -1,0 +1,117 @@
+name: Theseus proof
+
+# Re-runs one regrown target's committed Kane suite (runs/<voyage>/spec/<target>/) against a live app.
+# The app is either a deployment (repository variable THESEUS_PROOF_URL) or built here from
+# THESEUS_PROOF_APP_DIR with the regrowth contract: npm install, npm run build, npm run start on $PORT.
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Target id to prove
+        default: nextjs
+
+permissions:
+  contents: read
+
+concurrency:
+  group: theseus-proof-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VOYAGE_DIR: runs/todomvc-jquery
+  PROOF_TARGET: ${{ inputs.target || vars.THESEUS_PROOF_TARGET || 'nextjs' }}
+  PROOF_URL: ${{ vars.THESEUS_PROOF_URL }}
+  PROOF_APP_DIR: ${{ vars.THESEUS_PROOF_APP_DIR }}
+  PROOF_PORT: "3000"
+
+jobs:
+  proof:
+    name: Kane suite on ${{ inputs.target || vars.THESEUS_PROOF_TARGET || 'nextjs' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Check for credentials
+        id: credentials
+        env:
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+        run: |
+          if [ -n "$LT_USERNAME" ] && [ -n "$LT_ACCESS_KEY" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::LT_USERNAME and LT_ACCESS_KEY are not set; skipping the Kane proof."
+          fi
+
+      - name: Install Theseus
+        if: steps.credentials.outputs.present == 'true'
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Install Kane CLI and Chrome
+        if: steps.credentials.outputs.present == 'true'
+        run: |
+          npm install -g @testmuai/kane-cli
+          npx --yes playwright install --with-deps chrome
+          kane-cli --version
+
+      - name: Sign in to Kane
+        if: steps.credentials.outputs.present == 'true'
+        env:
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+        # Credentials stay in the environment; output is discarded so nothing echoes them.
+        run: |
+          kane-cli login --username "$LT_USERNAME" --access-key "$LT_ACCESS_KEY" > /dev/null 2>&1 < /dev/null
+          kane-cli balance < /dev/null
+
+      - name: Start the regrown app
+        if: steps.credentials.outputs.present == 'true' && env.PROOF_URL == ''
+        run: |
+          if [ -z "$PROOF_APP_DIR" ] || [ ! -f "$PROOF_APP_DIR/package.json" ]; then
+            echo "::error::Set THESEUS_PROOF_URL to a deployment, or THESEUS_PROOF_APP_DIR to a committed regrown app."
+            exit 1
+          fi
+          cd "$PROOF_APP_DIR"
+          npm install --no-audit --no-fund
+          npm run build
+          PORT="$PROOF_PORT" nohup npm run start > "$RUNNER_TEMP/app.log" 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl --silent --fail "http://localhost:$PROOF_PORT/" > /dev/null; then
+              echo "App is up on port $PROOF_PORT"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::error::The app did not start on port $PROOF_PORT"
+          tail -n 50 "$RUNNER_TEMP/app.log"
+          exit 1
+
+      - name: Run the Kane suite
+        if: steps.credentials.outputs.present == 'true'
+        run: |
+          args=("$VOYAGE_DIR" --target "$PROOF_TARGET" --parallel 2)
+          if [ -n "$PROOF_URL" ]; then args+=(--url "$PROOF_URL"); fi
+          node packages/cli/dist/index.js suite "${args[@]}"
+
+      - name: Keep the evidence
+        if: always() && steps.credentials.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: theseus-proof-${{ env.PROOF_TARGET }}
+          path: |
+            ${{ env.VOYAGE_DIR }}/spec/${{ env.PROOF_TARGET }}/.testmuai/evidence/
+            .theseus/work/*/suite/${{ env.PROOF_TARGET }}/.testmuai/evidence/
+          if-no-files-found: ignore
