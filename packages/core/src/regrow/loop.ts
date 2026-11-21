@@ -4,7 +4,7 @@ import type { TargetConfig } from "../config.js";
 import { throwIfAborted } from "../errors.js";
 import type { Clock, EventBus } from "../events/bus.js";
 import type { CreditLedger } from "../kane/budget.js";
-import { isInfrastructure, isPassed, latestResults, notRunOutcome } from "../kane/outcome.js";
+import { isAutomationBug, isInfrastructure, isPassed, latestResults, notRunOutcome } from "../kane/outcome.js";
 import { buildFeedbackPrompt, buildInitialPrompt, type FeedbackItem } from "./prompts.js";
 
 export const BUILD_FAILED = "build failed";
@@ -173,6 +173,14 @@ export async function runRegrowLoop(input: RegrowLoopInput, deps: RegrowLoopDeps
     if (app.ok) {
       try {
         results = await deps.runBehaviors(toRun, app.target, n);
+        // Kane's RCA sometimes clears the app and blames its own run (automation_bug). Feeding that to the
+        // builder would invite it to "fix" working code, so such failures get one immediate rerun first.
+        const doubted = new Set(results.filter((r) => !isPassed(r.outcome) && isAutomationBug(r.outcome)).map((r) => r.behaviorId));
+        if (doubted.size > 0) {
+          deps.bus.log("info", `${input.target.id} round ${n}: kane blames its own run for ${[...doubted].join(", ")}; rerunning before any feedback`);
+          const reruns = new Map((await deps.runBehaviors(toRun.filter((b) => doubted.has(b.id)), app.target, n)).map((r) => [r.behaviorId, r]));
+          results = results.map((r) => reruns.get(r.behaviorId) ?? r);
+        }
       } finally {
         await app.stop();
       }

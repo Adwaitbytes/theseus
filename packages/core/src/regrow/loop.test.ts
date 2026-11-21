@@ -168,3 +168,24 @@ describe("runRegrowLoop", () => {
     expect(types).toContain("agent-output");
   });
 });
+
+describe("doubted failures", () => {
+  it("reruns a failure Kane blames on the test before it can reach the builder", async () => {
+    const h = harness();
+    let calls = 0;
+    const flaky = failed();
+    const doubted = { ...flaky, rca: { rootCause: "[automation_bug] the run skipped a store step", suggestedFix: "store it" } };
+    h.deps = {
+      ...h.deps,
+      runBehaviors: async (list, runTarget) =>
+        list.map((b) => {
+          calls += 1;
+          const firstAttempt = b.id === "add-item" && calls === 1;
+          return { behaviorId: b.id, targetId: runTarget.id, outcome: firstAttempt ? doubted : outcome({ finalState: { [b.stores[0] ?? "x"]: "1" } }) };
+        }),
+    };
+    const regrowth = await runRegrowLoop({ ...input, maxRounds: 1 }, h.deps);
+    const round = regrowth.rounds[0];
+    expect(round?.results.find((r) => r.behaviorId === "add-item")?.outcome.status).toBe("passed");
+  });
+});
