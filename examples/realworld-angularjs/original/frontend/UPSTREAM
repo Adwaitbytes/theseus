@@ -1,0 +1,11 @@
+https://github.com/gothinkster/angularjs-realworld-example-app 08755ca543e13cb26bc7086d0596ad58567a6f78 2024-08-09
+
+Local changes (all needed to run offline against the local backend):
+- src/js/config/app.constants.js: api points at http://localhost:4180/api (upstream's own
+  commented-out local option, with the port changed).
+- src/index.html: the ionicons, Google Fonts and demo.productionready.io stylesheets now load from
+  build/vendor/ (see build/vendor/NOTICE).
+- package.json: angular pinned to ~1.5.11. Upstream's ^1.5.0-rc.2 range now resolves to 1.8, whose
+  removal of pre-assigned component bindings breaks the article list (offset=NaN).
+- .gitignore: build/ is committed, because gulp 3 cannot run on current Node. Rebuild it with
+  node ../../tools/build-frontend.mjs after npm install here.

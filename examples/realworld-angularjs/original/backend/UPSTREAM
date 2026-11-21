@@ -1,0 +1,8 @@
+https://github.com/gothinkster/moleculer-node-realworld-example-app 6ed71b63587d373cf395dac72107c567498c6b22 2018-06-11
+
+Local changes:
+- package.json: bcrypt 1.0.3 -> 6.0.0 (same API; 1.0.3 has no build for current Node).
+  package-lock.json added so start.mjs can install with npm ci.
+Runtime shims live outside this directory, in ../../seed/node-util-compat.cjs (restores the
+util.is* helpers NeDB needs on Node 23+) and in ../../start.mjs (CORS preflight and 422 error
+shape proxy). The services themselves are unmodified.

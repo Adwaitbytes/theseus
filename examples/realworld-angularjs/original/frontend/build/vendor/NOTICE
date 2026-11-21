@@ -1,0 +1,8 @@
+Vendored so the app runs with no network access.
+
+main.css         Conduit theme by Thinkster (MIT), includes Bootstrap 4.0.0-alpha.2 (MIT).
+                 Originally //demo.productionready.io/main.css (now offline); copied from the
+                 Internet Archive capture of 2021-12-30.
+ionicons/        Ionicons 2.0.1 by Ionic (MIT), from code.ionicframework.com.
+fonts.css fonts/ Titillium Web, Source Serif Pro, Merriweather Sans, Source Sans Pro (SIL Open
+                 Font License 1.1), latin subset, from fonts.googleapis.com.

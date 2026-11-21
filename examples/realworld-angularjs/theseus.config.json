@@ -1,0 +1,40 @@
+{
+  "id": "realworld-angularjs",
+  "title": "AngularJS RealWorld Conduit, regrown",
+  "app": {
+    "name": "Conduit",
+    "description": "The RealWorld Medium clone: sign up and sign in, write Markdown articles with tags, browse global, followed and tag feeds with pagination, favorite articles, follow authors, comment, and edit your profile settings."
+  },
+  "original": {
+    "label": "AngularJS Conduit (2016)",
+    "stack": "AngularJS 1.5, UI-Router, Browserify; Moleculer + NeDB API",
+    "url": "http://localhost:4171",
+    "source": "original/frontend/build"
+  },
+  "docs": [
+    "docs/realworld-spec.md"
+  ],
+  "targets": [
+    {
+      "id": "nextjs-fullstack",
+      "label": "Next.js full stack",
+      "platform": "web",
+      "stack": "Next.js (App Router, TypeScript) with its own API route handlers and SQLite or file storage",
+      "agent": "codex",
+      "brief": "Implement both the UI and the backend in this one Next.js app: route handlers under /api follow the RealWorld API, data lives in SQLite or a JSON file in the workspace, passwords are hashed and sessions use a JWT kept in localStorage. Start from the same seed data as the original (users alice, bob and carol at example.com, password conduit-demo, the same 8 articles, comments, follow and favorite listed in SPEC.md), and expose POST /__theseus/reset that restores that seed."
+    }
+  ],
+  "rounds": 5,
+  "budgetCredits": 3000,
+  "concurrency": {
+    "web": 2
+  },
+  "strength": {
+    "enabled": false
+  },
+  "runsDir": "runs",
+  "workDir": ".theseus/work",
+  "draftAgent": {
+    "agent": "codex"
+  }
+}
