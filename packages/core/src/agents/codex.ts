@@ -60,7 +60,10 @@ export class CodexAgent implements BuilderAgent {
         for (const text of parseCodexStreamLine(line, input.cwd).lines) input.onOutput(text);
       },
     });
-    if (result.exitCode !== 0) input.onOutput(`codex exited with ${result.exitCode}`);
+    if (result.exitCode !== 0) {
+      const tail = result.stderr.split("\n").filter((line) => line.trim() !== "").slice(-5).join("\n");
+      input.onOutput(`codex exited with ${result.exitCode}${tail === "" ? "" : `: ${tail}`}`);
+    }
     return { exitCode: result.exitCode };
   }
 }
