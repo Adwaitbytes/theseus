@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.svelte-kit/
+build/
+dist/
+.expo/
+android/
+ios/
+.testmuai/
+.theseus-feedback/
+*.log
+# Dependencies and generated Next.js output
+node_modules/
+.next/
+.npm-cache/

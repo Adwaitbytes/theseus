@@ -1920,7 +1920,7 @@
         "version": "0.146.0"
       },
       "startedAt": "2026-11-21T14:01:28.758Z",
-      "endedAt": "2026-11-21T14:40:50.903Z",
+      "endedAt": "2026-11-21T15:06:36.991Z",
       "rounds": [
         {
           "n": 1,
@@ -3716,6 +3716,1637 @@
             }
           ],
           "feedback": "Round 4. Kane CLI ran the behaviors from SPEC.md against your app: 21 of 22 pass.\n\nFix the app so these behaviors pass, without breaking the ones that already pass. When Kane's root cause is an automation_bug the app may be right and the test flaky; check the screenshot before changing working code.\n\n### Pluralized counter (`counter-plural`)\n\nObjective: Starting from a fresh app with no items, add \"One\", store the counter text as 'counter_one', then add \"Two\" and store the counter text as 'counter_two'. Verify the stored counter_one value is \"1 item left\" and the stored counter_two value is \"2 items left\".\nFailed at step 10: assert: the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}}\nKane: Final verification failed: \"the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}} value is \"2 items left\"\" Missing stored values: counter_one, counter_two.\nRoot cause (automation_bug): The run did not save or substitute the two counter values correctly before its final check. The screenshots show \"1 item left\" after adding One and \"2 items left\" after adding Two, so the app behavior matches the requested outcome.\nSuggested fix: Fix the capture steps and final assertion so both use the same variable names, then verify the saved text immediately after each capture.\nScreenshot of the failure: .theseus-feedback/round-4/counter-plural.png\n\nDo not edit SPEC.md or reference/. Make sure the project still builds before you finish."
+        },
+        {
+          "n": 5,
+          "startedAt": "2026-11-21T14:40:50.908Z",
+          "endedAt": "2026-11-21T15:03:49.898Z",
+          "commit": "606b3f10b91bbab0c138ded9dda1346aafefe7e1",
+          "diffStat": {
+            "files": 0,
+            "additions": 0,
+            "deletions": 0
+          },
+          "results": [
+            {
+              "behaviorId": "fresh-empty",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "verified an empty todo list on the local Todo app",
+                "reason": "Objective completed",
+                "durationS": 36.8,
+                "credits": 8.20867,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "visible_titles": "none",
+                  "counter_text": "none",
+                  "todo_items_shown": "false",
+                  "counter_shown": "false",
+                  "filters_shown": "false",
+                  "clear_completed_shown": "false"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "analyze: no clear-completed action is shown"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "assert: no todo items, counter, filters, or clear-completed action are shown"
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8VCTYHD044EE11X107ZFX/dashboard/share/US_QXP12B4B5M8HSZIPPB5HNAVWJGDT7NH44FGSRY3FT36FPOJLCZ5HANXU13YIJWKI?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/fresh-empty/fresh-empty-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "add-one",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "added a todo item on the Todo list",
+                "reason": "Objective completed",
+                "durationS": 57.7,
+                "credits": 21.490315,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left",
+                  "visible_titles": "Buy milk",
+                  "buy_milk_active_todo": "true",
+                  "entry_field_empty": "true"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"Buy milk\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit it; role=textbox; text=\"New todo\" | HINTS: container=todo form b"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "assert: \"Buy milk\" appears as an active todo, the entry field is empty, and the counter "
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8VCM36BPR8WYNXPBETN46/dashboard/share/US_0QP49YX16PR9WJKLLE0HQO066M1OTVWH4HEYH64DJPMAE85TSEJTNXQM7GIZZDRI?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/add-one/add-one-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "add-many",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "added three todo items on the todo app",
+                "reason": "Objective completed",
+                "durationS": 73.5,
+                "credits": 23.676564999999997,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "3 items left",
+                  "visible_titles": "Buy milk,Walk the dog,Write the report"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (6 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"Buy milk\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit \"Buy milk\" as a todo item; role=textbox; text=\"New todo\" | HINTS"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "type: Entering Walk the dog into the New todo box and submitting it"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit \"Walk the dog\" as a todo item; role=textbox; text=\"New todo\" | H"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "type: Typing Write the report into the todo textbox"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit \"Write the report\" as a todo item; role=textbox; text=\"New todo\""
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, \"Store the titles of the visible todos in display order "
+                  },
+                  {
+                    "index": 12,
+                    "status": "done",
+                    "remark": "assert: All three items appear in that order and the counter shows \"3 items left\"."
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8XD8SEJ42G50YDTZDB86Z/dashboard/share/US_W014XLLW9VVKG7IU4HIERM033KXMI3LCPPEZUOJUNK54HERJ4UOJ5DC7OSZRGLIJ?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/add-many/add-many-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "clear-input",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "added “Read book” to the to-do list on the local app",
+                "reason": "Objective completed",
+                "durationS": 58.1,
+                "credits": 12.49192,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "input_text": "",
+                  "entry_field_empty": "true",
+                  "read_book_visible_in_list": "true"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"Read book\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit it by pressing the Enter key"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "analyze: The entry-field text is saved as {{input_text}}."
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "assert: The field is empty and \"Read book\" is visible in the list."
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8Y8KSX7Q6F3EDTGXQMWGR/dashboard/share/US_X9WEJVOSG758K9HMZP9BYLBI3ANZG36AI21TBW6UC6NL4P4H0X2L9IMF9PQUES1I?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/clear-input/clear-input-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "ignore-empty",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "submitted the empty entry field on the to-do app",
+                "reason": "Objective completed",
+                "durationS": 43.4,
+                "credits": 12.653339999999998,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "none",
+                  "visible_titles": "none",
+                  "entry_field_empty": "true",
+                  "todo_list_visible": "false",
+                  "counter_visible": "false"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Submit the empty entry field; role=textbox; text=\"New todo\" | HINTS: co"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "assert: No todo list or counter appears and the entry field remains empty."
+                  }
+                ],
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/ignore-empty/ignore-empty-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "trim-input",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "added a todo on the local todo app",
+                "reason": "Objective completed",
+                "durationS": 54.7,
+                "credits": 19.67078,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left",
+                  "visible_titles": "Task"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Entering spaces around Task in the todo textbox"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the entered todo by pressing the Enter key"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "assert: The only todo is labeled \"Task\" without surrounding spaces and the counter shows"
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z90ZX6KTW58V3CSMZ4G98Z/dashboard/share/US_HU2OHWB6G744YSSM2A9706M8JP6P1EVPK3VNTAMJWWM4R1D98RLDMGX5W45MUKLL?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/trim-input/trim-input-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "complete-one",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "added and completed todos on the local todo app",
+                "reason": "Objective completed",
+                "durationS": 80.4,
+                "credits": 24.6529475,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left",
+                  "visible_titles": "A,B",
+                  "A completed": "true",
+                  "B active": "true"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"A\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit todo \"A\" with the Enter key"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "type: Typing B into the todo textbox"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit todo \"B\" with the Enter key"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "click: Clicking Toggle A to mark it complete"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "assert: \"A\" is shown completed, \"B\" remains active, and the counter shows \"1 item left\""
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z93MNF9ARV24N118P976RN/dashboard/share/US_4QT7YGT3D9KA4UIYGG4B01XXXBE58M51NH2CH2URAH0YC9IDTAUGMCZPP0TE70MB?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/complete-one/complete-one-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "complete-all",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "added and completed todos on the Todo app",
+                "reason": "Objective completed",
+                "durationS": 80.7,
+                "credits": 25.567325,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "visible_titles": "A,B",
+                  "counter_text": "0 items left",
+                  "both_items_completed": "true",
+                  "mark_all_checked": "true"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"A\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add the todos \"A\" and \"B\" by submitting the New todo input"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "type: Typing B into the New todo text box"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add the todos \"A\" and \"B\" by submitting the New todo input"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "click: Clicking Mark all as complete button to complete all todos"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'the footer counter text exactly as shown, or the word n"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "assert: both items are completed, the mark-all state is checked, and the counter shows \""
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z94VJV4SQXJ2C8YF73SCHY/dashboard/share/US_B8W43C9Y721ANRU17OBMZDZJM7XCPEUBDANZU1N5SJOVC2V7Y2ERKYKRXZ3SVJHA?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/complete-all/complete-all-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "uncomplete-all",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "updated the to-do list on the fresh app",
+                "reason": "Objective completed",
+                "durationS": 140.1,
+                "credits": 42.246087499999994,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "2 items left",
+                  "visible_titles": "A, B"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"A\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit todo \"A\" with the Enter key"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "type: Typing B into the New todo field"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add \"A\" and \"B\" to the fresh app with no items by submitting todo \"B\" w"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "click: Clicking Mark all as complete to toggle all items complete"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "click: Clicking Mark all as active to toggle mark-all state off"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "analyze: The counter shows \"2 items left\"."
+                  },
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'the footer counter text is stored exactly as shown as {"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: Waiting checkpoint extraction is complete"
+                  },
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: Waiting after completing the required todo-title extraction"
+                  },
+                  {
+                    "index": 14,
+                    "status": "done",
+                    "remark": "assert: Both items are active and the counter shows \"2 items left\"."
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9764649MCTG8BXTQQGD56/dashboard/share/US_LUVKFVMEQESH7S6CUS1GB9RLGD2S8HV6W7ROXNQVC3T8C55LBMNCSE2RHOAPL5LQ?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/uncomplete-all/uncomplete-all-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "counter-plural",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "failed",
+                "exitCode": 1,
+                "oneLiner": "The todos and their on-screen counters were correct, but the final check compared unresolved stored-value placeholders rather than the saved counter text.",
+                "reason": "Final verification failed: \"the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}} value is \"2 items left\"\" Missing stored values: counter_one, counter_two.",
+                "durationS": 88.4,
+                "credits": 34.5883925,
+                "finalState": {},
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Typing One into the New todo field"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add \"One\" by submitting the new todo form with the Enter key"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "analyze: the counter text is saved as {{counter_one}}"
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "type: Entering Two into the New todo text box"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add \"Two\" by submitting the new todo form with the Enter key"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "analyze: the counter text is saved as {{counter_two}}"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "analyze: the stored {{counter_one}} value is \"1 item left\""
+                  },
+                  {
+                    "index": 10,
+                    "status": "failed",
+                    "remark": "assert: the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}}"
+                  }
+                ],
+                "failingStep": {
+                  "index": 10,
+                  "remark": "assert: the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}}"
+                },
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z98BM6ENPJ1ZD582RPT878/dashboard/share/US_VVGYH4CBQ2K9UFHE3TA9EPESJES4GYMVVHKS9TSK2849Q2EBPMYPNCXUBTGSCK2S?type=summary&agentView=true&fqdn=summary-page",
+                "rca": {
+                  "rootCause": "[automation_bug] The automation did not pass the values saved as counter_one and counter_two into the final verification. The page showed the expected counts after each item was added.",
+                  "suggestedFix": "Fix the capture/assertion configuration so the counter text saved after each add is inserted into the final check. Re-run while logging the saved values before the assertion."
+                },
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/counter-plural/counter-plural-final.jpg",
+                  "failShot": "artifacts/nextjs/round-5/counter-plural/counter-plural-fail.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "filter-all",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "updated todos on the Todo list",
+                "reason": "Objective completed",
+                "durationS": 85.2,
+                "credits": 26.768977500000002,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left",
+                  "visible_titles": "A,B"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"A\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add the todos \"A\" and \"B\" by submitting the new todo input; role=textbo"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "type: Typing B into the New todo text box"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add the todos \"A\" and \"B\" by submitting the new todo input; role=textbo"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "click: Clicking the Toggle A button in the first todo row"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "click: Clicking the All view filter"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 12,
+                    "status": "done",
+                    "remark": "assert: Both todos are visible and the counter shows \"1 item left\"."
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9BVNXDE5M1WAZDMKC1VPV/dashboard/share/US_N0IYW9Y1GLOFYDHLKZKKB49TEC9J6ZB0GXVIPCTT0XV75QAVB8BL3VP6O9JFM9VW?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/filter-all/filter-all-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "filter-active",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "updated todos on the local Todo app",
+                "reason": "Objective completed",
+                "durationS": 85.5,
+                "credits": 25.79477,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left\nAll\nActive\nCompleted\nClear completed",
+                  "visible_titles": "B"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Typing A into New todo textbox"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the typed todo \"A\" by pressing the Enter key"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "type: Type \"B\" into \"New todo\""
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "press_key: Press Enter"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "click: Clicking Toggle A button"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "click: Clicking the Active filter view tab"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "analyze: the counter shows \"1 item left\""
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "assert: only \"B\" is visible and the counter shows \"1 item left\""
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9CNSJB5VWTSCFEJZWGR3J/dashboard/share/US_581CPVW5H6BRBI5EP1BZC1C203BJK4E9CLONI27GCKVYQ3KEMGN4C2N1L0W8UVVT?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/filter-active/filter-active-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "filter-completed",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "completed and filtered todos on the todo list",
+                "reason": "Objective completed",
+                "durationS": 68.4,
+                "credits": 23.5121675,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "visible_titles": "A",
+                  "counter_text": "1 item left"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Typing A into the New todo field"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add \"A\" and \"B\" by submitting the new todo entry with the Enter key"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "type: Typing B into the todo textbox"
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add \"A\" and \"B\" by submitting the new todo entry with the Enter key"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "click: Clicking Toggle A for the first todo item"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "click: Clicking the Completed view in footer filter controls"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "assert: Only completed \"A\" is visible and the counter shows \"1 item left\"."
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9FFE39FBGV3V5P8HPQHWY/dashboard/share/US_531SMIRN0C2T5Z7MQKUN1LK25FUB7YB4PH4SEFKI2JOT9KJMH9FURD6O6T8UCTY7?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/filter-completed/filter-completed-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "filtered-toggle",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "updated active todos on the todo app",
+                "reason": "Objective completed",
+                "durationS": 71.1,
+                "credits": 25.3936025,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left",
+                  "visible_titles": "B",
+                  "a_absent_from_active_list": "false",
+                  "b_visible": "true"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"A\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: add \"A\" to the todo app by submitting the new todo input"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "type: Typing B into the New todo text field"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: add \"B\" to the todo app by submitting the new todo input"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "click: Clicking Active filter button"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "click: Clicking Toggle A button in the first todo row"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 12,
+                    "status": "done",
+                    "remark": "assert: \"A\" disappears from the active list while \"B\" remains visible and the counter sh"
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9GBMX6YTDRDEFDVS1T7XD/dashboard/share/US_4ERTHKWHD1PFIMM8TMYCIBVZ7QB6V4XJWVFW14QIMSNH70EQ1EMA7WE5TKIA2CWR?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/filtered-toggle/filtered-toggle-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "edit-save",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "renamed a todo from “Old” to “New” on the todo app",
+                "reason": "Objective completed",
+                "durationS": 98.7,
+                "credits": 26.323005,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left",
+                  "visible_titles": "New",
+                  "new_todo_visible": "true",
+                  "old_todo_absent": "false"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"Old\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the new todo title \"Old\" with the Enter key"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "click: PRIMARY: Enter editing for \"Old\"; role=text; text=\"Old\" | HINTS: container=the o"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "type: Typing New in the todo title field"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the edit with the Enter key"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "assert: the list shows \"New\" and no \"Old\" remains"
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9JK3BVQ6XGBRH3RRPVHN4/dashboard/share/US_AKUSWKJZYVL46BG7R8S5VM42YR166KKA11ROXD6RX4VYWRMKM9Y42SY2CGWFF4HJ?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/edit-save/edit-save-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "edit-blur",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "updated a todo item on the local Todo app",
+                "reason": "Objective completed",
+                "durationS": 100.8,
+                "credits": 23.8593325,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "visible_titles": "Blurred",
+                  "counter_text": "1 item left"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"Old\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add \"Old\" as a todo item by submitting the new todo field with Enter"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "click: PRIMARY: Enter editing for \"Old\"; role=text | HINTS: container=Todo list; adjace"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "type: Typing Blurred into the todo title field"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: leave the field after replacing the title with \"Blurred\" by pressing Ta"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "assert: The list shows \"Blurred\"."
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9KGF3RVMTNXYDCEHC51H4/dashboard/share/US_M7UCS2LGJWBX066NU26A5IT8MGX4QIAL1VGZ0ARZSCPQEC4HKOEUJNE25EBQK4F7?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/edit-blur/edit-blur-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "edit-escape",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "updated the Todo list on the local Todo page",
+                "reason": "Objective completed",
+                "durationS": 177.4,
+                "credits": 22.54271,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "visible_titles": "Keep",
+                  "counter_text": "1 item left"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Typing in new todo input with text Keep"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: press the Enter key to add the new todo"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "click: PRIMARY: enter editing for Keep; role=text | HINTS: container=Todo list; row con"
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"Edit todo\"; press_key \"Edit todo\""
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "type: Type \"Discard\" into \"Edit todo\""
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "press_key: Press Escape"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'PRIMARY: titles of all visible todos in display order s"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "wait: Waiting objective is complete; Keep is visible and Discard is absent"
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9PSF61SMKBR6JF67FSP8W/dashboard/share/US_Q4NNAIIGCGTDF59GWC5VR6VCNJQ31NWPE00Q13H43TRGH5BDX1JSSGVUAK732L5R?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/edit-escape/edit-escape-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "edit-empty-removes",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "cleared the Todo list on the local Todo app",
+                "reason": "Objective completed",
+                "durationS": 139.2,
+                "credits": 24.095019999999998,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "visible_titles": "none",
+                  "counter_text": "none"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"Remove me\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the new todo with the Enter key"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "click: PRIMARY: enter editing for \"Remove me\"; role=text | HINTS: container=Todo list; "
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the edit with the Enter key"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'PRIMARY: titles of visible todo items in display order "
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "wait: Waiting verify no todo item or counter is shown"
+                  }
+                ],
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/edit-empty-removes/edit-empty-removes-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "remove-one",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "updated the todo list on the fresh app",
+                "reason": "Objective completed",
+                "durationS": 72.4,
+                "credits": 24.258832499999997,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "visible_titles": "B",
+                  "counter_text": "1 item left"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Typing A into the new todo textbox"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit todo \"A\" with the Enter key"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "type: Typing B into the New todo textbox"
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit todo \"B\" with the Enter key"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "click: Clicking Delete A to remove item from the todo list"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "assert: Only \"B\" remains and the counter shows \"1 item left\"."
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9X34Q2CFP270JQ3FCTAK8/dashboard/share/US_XJIRRKIFOSO5QWIW0DDVQ05SY1B3B2BBW1XXEBTI7JAZMYCN3TNS3GPGEVX6GXKB?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/remove-one/remove-one-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "clear-completed",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "updated todos on the local todo app",
+                "reason": "Objective completed",
+                "durationS": 84.4,
+                "credits": 25.9655325,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "visible_titles": "B",
+                  "counter_text": "1 item left",
+                  "clear_completed_action_hidden": "true"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Typing A into the New todo text box"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: press the Enter key to add the typed todo"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "type: Typing B into the New todo textbox"
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: press the Enter key to add the typed todo"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "click: Clicking Toggle A button"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "click: Clicking Clear completed todos"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "analyze: The counter shows \"1 item left\"."
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "assert: Verify only active \"B\" remains, the counter shows \"1 item left\", and the clear-c"
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9XKMYJY1NH3D4CZM93WBP/dashboard/share/US_6NHCBF39AEUXR1HOQS02IUDTEUBEN2PY6CKGN3O4FL0KQ1XU30EJXUTQG8EQGJB5?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/clear-completed/clear-completed-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "persist-items",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "managed todos on the Todo app",
+                "reason": "Objective completed",
+                "durationS": 88.3,
+                "credits": 22.861652499999998,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left",
+                  "visible_titles": "A, B",
+                  "todo_a_completed": "true",
+                  "todo_b_completed": "false"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Typing A into the todo input"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the first new todo with the Enter key"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "type: Type \"B\" into \"New todo\""
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "press_key: Press Enter"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "click: Clicking Toggle A"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "wait: PRIMARY: confirm that todo \"A\" remains completed before closing the app"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "wait: PRIMARY: confirm the app reopened after closing it"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  },
+                  {
+                    "index": 12,
+                    "status": "done",
+                    "remark": "assert: Both todos and their completion state remain, and the counter shows \"1 item left"
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZA0GZE9HBHKEEG9E58NHCR/dashboard/share/US_QDJL901HF4GOHOE6S7S24L94Z78Q4D33TBQM7BYNN0U5AMPP6MR6UN0SPB3T1AEZ?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/persist-items/persist-items-final.jpg"
+                }
+              }
+            },
+            {
+              "behaviorId": "persist-filter",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "passed",
+                "exitCode": 0,
+                "oneLiner": "completed and reopened the todo list on the local Todo app",
+                "reason": "Objective completed",
+                "durationS": 101.5,
+                "credits": 29.2652925,
+                "finalState": {
+                  "url": "http://127.0.0.1:58576/",
+                  "counter_text": "1 item left",
+                  "visible_titles": "A",
+                  "completed_view_selected": "true"
+                },
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "type: Typing A into the New todo field"
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the New todo entry \"A\" by pressing the Enter key"
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": "type: Typing B into the New todo text field"
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: submit the New todo entry \"B\" by pressing the Enter key"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "click: Clicking Toggle A to show the A todo list"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "click: Clicking Completed in the todo filters footer"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "navigate: PRIMARY: reopen the app at http://127.0.0.1:58576/"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "analyze: \"B\" is not visible"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "assert: the Completed view is still selected, only \"A\" is visible, and the counter shows"
+                  }
+                ],
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZA18JBD9SJGQTS2G6PFDWJ/dashboard/share/US_CNY74UWJ7YMIB5BXMEO2E7TS25V5YZIJVRSQUBEMTJ3SLV1180I6ZOHV38GQUULT?type=summary&agentView=true&fqdn=summary-page",
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-5/persist-filter/persist-filter-final.jpg"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "startedAt": "2026-11-21T15:03:49.906Z",
+          "endedAt": "2026-11-21T15:06:36.984Z",
+          "commit": "b42ddeac036c0c32ea017b1c6a58da9b8dea7839",
+          "diffStat": {
+            "files": 0,
+            "additions": 0,
+            "deletions": 0
+          },
+          "results": [
+            {
+              "behaviorId": "counter-plural",
+              "targetId": "nextjs",
+              "outcome": {
+                "status": "failed",
+                "exitCode": 1,
+                "oneLiner": "The counter values were shown correctly, but the test compared unresolved automation placeholders instead of the saved text.",
+                "reason": "Final verification failed: \"the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}} value is \"2 items left\"\" Missing stored values: counter_one, counter_two.",
+                "durationS": 103.7,
+                "credits": 35.7948525,
+                "finalState": {},
+                "steps": [
+                  {
+                    "index": 2,
+                    "status": "done",
+                    "remark": "navigate: Navigate to http://127.0.0.1:64330/"
+                  },
+                  {
+                    "index": 3,
+                    "status": "done",
+                    "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  },
+                  {
+                    "index": 4,
+                    "status": "done",
+                    "remark": "type: Type \"One\" into \"New todo\""
+                  },
+                  {
+                    "index": 5,
+                    "status": "done",
+                    "remark": ""
+                  },
+                  {
+                    "index": 6,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add \"One\" by submitting the New todo field"
+                  },
+                  {
+                    "index": 7,
+                    "status": "done",
+                    "remark": "analyze: the counter text is stored as {{counter_one}}"
+                  },
+                  {
+                    "index": 8,
+                    "status": "done",
+                    "remark": "type: Typing Two into New todo field"
+                  },
+                  {
+                    "index": 9,
+                    "status": "done",
+                    "remark": "press_key: PRIMARY: Add \"Two\" by submitting the New todo field"
+                  },
+                  {
+                    "index": 10,
+                    "status": "done",
+                    "remark": "analyze: the counter text is stored as {{counter_two}}"
+                  },
+                  {
+                    "index": 11,
+                    "status": "done",
+                    "remark": "analyze: the stored {{counter_one}} value is \"1 item left\""
+                  },
+                  {
+                    "index": 12,
+                    "status": "failed",
+                    "remark": "assert: the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}}"
+                  }
+                ],
+                "failingStep": {
+                  "index": 12,
+                  "remark": "assert: the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}}"
+                },
+                "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZA6PE2MZXE5KDMMNPRJ1PH/dashboard/share/US_W3ESJYNTYDE50Z3Y33D21H7XP1VOF7CB5TB422ZSIEP55A2X4MZX7S2I55MH5D78?type=summary&agentView=true&fqdn=summary-page",
+                "rca": {
+                  "rootCause": "[automation_bug] The test did not pass the saved counter text into its final checks. It compared placeholder names instead of the values shown by the app.",
+                  "suggestedFix": "Fix the capture/assertion mapping so the final checks use the actual saved values for counter_one and counter_two, then rerun the test."
+                },
+                "artifacts": {
+                  "finalShot": "artifacts/nextjs/round-6/counter-plural/counter-plural-final.jpg",
+                  "failShot": "artifacts/nextjs/round-6/counter-plural/counter-plural-fail.jpg"
+                }
+              }
+            }
+          ],
+          "feedback": "Round 6. Kane CLI ran the behaviors from SPEC.md against your app: 21 of 22 pass.\n\nFix the app so these behaviors pass, without breaking the ones that already pass. When Kane's root cause is an automation_bug the app may be right and the test flaky; check the screenshot before changing working code.\n\n### Pluralized counter (`counter-plural`)\n\nObjective: Starting from a fresh app with no items, add \"One\", store the counter text as 'counter_one', then add \"Two\" and store the counter text as 'counter_two'. Verify the stored counter_one value is \"1 item left\" and the stored counter_two value is \"2 items left\".\nFailed at step 10: assert: the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}}\nKane: Final verification failed: \"the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}} value is \"2 items left\"\" Missing stored values: counter_one, counter_two.\nRoot cause (automation_bug): The automation did not pass the values saved as counter_one and counter_two into the final verification. The page showed the expected counts after each item was added.\nSuggested fix: Fix the capture/assertion configuration so the counter text saved after each add is inserted into the final check. Re-run while logging the saved values before the assertion.\nScreenshot of the failure: .theseus-feedback/round-6/counter-plural.png\n\nDo not edit SPEC.md or reference/. Make sure the project still builds before you finish."
         }
       ],
       "parity": {
@@ -3765,38 +5396,39 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "verified the empty todo list on the todo application",
+              "oneLiner": "verified an empty todo list on the local Todo app",
               "reason": "Objective completed",
-              "durationS": 82.3,
-              "credits": 9.742799999999999,
+              "durationS": 36.8,
+              "credits": 8.20867,
               "finalState": {
-                "url": "http://127.0.0.1:56360/",
-                "counter_text": "none",
+                "url": "http://127.0.0.1:58576/",
                 "visible_titles": "none",
+                "counter_text": "none",
                 "todo_items_shown": "false",
                 "counter_shown": "false",
                 "filters_shown": "false",
-                "clear_completed_action_shown": "false"
+                "clear_completed_shown": "false"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:56360/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  "remark": "analyze: no clear-completed action is shown"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "assert: No todo items, counter, filters, or clear-completed action are shown."
+                  "remark": "assert: no todo items, counter, filters, or clear-completed action are shown"
                 }
               ],
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8VCTYHD044EE11X107ZFX/dashboard/share/US_QXP12B4B5M8HSZIPPB5HNAVWJGDT7NH44FGSRY3FT36FPOJLCZ5HANXU13YIJWKI?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-2/fresh-empty/fresh-empty-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/fresh-empty/fresh-empty-final.jpg"
               }
             },
             "values": [
@@ -3876,12 +5508,12 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "added Buy milk as a todo on the todo list",
+              "oneLiner": "added a todo item on the Todo list",
               "reason": "Objective completed",
-              "durationS": 56,
-              "credits": 17.49941,
+              "durationS": 57.7,
+              "credits": 21.490315,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "1 item left",
                 "visible_titles": "Buy milk",
                 "buy_milk_active_todo": "true",
@@ -3891,7 +5523,7 @@
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
@@ -3911,12 +5543,12 @@
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit it as a todo; role=textbox; text=\"New todo\" | HINTS: container=t"
+                  "remark": "press_key: PRIMARY: submit it; role=textbox; text=\"New todo\" | HINTS: container=todo form b"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
                 },
                 {
                   "index": 8,
@@ -3924,9 +5556,9 @@
                   "remark": "assert: \"Buy milk\" appears as an active todo, the entry field is empty, and the counter "
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z6VD998DV35PGBT0T8JQPD/dashboard/share/US_A8PISWASWV3I59BZ6JV05YMJHNRJLZ7R06U4EJ3HZ1YQDYNI5GC2F2P8YJXV32E6?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8VCM36BPR8WYNXPBETN46/dashboard/share/US_0QP49YX16PR9WJKLLE0HQO066M1OTVWH4HEYH64DJPMAE85TSEJTNXQM7GIZZDRI?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/add-one/add-one-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/add-one/add-one-final.jpg"
               }
             },
             "values": [
@@ -4024,65 +5656,75 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "added three todo items on the todo list app",
+              "oneLiner": "added three todo items on the todo app",
               "reason": "Objective completed",
-              "durationS": 88,
-              "credits": 24.118020000000005,
+              "durationS": 73.5,
+              "credits": 23.676564999999997,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "3 items left",
-                "visible_titles": "Buy milk, Walk the dog, Write the report"
+                "visible_titles": "Buy milk,Walk the dog,Write the report"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "type: Typing Buy milk into the new todo box"
+                  "remark": "wait: queued plan (6 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the entered \"Buy milk\" todo by pressing the Enter key"
+                  "remark": "type: Type \"Buy milk\" into \"New todo\""
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": "type: Entering Walk the dog in the todo textbox and submitting"
+                  "remark": ""
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the entered \"Walk the dog\" todo by pressing the Enter key"
+                  "remark": "press_key: PRIMARY: submit \"Buy milk\" as a todo item; role=textbox; text=\"New todo\" | HINTS"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "type: Entering and submitting Write the report in the new todo form"
+                  "remark": "type: Entering Walk the dog into the New todo box and submitting it"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Enter and submit \"Buy milk\", \"Walk the dog\", and \"Write the report\" by "
+                  "remark": "press_key: PRIMARY: submit \"Walk the dog\" as a todo item; role=textbox; text=\"New todo\" | H"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  "remark": "type: Typing Write the report into the todo textbox"
                 },
                 {
                   "index": 10,
                   "status": "done",
+                  "remark": "press_key: PRIMARY: submit \"Write the report\" as a todo item; role=textbox; text=\"New todo\""
+                },
+                {
+                  "index": 11,
+                  "status": "done",
+                  "remark": "analyze: ANALYZE(textual_visual, \"Store the titles of the visible todos in display order "
+                },
+                {
+                  "index": 12,
+                  "status": "done",
                   "remark": "assert: All three items appear in that order and the counter shows \"3 items left\"."
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z6XBQZG641HNWTBRX2TC67/dashboard/share/US_ZVGBHAQHGUUHJWS6NULBPKT2DFWFO3807RGTOW2R2SFJ3CMW53IGNORJKR4U06IA?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8XD8SEJ42G50YDTZDB86Z/dashboard/share/US_W014XLLW9VVKG7IU4HIERM033KXMI3LCPPEZUOJUNK54HERJ4UOJ5DC7OSZRGLIJ?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/add-many/add-many-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/add-many/add-many-final.jpg"
               }
             },
             "values": [
@@ -4095,7 +5737,7 @@
               {
                 "key": "visible_titles",
                 "original": "Buy milk,Walk the dog,Write the report",
-                "candidate": "Buy milk, Walk the dog, Write the report",
+                "candidate": "Buy milk,Walk the dog,Write the report",
                 "equal": true
               }
             ],
@@ -4161,12 +5803,12 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "added “Read book” to the todo list on the local todo app",
+              "oneLiner": "added “Read book” to the to-do list on the local app",
               "reason": "Objective completed",
-              "durationS": 58.5,
-              "credits": 20.095805,
+              "durationS": 58.1,
+              "credits": 12.49192,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "input_text": "",
                 "entry_field_empty": "true",
                 "read_book_visible_in_list": "true"
@@ -4175,7 +5817,7 @@
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
@@ -4195,7 +5837,7 @@
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit it; role=textbox; text=\"New todo\" | HINTS: container=todos form"
+                  "remark": "press_key: PRIMARY: submit it by pressing the Enter key"
                 },
                 {
                   "index": 7,
@@ -4208,9 +5850,9 @@
                   "remark": "assert: The field is empty and \"Read book\" is visible in the list."
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z6XYQ6F702411RZK8NDSJ1/dashboard/share/US_AK5V00HPXNVACIP9Q8NWVWW34U2MZE52MFMTRKIHEX17NOC98ZZL89Z9GVMQWB99?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8Y8KSX7Q6F3EDTGXQMWGR/dashboard/share/US_X9WEJVOSG758K9HMZP9BYLBI3ANZG36AI21TBW6UC6NL4P4H0X2L9IMF9PQUES1I?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/clear-input/clear-input-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/clear-input/clear-input-final.jpg"
               }
             },
             "values": [
@@ -4270,23 +5912,23 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "submitted an empty todo entry on the todo app",
+              "oneLiner": "submitted the empty entry field on the to-do app",
               "reason": "Objective completed",
-              "durationS": 44.3,
-              "credits": 12.654,
+              "durationS": 43.4,
+              "credits": 12.653339999999998,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "none",
                 "visible_titles": "none",
                 "entry_field_empty": "true",
-                "todo_list_present": "false",
-                "counter_present": "false"
+                "todo_list_visible": "false",
+                "counter_visible": "false"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
@@ -4296,7 +5938,7 @@
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "analyze: The entry field remains empty."
+                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
                 },
                 {
                   "index": 5,
@@ -4304,9 +5946,8 @@
                   "remark": "assert: No todo list or counter appears and the entry field remains empty."
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z70M0CT15A7WSA0NWMQ28D/dashboard/share/US_WI3QL3GZ5XUJ9EG6OHKRSADN6XK4FN18CDCGSH7GDMMM190INKRT3C2T2UJNXE1U?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/ignore-empty/ignore-empty-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/ignore-empty/ignore-empty-final.jpg"
               }
             },
             "values": [
@@ -4384,12 +6025,12 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "created a todo on the local todo app",
+              "oneLiner": "added a todo on the local todo app",
               "reason": "Objective completed",
-              "durationS": 70.1,
-              "credits": 22.43999,
+              "durationS": 54.7,
+              "credits": 19.67078,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "1 item left",
                 "visible_titles": "Task"
               },
@@ -4397,42 +6038,32 @@
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  "remark": "type: Entering spaces around Task in the todo textbox"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "type: Type \" Task \" into \"New todo\""
+                  "remark": "press_key: PRIMARY: submit the entered todo by pressing the Enter key"
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": ""
+                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the todo entry by pressing the Enter key"
-                },
-                {
-                  "index": 7,
-                  "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
-                },
-                {
-                  "index": 8,
-                  "status": "done",
                   "remark": "assert: The only todo is labeled \"Task\" without surrounding spaces and the counter shows"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z70ZFKRZC9V8MF0CCV99SV/dashboard/share/US_G1HAXTWN00IKHRF5WCGEDE5XMU21BH5J5E2L8OMEHI0PF1NM4B1FTMJT33BDRDG5?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z90ZX6KTW58V3CSMZ4G98Z/dashboard/share/US_HU2OHWB6G744YSSM2A9706M8JP6P1EVPK3VNTAMJWWM4R1D98RLDMGX5W45MUKLL?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/trim-input/trim-input-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/trim-input/trim-input-final.jpg"
               }
             },
             "values": [
@@ -4522,12 +6153,12 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "updated a todo list on the fresh app",
+              "oneLiner": "added and completed todos on the local todo app",
               "reason": "Objective completed",
-              "durationS": 75.2,
-              "credits": 24.825317500000004,
+              "durationS": 80.4,
+              "credits": 24.6529475,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "1 item left",
                 "visible_titles": "A,B",
                 "A completed": "true",
@@ -4537,7 +6168,7 @@
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
@@ -4557,22 +6188,22 @@
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" to the fresh app's todo list; role=textbox; text=\"New t"
+                  "remark": "press_key: PRIMARY: submit todo \"A\" with the Enter key"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "type: Typing B in the New todo field"
+                  "remark": "type: Typing B into the todo textbox"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" to the fresh app's todo list; role=textbox; text=\"New t"
+                  "remark": "press_key: PRIMARY: submit todo \"B\" with the Enter key"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "click: Clicking Mark \"A\" complete Toggle A button"
+                  "remark": "click: Clicking Toggle A to mark it complete"
                 },
                 {
                   "index": 10,
@@ -4582,12 +6213,12 @@
                 {
                   "index": 11,
                   "status": "done",
-                  "remark": "assert: \"A\" is shown completed, \"B\" remains active, and the counter shows \"1 item left\"."
+                  "remark": "assert: \"A\" is shown completed, \"B\" remains active, and the counter shows \"1 item left\""
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z72Y2ZCBJ5TD6G73RNVYJS/dashboard/share/US_XHM5WEF2DMFPN5NK04QUIF3TSW8O3O3P7KZQ117BVAHPD8SI0X2D781R6HWVZ0JV?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z93MNF9ARV24N118P976RN/dashboard/share/US_4QT7YGT3D9KA4UIYGG4B01XXXBE58M51NH2CH2URAH0YC9IDTAUGMCZPP0TE70MB?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/complete-one/complete-one-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/complete-one/complete-one-final.jpg"
               }
             },
             "values": [
@@ -4693,23 +6324,22 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "completed todos A and B on the local todo app",
+              "oneLiner": "added and completed todos on the Todo app",
               "reason": "Objective completed",
-              "durationS": 79.1,
-              "credits": 26.376475,
+              "durationS": 80.7,
+              "credits": 25.567325,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
-                "counter_text": "0 items left",
+                "url": "http://127.0.0.1:58576/",
                 "visible_titles": "A,B",
-                "mark_all_checked": "true",
-                "todo_a_completed": "true",
-                "todo_b_completed": "true"
+                "counter_text": "0 items left",
+                "both_items_completed": "true",
+                "mark_all_checked": "true"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
@@ -4729,37 +6359,37 @@
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" as todos by submitting the new todo entry"
+                  "remark": "press_key: PRIMARY: Add the todos \"A\" and \"B\" by submitting the New todo input"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "type: Typing B into the todo textbox"
+                  "remark": "type: Typing B into the New todo text box"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" as todos by submitting the new todo entry"
+                  "remark": "press_key: PRIMARY: Add the todos \"A\" and \"B\" by submitting the New todo input"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "click: Clicking Mark all as complete button"
+                  "remark": "click: Clicking Mark all as complete button to complete all todos"
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  "remark": "analyze: ANALYZE(textual_visual, 'the footer counter text exactly as shown, or the word n"
                 },
                 {
                   "index": 11,
                   "status": "done",
-                  "remark": "assert: Both items are completed, the mark-all state is checked, and the counter shows \""
+                  "remark": "assert: both items are completed, the mark-all state is checked, and the counter shows \""
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z743F2V5HBKB0FE3BJ9373/dashboard/share/US_U9CTBLX5EPZU4LU2CB5UFUBV38PNWSYH7NU28XPZ3A4AHIPERGW0NW0JYF6JTCX5?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z94VJV4SQXJ2C8YF73SCHY/dashboard/share/US_B8W43C9Y721ANRU17OBMZDZJM7XCPEUBDANZU1N5SJOVC2V7Y2ERKYKRXZ3SVJHA?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/complete-all/complete-all-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/complete-all/complete-all-final.jpg"
               }
             },
             "values": [
@@ -4859,70 +6489,95 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "updated todos on the local todo app",
+              "oneLiner": "updated the to-do list on the fresh app",
               "reason": "Objective completed",
-              "durationS": 74.8,
-              "credits": 24.2966075,
+              "durationS": 140.1,
+              "credits": 42.246087499999994,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "2 items left",
-                "visible_titles": "A,B"
+                "visible_titles": "A, B"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "type: Typing A into the New todo textbox"
+                  "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the first todo \"A\" by pressing the Enter key"
+                  "remark": "type: Type \"A\" into \"New todo\""
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  "remark": ""
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "type: Type \"B\" into \"New todo\""
+                  "remark": "press_key: PRIMARY: submit todo \"A\" with the Enter key"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "press_key: Press Enter"
+                  "remark": "type: Typing B into the New todo field"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "click: Clicking Mark all as complete button"
+                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" to the fresh app with no items by submitting todo \"B\" w"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "click: Clicking Mark all as active button to toggle all todos off"
+                  "remark": "click: Clicking Mark all as complete to toggle all items complete"
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  "remark": "click: Clicking Mark all as active to toggle mark-all state off"
                 },
                 {
                   "index": 11,
                   "status": "done",
-                  "remark": "assert: both items are active and the counter shows \"2 items left\""
+                  "remark": "analyze: The counter shows \"2 items left\"."
+                },
+                {
+                  "index": 2,
+                  "status": "done",
+                  "remark": "analyze: ANALYZE(textual_visual, 'the footer counter text is stored exactly as shown as {"
+                },
+                {
+                  "index": 3,
+                  "status": "done",
+                  "remark": "wait: Waiting checkpoint extraction is complete"
+                },
+                {
+                  "index": 2,
+                  "status": "done",
+                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                },
+                {
+                  "index": 3,
+                  "status": "done",
+                  "remark": "wait: Waiting after completing the required todo-title extraction"
+                },
+                {
+                  "index": 14,
+                  "status": "done",
+                  "remark": "assert: Both items are active and the counter shows \"2 items left\"."
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z76838X96HWM33RW709WS0/dashboard/share/US_BHXQOUE9MICHKMCMUZVB8IJ7L7MHFYSGPFYF60AMEG85IESAC2RCPA2UJ7M9VIZU?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9764649MCTG8BXTQQGD56/dashboard/share/US_LUVKFVMEQESH7S6CUS1GB9RLGD2S8HV6W7ROXNQVC3T8C55LBMNCSE2RHOAPL5LQ?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/uncomplete-all/uncomplete-all-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/uncomplete-all/uncomplete-all-final.jpg"
               }
             },
             "values": [
@@ -4935,7 +6590,7 @@
               {
                 "key": "visible_titles",
                 "original": "A,B",
-                "candidate": "A,B",
+                "candidate": "A, B",
                 "equal": true
               }
             ],
@@ -5013,79 +6668,99 @@
               }
             },
             "candidate": {
-              "status": "passed",
-              "exitCode": 0,
-              "oneLiner": "added two todo items on the local todo app",
-              "reason": "Objective completed",
-              "durationS": 86.1,
-              "credits": 26.808480000000003,
-              "finalState": {
-                "url": "http://127.0.0.1:58244/",
-                "counter_one": "1 item left",
-                "counter_two": "2 items left"
-              },
+              "status": "failed",
+              "exitCode": 1,
+              "oneLiner": "The counter values were shown correctly, but the test compared unresolved automation placeholders instead of the saved text.",
+              "reason": "Final verification failed: \"the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}} value is \"2 items left\"\" Missing stored values: counter_one, counter_two.",
+              "durationS": 103.7,
+              "credits": 35.7948525,
+              "finalState": {},
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:58244/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:64330/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "type: Typing One into New todo input"
+                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"One\" by submitting the new todo form with the Enter key"
+                  "remark": "type: Type \"One\" into \"New todo\""
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the counter text after adding \"One\" is saved as {{count"
+                  "remark": ""
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "type: Typing Two into the new todo textbox"
+                  "remark": "press_key: PRIMARY: Add \"One\" by submitting the New todo field"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"Two\" by submitting the new todo form with the Enter key"
+                  "remark": "analyze: the counter text is stored as {{counter_one}}"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the counter text after adding \"Two\" is saved as {{count"
+                  "remark": "type: Typing Two into New todo field"
                 },
                 {
                   "index": 9,
                   "status": "done",
+                  "remark": "press_key: PRIMARY: Add \"Two\" by submitting the New todo field"
+                },
+                {
+                  "index": 10,
+                  "status": "done",
+                  "remark": "analyze: the counter text is stored as {{counter_two}}"
+                },
+                {
+                  "index": 11,
+                  "status": "done",
+                  "remark": "analyze: the stored {{counter_one}} value is \"1 item left\""
+                },
+                {
+                  "index": 12,
+                  "status": "failed",
                   "remark": "assert: the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}}"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z8QNS087W9PNB79YJP0NFV/dashboard/share/US_TFVO7ET8OHGOEYSUAT1ODCPTYQHV10UI8TR6KY3VMB8JK2YMJD2F63SM6IAPL2FR?type=summary&agentView=true&fqdn=summary-page",
+              "failingStep": {
+                "index": 12,
+                "remark": "assert: the stored {{counter_one}} value is \"1 item left\" and the stored {{counter_two}}"
+              },
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZA6PE2MZXE5KDMMNPRJ1PH/dashboard/share/US_W3ESJYNTYDE50Z3Y33D21H7XP1VOF7CB5TB422ZSIEP55A2X4MZX7S2I55MH5D78?type=summary&agentView=true&fqdn=summary-page",
+              "rca": {
+                "rootCause": "[automation_bug] The test did not pass the saved counter text into its final checks. It compared placeholder names instead of the values shown by the app.",
+                "suggestedFix": "Fix the capture/assertion mapping so the final checks use the actual saved values for counter_one and counter_two, then rerun the test."
+              },
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-4/counter-plural/counter-plural-final.jpg"
+                "finalShot": "artifacts/nextjs/round-6/counter-plural/counter-plural-final.jpg",
+                "failShot": "artifacts/nextjs/round-6/counter-plural/counter-plural-fail.jpg"
               }
             },
             "values": [
               {
                 "key": "counter_one",
                 "original": "1 item left",
-                "candidate": "1 item left",
-                "equal": true
+                "candidate": null,
+                "equal": false
               },
               {
                 "key": "counter_two",
                 "original": "2 items left",
-                "candidate": "2 items left",
-                "equal": true
+                "candidate": null,
+                "equal": false
               }
             ],
-            "verdict": "identical"
+            "verdict": "failed-candidate"
           },
           {
             "behaviorId": "filter-all",
@@ -5171,12 +6846,12 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "updated todos on the local todo app",
+              "oneLiner": "updated todos on the Todo list",
               "reason": "Objective completed",
-              "durationS": 83,
-              "credits": 25.37074,
+              "durationS": 85.2,
+              "credits": 26.768977500000002,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "1 item left",
                 "visible_titles": "A,B"
               },
@@ -5184,7 +6859,7 @@
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
@@ -5204,47 +6879,42 @@
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the new todo \"A\"; role=textbox; text=\"New todo\" | HINTS: contain"
+                  "remark": "press_key: PRIMARY: Add the todos \"A\" and \"B\" by submitting the new todo input; role=textbo"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "type: Typing B into the New todo field"
+                  "remark": "type: Typing B into the New todo text box"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the new todo \"B\"; role=textbox; text=\"New todo\" | HINTS: contain"
+                  "remark": "press_key: PRIMARY: Add the todos \"A\" and \"B\" by submitting the new todo input; role=textbo"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "click: Clicking Toggle A button in the first to-do row"
+                  "remark": "click: Clicking the Toggle A button in the first todo row"
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "click: Clicking All view filter"
+                  "remark": "click: Clicking the All view filter"
                 },
                 {
                   "index": 11,
                   "status": "done",
-                  "remark": "wait: PRIMARY: Choose the All view"
+                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
                 },
                 {
                   "index": 12,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The footer counter text exactly as shown, or the word n"
-                },
-                {
-                  "index": 13,
-                  "status": "done",
                   "remark": "assert: Both todos are visible and the counter shows \"1 item left\"."
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z79CB3QKPMK4JKJWN99JF1/dashboard/share/US_9LO0XNSGE72ASCLAB6ZE3J5ZWZJ4RSTOXWE59OOZM1BH5AMNOLA5023JB4A7560R?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9BVNXDE5M1WAZDMKC1VPV/dashboard/share/US_N0IYW9Y1GLOFYDHLKZKKB49TEC9J6ZB0GXVIPCTT0XV75QAVB8BL3VP6O9JFM9VW?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/filter-all/filter-all-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/filter-all/filter-all-final.jpg"
               }
             },
             "values": [
@@ -5347,73 +7017,78 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "updated todos on the Todo list app",
+              "oneLiner": "updated todos on the local Todo app",
               "reason": "Objective completed",
-              "durationS": 72.9,
-              "credits": 24.635217500000003,
+              "durationS": 85.5,
+              "credits": 25.79477,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
-                "counter_text": "1 item left",
+                "url": "http://127.0.0.1:58576/",
+                "counter_text": "1 item left\nAll\nActive\nCompleted\nClear completed",
                 "visible_titles": "B"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "type: Typing A into the New todo text box"
+                  "remark": "type: Typing A into New todo textbox"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: press the Enter key to add \"A\""
+                  "remark": "press_key: PRIMARY: submit the typed todo \"A\" by pressing the Enter key"
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": "type: Typing B into New todo field"
+                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: press the Enter key to add \"B\""
+                  "remark": "type: Type \"B\" into \"New todo\""
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "click: Clicking Toggle A button in the first todo row"
+                  "remark": "press_key: Press Enter"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "click: Clicking Active in the footer view controls"
+                  "remark": "click: Clicking Toggle A button"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  "remark": "click: Clicking the Active filter view tab"
                 },
                 {
                   "index": 10,
                   "status": "done",
+                  "remark": "analyze: the counter shows \"1 item left\""
+                },
+                {
+                  "index": 11,
+                  "status": "done",
                   "remark": "assert: only \"B\" is visible and the counter shows \"1 item left\""
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7B1M5M0EVR7C7DZB4MYCG/dashboard/share/US_8KAHRM2VMPR6YLL2I28J6ZOF9475LK8DS9H9O9E5VECGGH4I4E6BZ9Q1XYEC1MP1?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9CNSJB5VWTSCFEJZWGR3J/dashboard/share/US_581CPVW5H6BRBI5EP1BZC1C203BJK4E9CLONI27GCKVYQ3KEMGN4C2N1L0W8UVVT?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/filter-active/filter-active-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/filter-active/filter-active-final.jpg"
               }
             },
             "values": [
               {
                 "key": "counter_text",
                 "original": "1 item left",
-                "candidate": "1 item left",
-                "equal": true
+                "candidate": "1 item left\nAll\nActive\nCompleted\nClear completed",
+                "equal": false
               },
               {
                 "key": "visible_titles",
@@ -5422,7 +7097,7 @@
                 "equal": true
               }
             ],
-            "verdict": "identical"
+            "verdict": "diverged"
           },
           {
             "behaviorId": "filter-completed",
@@ -5498,65 +7173,65 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "updated the todo list on the fresh app",
+              "oneLiner": "completed and filtered todos on the todo list",
               "reason": "Objective completed",
-              "durationS": 65.8,
-              "credits": 23.11199,
+              "durationS": 68.4,
+              "credits": 23.5121675,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
-                "counter_text": "1 item left",
-                "visible_titles": "A"
+                "url": "http://127.0.0.1:58576/",
+                "visible_titles": "A",
+                "counter_text": "1 item left"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "type: Typing A into the new todo textbox"
+                  "remark": "type: Typing A into the New todo field"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the first new todo \"A\" by pressing the Enter key"
+                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" by submitting the new todo entry with the Enter key"
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": "type: Typing B into the new todo textbox"
+                  "remark": "type: Typing B into the todo textbox"
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the second new todo \"B\" by pressing the Enter key"
+                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" by submitting the new todo entry with the Enter key"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "click: Clicking Toggle A button in the first todo row"
+                  "remark": "click: Clicking Toggle A for the first todo item"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "click: Clicking Completed view button"
+                  "remark": "click: Clicking the Completed view in footer filter controls"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "assert: only completed \"A\" is visible and the counter shows \"1 item left\""
+                  "remark": "assert: Only completed \"A\" is visible and the counter shows \"1 item left\"."
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7CQ96C440F81PKHAGN4YR/dashboard/share/US_4DGG5YXT8TQ42BKKWIQZ9V1CWIAYKT5PCK712M24ZUJW5IK88DDEHIU4IWR0D2BH?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9FFE39FBGV3V5P8HPQHWY/dashboard/share/US_531SMIRN0C2T5Z7MQKUN1LK25FUB7YB4PH4SEFKI2JOT9KJMH9FURD6O6T8UCTY7?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/filter-completed/filter-completed-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/filter-completed/filter-completed-final.jpg"
               }
             },
             "values": [
@@ -5659,20 +7334,22 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "managed active todos on the Todo app",
+              "oneLiner": "updated active todos on the todo app",
               "reason": "Objective completed",
-              "durationS": 96.5,
-              "credits": 23.572190000000003,
+              "durationS": 71.1,
+              "credits": 25.3936025,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "1 item left",
-                "visible_titles": "B"
+                "visible_titles": "B",
+                "a_absent_from_active_list": "false",
+                "b_visible": "true"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
@@ -5692,17 +7369,17 @@
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" as todos; role=textbox; text=\"New todo\" | HINTS: contai"
+                  "remark": "press_key: PRIMARY: add \"A\" to the todo app by submitting the new todo input"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "type: Typing B into the todo textbox"
+                  "remark": "type: Typing B into the New todo text field"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" as todos; role=textbox; text=\"New todo\" | HINTS: contai"
+                  "remark": "press_key: PRIMARY: add \"B\" to the todo app by submitting the new todo input"
                 },
                 {
                   "index": 9,
@@ -5712,12 +7389,12 @@
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "click: Clicking Toggle A button for todo item A"
+                  "remark": "click: Clicking Toggle A button in the first todo row"
                 },
                 {
                   "index": 11,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
                 },
                 {
                   "index": 12,
@@ -5725,9 +7402,9 @@
                   "remark": "assert: \"A\" disappears from the active list while \"B\" remains visible and the counter sh"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7E72F6M9QAGD7KQBPNWFX/dashboard/share/US_V6FA5Y2ZHT8P1XF7CR2D3YXMUVEATIH96E8JOW13WKW8SWIWHE4F8X83K2Q5PIN6?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9GBMX6YTDRDEFDVS1T7XD/dashboard/share/US_4ERTHKWHD1PFIMM8TMYCIBVZ7QB6V4XJWVFW14QIMSNH70EQ1EMA7WE5TKIA2CWR?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/filtered-toggle/filtered-toggle-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/filtered-toggle/filtered-toggle-final.jpg"
               }
             },
             "values": [
@@ -5821,20 +7498,20 @@
               "exitCode": 0,
               "oneLiner": "renamed a todo from “Old” to “New” on the todo app",
               "reason": "Objective completed",
-              "durationS": 114.6,
-              "credits": 26.757697500000003,
+              "durationS": 98.7,
+              "credits": 26.323005,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "1 item left",
                 "visible_titles": "New",
                 "new_todo_visible": "true",
-                "old_todo_visible": "false"
+                "old_todo_absent": "false"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
@@ -5854,7 +7531,7 @@
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add a todo with the title \"Old\"; role=textbox; text=\"New todo\" | HINTS:"
+                  "remark": "press_key: PRIMARY: submit the new todo title \"Old\" with the Enter key"
                 },
                 {
                   "index": 7,
@@ -5864,17 +7541,17 @@
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "type: Typing New into the todo title field"
+                  "remark": "type: Typing New in the todo title field"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Submit the edit; role=textbox; text=\"Edit todo\" | HINTS: container=the "
+                  "remark": "press_key: PRIMARY: submit the edit with the Enter key"
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the footer counter text exactly as shown, or the word n"
+                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
                 },
                 {
                   "index": 11,
@@ -5882,9 +7559,9 @@
                   "remark": "assert: the list shows \"New\" and no \"Old\" remains"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7FZVFZZMSC436C4M0727D/dashboard/share/US_9GOFP8Y7GPUI8SK7APGXHAVGK8QVYFO5ETERVSA15KIQK1GOJPHDK4HUXECT1GCY?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9JK3BVQ6XGBRH3RRPVHN4/dashboard/share/US_AKUSWKJZYVL46BG7R8S5VM42YR166KKA11ROXD6RX4VYWRMKM9Y42SY2CGWFF4HJ?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/edit-save/edit-save-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/edit-save/edit-save-final.jpg"
               }
             },
             "values": [
@@ -5978,61 +7655,70 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "edited a todo item on the todo list",
+              "oneLiner": "updated a todo item on the local Todo app",
               "reason": "Objective completed",
-              "durationS": 100.3,
-              "credits": 23.627492499999995,
+              "durationS": 100.8,
+              "credits": 23.8593325,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
-                "counter_text": "1 item left",
-                "visible_titles": "Blurred\n×",
-                "blurred_list_visible": "true"
+                "url": "http://127.0.0.1:58576/",
+                "visible_titles": "Blurred",
+                "counter_text": "1 item left"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "type: Typing Old into the todo input"
+                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the new todo title \"Old\" by pressing the Enter key"
+                  "remark": "type: Type \"Old\" into \"New todo\""
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": "click: PRIMARY: Enter editing for \"Old\"; role=text; text=\"Old\" | HINTS: container=the o"
+                  "remark": ""
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "type: Typing Blurred into the todo title field"
+                  "remark": "press_key: PRIMARY: Add \"Old\" as a todo item by submitting the new todo field with Enter"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: leave the field after replacing the title with \"Blurred\" by pressing th"
+                  "remark": "click: PRIMARY: Enter editing for \"Old\"; role=text | HINTS: container=Todo list; adjace"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "analyze: the list shows \"Blurred\""
+                  "remark": "type: Typing Blurred into the todo title field"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "assert: the list shows \"Blurred\""
+                  "remark": "press_key: PRIMARY: leave the field after replacing the title with \"Blurred\" by pressing Ta"
+                },
+                {
+                  "index": 10,
+                  "status": "done",
+                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
+                },
+                {
+                  "index": 11,
+                  "status": "done",
+                  "remark": "assert: The list shows \"Blurred\"."
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7KCBB7A5DSVJMR3S3XMHT/dashboard/share/US_RV5XTJGSAIYOOJHEUDST0TIOTP4BIT82RCKBM04TUE2K47PPKFC3ACGPNZOYFE17?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9KGF3RVMTNXYDCEHC51H4/dashboard/share/US_M7UCS2LGJWBX066NU26A5IT8MGX4QIAL1VGZ0ARZSCPQEC4HKOEUJNE25EBQK4F7?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/edit-blur/edit-blur-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/edit-blur/edit-blur-final.jpg"
               }
             },
             "values": [
@@ -6045,11 +7731,11 @@
               {
                 "key": "visible_titles",
                 "original": "Blurred",
-                "candidate": "Blurred\n×",
-                "equal": false
+                "candidate": "Blurred",
+                "equal": true
               }
             ],
-            "verdict": "diverged"
+            "verdict": "identical"
           },
           {
             "behaviorId": "edit-escape",
@@ -6127,70 +7813,65 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "edited and canceled a todo item on the todo app",
+              "oneLiner": "updated the Todo list on the local Todo page",
               "reason": "Objective completed",
-              "durationS": 111.8,
-              "credits": 28.321415,
+              "durationS": 177.4,
+              "credits": 22.54271,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
-                "counter_text": "1 item left",
-                "visible_titles": "Keep"
+                "url": "http://127.0.0.1:58576/",
+                "visible_titles": "Keep",
+                "counter_text": "1 item left"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  "remark": "type: Typing in new todo input with text Keep"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "type: Type \"Keep\" into \"New todo\""
+                  "remark": "press_key: PRIMARY: press the Enter key to add the new todo"
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": ""
+                  "remark": "click: PRIMARY: enter editing for Keep; role=text | HINTS: container=Todo list; row con"
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"Keep\" as a todo item by submitting with the Enter key"
+                  "remark": "wait: queued plan (2 steps): type \"Edit todo\"; press_key \"Edit todo\""
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "click: PRIMARY: Edit the \"Keep\" todo item; role=text; text=\"Keep\" | HINTS: container=To"
+                  "remark": "type: Type \"Discard\" into \"Edit todo\""
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "type: Typing Discard into the todo text box"
+                  "remark": "press_key: Press Escape"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Edit the \"Keep\" todo item, change its text to \"Discard\", and cancel the"
+                  "remark": "analyze: ANALYZE(textual_visual, 'PRIMARY: titles of all visible todos in display order s"
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
-                },
-                {
-                  "index": 11,
-                  "status": "done",
-                  "remark": "assert: the list still shows \"Keep\" and not \"Discard\""
+                  "remark": "wait: Waiting objective is complete; Keep is visible and Discard is absent"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7MGS4KTHH7GTA657VJXFD/dashboard/share/US_IRF6XG3TL07K9I99XNK2UDJTLBXNYAH7YCFZSL4JC64D44CS2ZZ1DHHAV4QQOR9Q?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9PSF61SMKBR6JF67FSP8W/dashboard/share/US_Q4NNAIIGCGTDF59GWC5VR6VCNJQ31NWPE00Q13H43TRGH5BDX1JSSGVUAK732L5R?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/edit-escape/edit-escape-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/edit-escape/edit-escape-final.jpg"
               }
             },
             "values": [
@@ -6278,55 +7959,64 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "removed a todo by clearing its title on the todo app",
+              "oneLiner": "cleared the Todo list on the local Todo app",
               "reason": "Objective completed",
-              "durationS": 76,
-              "credits": 21.227465000000002,
+              "durationS": 139.2,
+              "credits": 24.095019999999998,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
-                "counter_text": "none",
-                "visible_titles": "none"
+                "url": "http://127.0.0.1:58576/",
+                "visible_titles": "none",
+                "counter_text": "none"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "type: Typing Remove me into the todo text box"
+                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the new todo title by pressing the Enter key"
+                  "remark": "type: Type \"Remove me\" into \"New todo\""
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": "click: PRIMARY: Enter editing for the todo \"Remove me\"; role=text; text=\"Remove me\" | H"
+                  "remark": ""
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit the edit after clearing the title by pressing the Enter key"
+                  "remark": "press_key: PRIMARY: submit the new todo with the Enter key"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'the titles of the visible todos in display order separa"
+                  "remark": "click: PRIMARY: enter editing for \"Remove me\"; role=text | HINTS: container=Todo list; "
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "assert: no todo item or counter is shown"
+                  "remark": "press_key: PRIMARY: submit the edit with the Enter key"
+                },
+                {
+                  "index": 9,
+                  "status": "done",
+                  "remark": "analyze: ANALYZE(textual_visual, 'PRIMARY: titles of visible todo items in display order "
+                },
+                {
+                  "index": 10,
+                  "status": "done",
+                  "remark": "wait: Waiting verify no todo item or counter is shown"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7QQ22SMTRXEHKBSYCG9QC/dashboard/share/US_DH616OTQ66P9MFE4DPAF4O0DICCCUVGCB8QD5LJAUAS2QNXOGZVKMF565T6G0WN4?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/edit-empty-removes/edit-empty-removes-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/edit-empty-removes/edit-empty-removes-final.jpg"
               }
             },
             "values": [
@@ -6409,70 +8099,60 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "updated todos on the todo list",
+              "oneLiner": "updated the todo list on the fresh app",
               "reason": "Objective completed",
-              "durationS": 88.2,
-              "credits": 21.235339999999997,
+              "durationS": 72.4,
+              "credits": 24.258832499999997,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
-                "counter_text": "1 item left",
-                "visible_titles": "B"
+                "url": "http://127.0.0.1:58576/",
+                "visible_titles": "B",
+                "counter_text": "1 item left"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  "remark": "type: Typing A into the new todo textbox"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "type: Type \"A\" into \"New todo\""
+                  "remark": "press_key: PRIMARY: submit todo \"A\" with the Enter key"
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": ""
+                  "remark": "type: Typing B into the New todo textbox"
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\"; role=textbox; text=\"New todo\" | HINTS: container=main "
+                  "remark": "press_key: PRIMARY: submit todo \"B\" with the Enter key"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "type: Typing B into the New todo textbox"
+                  "remark": "click: Clicking Delete A to remove item from the todo list"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\"; role=textbox; text=\"New todo\" | HINTS: below the mark-"
+                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "click: Clicking Delete A for the first todo row"
-                },
-                {
-                  "index": 10,
-                  "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The footer counter text exactly as shown, or the word n"
-                },
-                {
-                  "index": 11,
-                  "status": "done",
                   "remark": "assert: Only \"B\" remains and the counter shows \"1 item left\"."
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7S9JQSTK6DVV6WDGAHNK1/dashboard/share/US_9P25OKF6KQ7MDHKGWUOSGYSWHGDBGXOM2457O6ETKGHK5A5T3EXC68LSIUV5I63V?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9X34Q2CFP270JQ3FCTAK8/dashboard/share/US_XJIRRKIFOSO5QWIW0DDVQ05SY1B3B2BBW1XXEBTI7JAZMYCN3TNS3GPGEVX6GXKB?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/remove-one/remove-one-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/remove-one/remove-one-final.jpg"
               }
             },
             "values": [
@@ -6579,75 +8259,64 @@
               "exitCode": 0,
               "oneLiner": "updated todos on the local todo app",
               "reason": "Objective completed",
-              "durationS": 124,
-              "credits": 24.598014999999997,
+              "durationS": 84.4,
+              "credits": 25.9655325,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
-                "counter_text": "1 item left",
+                "url": "http://127.0.0.1:58576/",
                 "visible_titles": "B",
-                "active_b_only_check": "true",
-                "clear_completed_action_hidden": "false"
+                "counter_text": "1 item left",
+                "clear_completed_action_hidden": "true"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  "remark": "type: Typing A into the New todo text box"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "type: Type \"A\" into \"New todo\""
+                  "remark": "press_key: PRIMARY: press the Enter key to add the typed todo"
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": ""
+                  "remark": "type: Typing B into the New todo textbox"
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" as todos; role=textbox; text=\"New todo\" | HINTS: contai"
+                  "remark": "press_key: PRIMARY: press the Enter key to add the typed todo"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "type: Typing B into New todo textbox"
+                  "remark": "click: Clicking Toggle A button"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: Add \"A\" and \"B\" as todos; role=textbox; text=\"New todo\" | HINTS: contai"
+                  "remark": "click: Clicking Clear completed todos"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "click: Clicking Toggle A to complete A and clear completed todos"
+                  "remark": "analyze: The counter shows \"1 item left\"."
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "click: Clicking Clear completed in the todo footer"
-                },
-                {
-                  "index": 11,
-                  "status": "done",
-                  "remark": "analyze: Only active \"B\" remains."
-                },
-                {
-                  "index": 12,
-                  "status": "done",
                   "remark": "assert: Verify only active \"B\" remains, the counter shows \"1 item left\", and the clear-c"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7V6HR4C6J23QZGJBPZCWP/dashboard/share/US_7VNVSMQOFS9Q3SL1NHRESKQ22VEHNRLPZRH7OMUR6VSJMH3YAHMMIQGSNG64CUHR?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z9XKMYJY1NH3D4CZM93WBP/dashboard/share/US_6NHCBF39AEUXR1HOQS02IUDTEUBEN2PY6CKGN3O4FL0KQ1XU30EJXUTQG8EQGJB5?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/clear-completed/clear-completed-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/clear-completed/clear-completed-final.jpg"
               }
             },
             "values": [
@@ -6761,77 +8430,77 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "completed and reopened todos on the todo app",
+              "oneLiner": "managed todos on the Todo app",
               "reason": "Objective completed",
-              "durationS": 120.5,
-              "credits": 28.8285375,
+              "durationS": 88.3,
+              "credits": 22.861652499999998,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "1 item left",
-                "visible_titles": "A,B",
-                "A_completion": "completed",
-                "B_completion": "active"
+                "visible_titles": "A, B",
+                "todo_a_completed": "true",
+                "todo_b_completed": "false"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "wait: queued plan (4 steps): type \"New todo\"; press_key \"New todo\"; type \"New todo\"; p"
+                  "remark": "type: Typing A into the todo input"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "type: Type \"A\" into \"New todo\""
+                  "remark": "press_key: PRIMARY: submit the first new todo with the Enter key"
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": ""
+                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit todo \"A\" with the Enter key"
+                  "remark": "type: Type \"B\" into \"New todo\""
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "type: Typing B into the New todo text box"
+                  "remark": "press_key: Press Enter"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: submit todo \"B\" with the Enter key"
+                  "remark": "click: Clicking Toggle A"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "click: Clicking Toggle A button in the first todo row"
+                  "remark": "wait: PRIMARY: confirm that todo \"A\" remains completed before closing the app"
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "wait: PRIMARY: confirm the reopened app remains loaded"
+                  "remark": "wait: PRIMARY: confirm the app reopened after closing it"
                 },
                 {
                   "index": 11,
                   "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The footer counter text exactly as shown, or the word n"
+                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
                 },
                 {
                   "index": 12,
                   "status": "done",
-                  "remark": "assert: Both todos and their completion state remain and the counter shows \"1 item left\""
+                  "remark": "assert: Both todos and their completion state remain, and the counter shows \"1 item left"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z7XW5MMEA91CHM65VD3M5A/dashboard/share/US_U8RQ1U6100283CT59FM8KGCGU08ZVEM18KXRP6OXGN5FWDXSJTWMOXY8XJWZ0OI4?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZA0GZE9HBHKEEG9E58NHCR/dashboard/share/US_QDJL901HF4GOHOE6S7S24L94Z78Q4D33TBQM7BYNN0U5AMPP6MR6UN0SPB3T1AEZ?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/persist-items/persist-items-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/persist-items/persist-items-final.jpg"
               }
             },
             "values": [
@@ -6844,7 +8513,7 @@
               {
                 "key": "visible_titles",
                 "original": null,
-                "candidate": "A,B",
+                "candidate": "A, B",
                 "equal": false
               }
             ],
@@ -6965,81 +8634,71 @@
             "candidate": {
               "status": "passed",
               "exitCode": 0,
-              "oneLiner": "completed and preserved todo filtering on the fresh todo app",
+              "oneLiner": "completed and reopened the todo list on the local Todo app",
               "reason": "Objective completed",
-              "durationS": 117.5,
-              "credits": 34.31865,
+              "durationS": 101.5,
+              "credits": 29.2652925,
               "finalState": {
-                "url": "http://127.0.0.1:62963/",
+                "url": "http://127.0.0.1:58576/",
                 "counter_text": "1 item left",
                 "visible_titles": "A",
-                "selected_view": "Completed"
+                "completed_view_selected": "true"
               },
               "steps": [
                 {
                   "index": 2,
                   "status": "done",
-                  "remark": "navigate: Navigate to http://127.0.0.1:62963/"
+                  "remark": "navigate: Navigate to http://127.0.0.1:58576/"
                 },
                 {
                   "index": 3,
                   "status": "done",
-                  "remark": "type: Typing A into New todo text box"
+                  "remark": "type: Typing A into the New todo field"
                 },
                 {
                   "index": 4,
                   "status": "done",
-                  "remark": "press_key: PRIMARY: press the Enter key to add \"A\""
+                  "remark": "press_key: PRIMARY: submit the New todo entry \"A\" by pressing the Enter key"
                 },
                 {
                   "index": 5,
                   "status": "done",
-                  "remark": "wait: queued plan (2 steps): type \"New todo\"; press_key \"New todo\""
+                  "remark": "type: Typing B into the New todo text field"
                 },
                 {
                   "index": 6,
                   "status": "done",
-                  "remark": "type: Type \"B\" into \"New todo\""
+                  "remark": "press_key: PRIMARY: submit the New todo entry \"B\" by pressing the Enter key"
                 },
                 {
                   "index": 7,
                   "status": "done",
-                  "remark": "press_key: Press Enter"
+                  "remark": "click: Clicking Toggle A to show the A todo list"
                 },
                 {
                   "index": 8,
                   "status": "done",
-                  "remark": "click: Clicking Toggle A button"
+                  "remark": "click: Clicking Completed in the todo filters footer"
                 },
                 {
                   "index": 9,
                   "status": "done",
-                  "remark": "click: Clicking Completed filter button"
+                  "remark": "navigate: PRIMARY: reopen the app at http://127.0.0.1:58576/"
                 },
                 {
                   "index": 10,
                   "status": "done",
-                  "remark": "wait: PRIMARY: confirm the Completed view after choosing Completed"
+                  "remark": "analyze: \"B\" is not visible"
                 },
                 {
                   "index": 11,
                   "status": "done",
-                  "remark": "wait: PRIMARY: confirm the app is reopened"
-                },
-                {
-                  "index": 12,
-                  "status": "done",
-                  "remark": "analyze: ANALYZE(textual_visual, 'The titles of the visible todos in display order separa"
-                },
-                {
-                  "index": 13,
-                  "status": "done",
-                  "remark": "assert: The Completed view is still selected, only \"A\" is visible, and the counter shows"
+                  "remark": "assert: the Completed view is still selected, only \"A\" is visible, and the counter shows"
                 }
               ],
-              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7Z80CPQ3Z5A2HMR9N8KGBHS/dashboard/share/US_UAIZS1RMPZU846F55ET96N89VXGF2VRYO0MR9WVBAV9QQZ7C5BHA3Z5DSEXJ6GMD?type=summary&agentView=true&fqdn=summary-page",
+              "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZA18JBD9SJGQTS2G6PFDWJ/dashboard/share/US_CNY74UWJ7YMIB5BXMEO2E7TS25V5YZIJVRSQUBEMTJ3SLV1180I6ZOHV38GQUULT?type=summary&agentView=true&fqdn=summary-page",
               "artifacts": {
-                "finalShot": "artifacts/nextjs/round-1/persist-filter/persist-filter-final.jpg"
+                "finalShot": "artifacts/nextjs/round-5/persist-filter/persist-filter-final.jpg"
               }
             },
             "values": [
@@ -7060,13 +8719,13 @@
           }
         ],
         "summary": {
-          "identical": 20,
+          "identical": 19,
           "diverged": 1,
-          "failed": 1,
+          "failed": 2,
           "total": 22
         }
       },
-      "creditsUsed": 603.5439575
+      "creditsUsed": 1165.2260474999998
     },
     {
       "id": "sveltekit",
