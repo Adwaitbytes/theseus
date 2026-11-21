@@ -1,7 +1,7 @@
 import { Box, Text, useAnimation, useWindowSize } from "ink";
 import { useSyncExternalStore, type ReactNode } from "react";
 import type { Voyage } from "@theseus/schema";
-import { summaryRows, type Lane, type SummaryRow, type ViewState } from "./state.js";
+import { raceTables, summaryRows, type Lane, type RaceRow, type SummaryRow, type ViewState } from "./state.js";
 import type { ViewStore } from "./store.js";
 import { CELL_GLYPH, CELL_TONE, SPINNER, formatElapsed, pad, paint, truncate, type Tone } from "./theme.js";
 
@@ -186,6 +186,51 @@ function Summary({ view, voyage, ctx }: { view: ViewState; voyage: Voyage | unde
   );
 }
 
+function Races({ voyage, ctx }: { voyage: Voyage | undefined; ctx: Ctx }): ReactNode {
+  const tables = raceTables(voyage);
+  if (tables.length === 0) return null;
+  const columns = ctx.compact
+    ? ([["Agent", 13], ["To green", 14], ["Parity", 16]] as const)
+    : ([["Agent", 14], ["Target", 18], ["To green", 16], ["Proven", 9], ["Parity", 18], ["Credits", 9]] as const);
+  const cells = (row: RaceRow): string[] =>
+    ctx.compact ? [row.agent, row.toGreen, row.parity] : [row.agent, row.targetId, row.toGreen, row.passed, row.parity, row.credits];
+  return (
+    <Box flexDirection="column">
+      {tables.map((table) => (
+        <Box key={table.title} flexDirection="column" marginTop={1}>
+          <Box>
+            <T ctx={ctx} bold>
+              Agent race
+            </T>
+            <T ctx={ctx} tone="muted">{`  ${truncate(table.title, ctx.width - 12)}`}</T>
+          </Box>
+          <Box>
+            {columns.map(([name, width]) => (
+              <T key={name} ctx={ctx} tone="muted">
+                {pad(name, width)}
+              </T>
+            ))}
+          </Box>
+          {table.rows.map((row) => (
+            <Box key={row.targetId}>
+              {cells(row).map((value, index) => (
+                <T key={columns[index]?.[0] ?? index} ctx={ctx} tone={row.winner ? "pass" : undefined} bold={row.winner && index === 0}>
+                  {pad(value, columns[index]?.[1] ?? 10)}
+                </T>
+              ))}
+              {row.winner ? (
+                <T ctx={ctx} tone="pass">
+                  winner
+                </T>
+              ) : null}
+            </Box>
+          ))}
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
 export function App({ store, color }: { store: ViewStore; color: boolean }): ReactNode {
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
   const { columns } = useWindowSize();
@@ -200,7 +245,10 @@ export function App({ store, color }: { store: ViewStore; color: boolean }): Rea
       ))}
       <Logs view={view} ctx={ctx} />
       {ending === undefined ? null : ending.error === undefined ? (
-        <Summary view={view} voyage={ending.voyage} ctx={ctx} />
+        <Box flexDirection="column">
+          <Summary view={view} voyage={ending.voyage} ctx={ctx} />
+          <Races voyage={ending.voyage} ctx={ctx} />
+        </Box>
       ) : (
         <Box marginTop={1}>
           <T ctx={ctx} tone="fail" bold>

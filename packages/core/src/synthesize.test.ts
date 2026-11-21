@@ -90,7 +90,7 @@ describe("renderConfigJson", () => {
   it("writes an annotated config that loads back to the same thing", async () => {
     const config = synthesizeConfig({ url: "http://localhost:4170", to: ["nextjs"], agent: "codex" });
     const text = renderConfigJson(config, "theseus init http://localhost:4170 --to nextjs");
-    expect(text).not.toMatch(/[–—]/);
+    expect(text).not.toMatch(/[\u2013\u2014]/);
     const dir = await mkdtemp(join(tmpdir(), "theseus-init-"));
     await writeFile(join(dir, "theseus.config.json"), text, "utf8");
     const loaded = await loadConfig("theseus.config.json", dir);

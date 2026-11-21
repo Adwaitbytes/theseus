@@ -1,3 +1,4 @@
+import { AGENT_LABEL, raceSummary } from "@theseus/core";
 import type { BehaviorResult, TheseusEvent, Voyage } from "@theseus/schema";
 
 export type CellState = "pending" | "running" | "pass" | "fail" | "error";
@@ -211,6 +212,38 @@ export interface SummaryRow {
   readonly parity: string;
   readonly credits: string;
   readonly verdict: "identical" | "partial" | "failed" | "original";
+}
+
+export interface RaceRow {
+  readonly targetId: string;
+  readonly agent: string;
+  readonly toGreen: string;
+  readonly passed: string;
+  readonly parity: string;
+  readonly credits: string;
+  readonly winner: boolean;
+}
+
+export interface RaceTable {
+  readonly title: string;
+  readonly rows: readonly RaceRow[];
+}
+
+/** One table per race: same stack and platform, different agents, derived from the regrowths alone. */
+export function raceTables(voyage: Voyage | undefined): RaceTable[] {
+  if (voyage === undefined) return [];
+  return raceSummary(voyage).map((race) => ({
+    title: `${race.stack} on ${race.platform}`,
+    rows: race.entries.map((entry) => ({
+      targetId: entry.targetId,
+      agent: entry.agent === "gemini" ? "Gemini" : AGENT_LABEL[entry.agent],
+      toGreen: entry.roundsToGreen === undefined ? `not green in ${entry.rounds}` : `round ${entry.roundsToGreen}`,
+      passed: `${entry.passed}/${entry.total}`,
+      parity: entry.parityIdentical === undefined ? "pending" : `${entry.parityIdentical}/${entry.total} identical`,
+      credits: String(Math.round(entry.credits)),
+      winner: race.winner === entry.targetId,
+    })),
+  }));
 }
 
 /** The closing table: one row per target, parity from the voyage when it has been computed. */
