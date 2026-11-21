@@ -3,7 +3,7 @@ import { join } from "node:path";
 import type { Behavior, Mutant, Spec, StrengthReport } from "@theseus/schema";
 import { z } from "zod";
 import { runJsonTask } from "./agents/json-task.js";
-import { kaneContext, originTarget, type PhaseContext } from "./context.js";
+import { kaneContext, originTarget, stateResetterFor, type PhaseContext } from "./context.js";
 import { TheseusError, errorMessage } from "./errors.js";
 import { runOne } from "./kane/run.js";
 import { defaultLauncher, type RunningApp } from "./regrow/launcher.js";
@@ -90,7 +90,12 @@ export async function strength(ctx: PhaseContext, spec: Spec): Promise<StrengthR
   const runsCap = config.strength.maxRunsPerMutant;
   ctx.ledger.ensure(proposals.length * Math.min(runsCap, spec.behaviors.length), "strength");
 
-  const kane = kaneContext(ctx, "strength");
+  const resetOriginal = stateResetterFor(ctx);
+  // A mutant is a patched copy of the original's code, still talking to the original's backend, so the seed to restore is the original's.
+  const kane = {
+    ...kaneContext(ctx, "strength"),
+    ...(resetOriginal === undefined ? {} : { resetState: () => resetOriginal(origin) }),
+  };
   const launcher = deps.launcher ?? defaultLauncher;
   const mutants: Mutant[] = [];
   for (const proposal of proposals) {

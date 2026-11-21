@@ -15,9 +15,45 @@ const SELECTOR_PATTERN = /(?:^|\s)#[a-z][\w-]*|\[[a-z-]+=|\bdata-testid\b|\bxpat
 const FRAMEWORK_PATTERN = /\b(?:jquery|react|angular|vue|svelte|sveltekit|next\.?js|expo|handlebars|backbone|localstorage|session storage|dom|browser|web ?page|url|address bar|page title)\b/i;
 const STORE_PATTERN = /\bas '([a-z][a-z0-9_]*)'/g;
 const VERIFY_PATTERN = /\b(?:verify|verifies|assert|confirm)\b/i;
+const QUOTED_PATTERN = /"[^"]*"/g;
+const SIGN_IN_PATTERN = /\b(?:sign(?:s|ed|ing)?|log(?:s|ged|ging)?)[ -]?in(?:to)?\b/i;
+const SIGN_UP_PATTERN = /\b(?:sign(?:s|ed|ing)?[ -]?up|register(?:s|ed|ing)?|create[sd]? (?:an?|the|a new) account)\b/i;
+const EMPTY_START_PATTERN = /\b(?:fresh app|no saved data|empty app)\b/i;
+
+/** The seed every stateful run starts from, as the drafting agent sees it. */
+export interface SeedContext {
+  /** File name of the seed doc inside the drafting directory. */
+  readonly file: string;
+  /** Account emails the seed doc names; a sign-in must use one of them. */
+  readonly emails: readonly string[];
+}
+
+export interface LintOptions {
+  readonly seed?: SeedContext;
+}
+
+/**
+ * Seeded-state rules: name the account whenever signing in, and never assume an empty app.
+ * Quoted text is ignored, because "Sign in" as a visible link label is not a sign-in.
+ */
+function lintSeeded(where: string, objective: string, seed: SeedContext): string[] {
+  const problems: string[] = [];
+  const unquoted = objective.replace(QUOTED_PATTERN, '""');
+  const lower = objective.toLowerCase();
+  const namesSeedAccount = seed.emails.some((email) => lower.includes(email.toLowerCase()));
+  if (SIGN_IN_PATTERN.test(unquoted) && !namesSeedAccount && !SIGN_UP_PATTERN.test(unquoted)) {
+    problems.push(
+      `${where}: the objective signs in without naming the account; use an email and password from ${seed.file} (one of ${seed.emails.join(", ")})`,
+    );
+  }
+  if (EMPTY_START_PATTERN.test(unquoted)) {
+    problems.push(`${where}: the app is never empty; start "from the seeded app" described in ${seed.file}`);
+  }
+  return problems;
+}
 
 /** Rules Theseus adds on top of the schema so one objective can drive a browser, an emulator and a simulator. */
-export function lintBehaviors(behaviors: readonly Behavior[]): string[] {
+export function lintBehaviors(behaviors: readonly Behavior[], options: LintOptions = {}): string[] {
   const problems: string[] = [];
   if (behaviors.length < MIN_BEHAVIORS || behaviors.length > MAX_BEHAVIORS) {
     problems.push(`write between ${MIN_BEHAVIORS} and ${MAX_BEHAVIORS} behaviors (aim for 15 to 25); you wrote ${behaviors.length}`);
@@ -41,19 +77,34 @@ export function lintBehaviors(behaviors: readonly Behavior[]): string[] {
       if (!behavior.stores.includes(key)) problems.push(`${where}: the objective stores '${key}' but "stores" does not list it`);
     }
     if (behavior.stores.length === 0) problems.push(`${where}: store at least one observable value so parity can compare it`);
+    if (options.seed !== undefined) problems.push(...lintSeeded(where, objective, options.seed));
   }
   return problems;
 }
 
-const OBJECTIVE_RULES = `Rules for every objective (Kane CLI executes them on a browser, an Android emulator and an iOS simulator, so they must read the same everywhere):
+const CLEAN_START_RULE = `- Start from a clean state: assume the app was just opened with no saved data, and say so ("Starting from a fresh app with no items, ...").`;
+
+function seededStartRules(seed: SeedContext): string {
+  const example = seed.emails[0] ?? "the account's email";
+  return [
+    `- Start from the seeded app: every run begins on a fresh copy of the seed data in ${seed.file}, signed out. Say so ("Starting from the seeded app, ..."). Never assume an empty app or "a fresh app with no saved data".`,
+    `- Whenever a behavior signs in, name the exact account from ${seed.file} with its email and password in double quotes ("sign in with email "${example}" and password "<its password>""). Never write "sign in" or "log in" without the email.`,
+    `- Only reference seeded content that ${seed.file} lists (exact usernames, titles, tags, comment text, counts). Anything else a behavior needs, it creates itself in that same behavior.`,
+    "- A behavior may change data freely, since the next run starts from the seed again, but it must never depend on what another behavior changed.",
+  ].join("\n");
+}
+
+function objectiveRules(seed: SeedContext | undefined): string {
+  return `Rules for every objective (Kane CLI executes them on a browser, an Android emulator and an iOS simulator, so they must read the same everywhere):
 - Plain English, platform-neutral. Never mention URLs, hosts, CSS selectors, element ids, markup, the DOM, local storage, the browser, or any framework or library. Describe what a person sees and does.
-- Start from a clean state: assume the app was just opened with no saved data, and say so ("Starting from a fresh app with no items, ...").
+${seed === undefined ? CLEAN_START_RULE : seededStartRules(seed)}
 - Lead each action with a verb and state goals, not click-by-click scripts. Keep literal data literal (exact item names in double quotes).
 - One outcome per behavior, under about 15 steps. Chain clauses in order: action, then extraction, then assertion.
 - End with explicit verifications of what is on screen ("verify the counter shows "2 items left""). The closing assertion is a look, not a trip: if the evidence is elsewhere, add the navigation as its own action first.
 - Never assert the control that triggered an action; assert the outcome.
 - For every value worth comparing across implementations, use the exact phrasing: store the <thing> as '<key>'. Keys are snake_case. List every key in "stores" and nothing else. Vague verbs like "read" or "note" do not store anything. Store exact visible text, never an interpretation: prefer a status or counter text exactly as shown and lists of visible item labels in display order separated by commas, and say what to store when the thing is absent (the word none). Reuse the same key names across behaviors for the same kind of value so parity reads consistently.
 - Refer back to a stored value in plain English ("the stored item_count value"), never with braces.`;
+}
 
 const BEHAVIOR_SHAPE = `Each behavior is a JSON object:
 { "id": "kebab-case-id", "title": "Short title", "area": "feature area, e.g. Editing", "objective": "...", "stores": ["snake_case_key"], "tags": ["optional"], "source": "capture" | "docs" }
@@ -65,6 +116,16 @@ export interface DraftInput {
   /** File names inside the drafting directory. */
   readonly crawlSummaryFile: string;
   readonly docFiles: readonly string[];
+  /** Set when the app keeps shared state: every run starts from this seed. */
+  readonly seed?: SeedContext;
+}
+
+function seedIntro(seed: SeedContext | undefined): string[] {
+  if (seed === undefined) return [];
+  return [
+    `Read ${seed.file} closely. It is the exact seed data every run starts from: the test accounts with their emails and passwords, and every piece of content that exists before anyone acts. The app is reset to this seed before each behavior runs.`,
+    "",
+  ];
 }
 
 export function buildDraftPrompt(input: DraftInput): string {
@@ -73,9 +134,10 @@ export function buildDraftPrompt(input: DraftInput): string {
     "",
     `Read ${input.crawlSummaryFile} (a crawl of the running app with accessibility snapshots and screenshots)${input.docFiles.length > 0 ? ` and the documentation in ${input.docFiles.join(", ")}` : ""}. Look at the screenshots it references.`,
     "",
+    ...seedIntro(input.seed),
     "Write 15 to 25 behaviors that together cover the whole app: every feature, the main edge cases (empty input, whitespace, many items), counters and summaries, filtering or navigation, editing, removal, and persistence after reopening the app. Each behavior must be something the original app really does.",
     "",
-    OBJECTIVE_RULES,
+    objectiveRules(input.seed),
     "",
     BEHAVIOR_SHAPE,
     "",
@@ -89,7 +151,7 @@ export interface RedraftItem {
   readonly suggestedFix?: string;
 }
 
-export function buildRedraftPrompt(items: readonly RedraftItem[]): string {
+export function buildRedraftPrompt(items: readonly RedraftItem[], seed?: SeedContext): string {
   const blocks = items.map((item) =>
     [
       `## ${item.behavior.id}`,
@@ -103,12 +165,17 @@ export function buildRedraftPrompt(items: readonly RedraftItem[]): string {
   return [
     "These behaviors failed when Kane CLI ran them against the original app, and Kane's root cause analysis blames the test, not the app. Rewrite each objective so it describes what the original app really does, applying Kane's suggested fix. Keep each id, title, area and source; keep the stored keys unless the fix requires changing them.",
     "",
-    OBJECTIVE_RULES,
+    ...seedIntro(seed),
+    objectiveRules(seed),
     "",
     ...blocks,
     "",
     `Write the rewritten behaviors to ${DRAFT_FILE} in the current directory as { "behaviors": [ ... ] }, one entry per behavior above, in the same order.`,
   ].join("\n");
+}
+
+function lintOptions(seed: SeedContext | undefined): LintOptions {
+  return seed === undefined ? {} : { seed };
 }
 
 export async function draftBehaviors(options: {
@@ -124,7 +191,7 @@ export async function draftBehaviors(options: {
     prompt: buildDraftPrompt(options.input),
     outputFile: DRAFT_FILE,
     schema: DraftOutput,
-    lint: (value) => lintBehaviors(value.behaviors),
+    lint: (value) => lintBehaviors(value.behaviors, lintOptions(options.input.seed)),
     onOutput: options.onOutput,
     ...(options.signal === undefined ? {} : { signal: options.signal }),
   });
@@ -135,6 +202,7 @@ export async function redraftBehaviors(options: {
   agent: BuilderAgent;
   cwd: string;
   items: readonly RedraftItem[];
+  seed?: SeedContext;
   onOutput: (text: string) => void;
   signal?: AbortSignal;
 }): Promise<Behavior[]> {
@@ -142,14 +210,14 @@ export async function redraftBehaviors(options: {
   const output = await runJsonTask({
     agent: options.agent,
     cwd: options.cwd,
-    prompt: buildRedraftPrompt(options.items),
+    prompt: buildRedraftPrompt(options.items, options.seed),
     outputFile: DRAFT_FILE,
     schema: DraftOutput,
     lint: (value) => {
       const ids = value.behaviors.map((behavior) => behavior.id);
       const missing = expected.filter((id) => !ids.includes(id));
       const extra = ids.filter((id) => !expected.includes(id));
-      const lint = lintBehaviors(value.behaviors).filter((problem) => !problem.startsWith("write between"));
+      const lint = lintBehaviors(value.behaviors, lintOptions(options.seed)).filter((problem) => !problem.startsWith("write between"));
       return [
         ...missing.map((id) => `behavior "${id}" is missing`),
         ...extra.map((id) => `behavior "${id}" was not asked for`),

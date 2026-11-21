@@ -1,7 +1,8 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Behavior, BehaviorResult, Spec } from "@theseus/schema";
-import { captureDir } from "./capture/index.js";
+import { captureDir, stageSeedDoc } from "./capture/index.js";
+import { webConcurrency } from "./config.js";
 import { redraftBehaviors, type RedraftItem } from "./capture/draft.js";
 import { kaneContext, originTarget, type PhaseContext } from "./context.js";
 import { TheseusError } from "./errors.js";
@@ -30,7 +31,7 @@ export async function baseline(ctx: PhaseContext, spec: Spec, options: { redraft
   const kane = kaneContext(ctx, origin.id);
   const run = (behaviors: readonly Behavior[], label: string): Promise<BehaviorResult[]> => {
     ctx.ledger.ensure(behaviors.length, label);
-    return runBehaviorSet(kane, behaviors, origin, { round: 0, concurrency: config.concurrency.web, artifactsPath: join(origin.id, "baseline") });
+    return runBehaviorSet(kane, behaviors, origin, { round: 0, concurrency: webConcurrency(config), artifactsPath: join(origin.id, "baseline") });
   };
 
   let behaviors = [...spec.behaviors];
@@ -62,10 +63,13 @@ export async function baseline(ctx: PhaseContext, spec: Spec, options: { redraft
       "info",
       `kane rca blames the test, not the app, for ${redraftable.map((item) => item.behavior.id).join(", ")}; redrafting with kane's suggested fix`,
     );
+    const cwd = captureDir(ctx);
+    const seed = await stageSeedDoc(ctx, cwd);
     const rewritten = await redraftBehaviors({
       agent: deps.createAgent(config.draftAgent.agent, config.draftAgent.model),
-      cwd: captureDir(ctx),
+      cwd,
       items: redraftable,
+      ...(seed === undefined ? {} : { seed }),
       onOutput: (text) => deps.bus.emit({ type: "agent-output", targetId: origin.id, round: 1, text }),
       ...(ctx.signal === undefined ? {} : { signal: ctx.signal }),
     });

@@ -4,6 +4,7 @@ import type { Behavior, BehaviorResult, KaneOutcome, Target } from "@theseus/sch
 import { errorMessage, isAbortError } from "../errors.js";
 import type { EventBus } from "../events/bus.js";
 import type { KaneClient } from "../ports.js";
+import type { StateReset } from "../state.js";
 import { mapConcurrent } from "../util/concurrency.js";
 import type { CreditLedger } from "./budget.js";
 import { notRunOutcome } from "./outcome.js";
@@ -19,6 +20,8 @@ export interface KaneRunContext {
   readonly timeoutS: number;
   readonly maxSteps?: number;
   readonly signal?: AbortSignal;
+  /** Restores the seed before every run, set when the app keeps shared state. A failed reset aborts the batch. */
+  readonly resetState?: StateReset;
 }
 
 export interface RunSetOptions {
@@ -40,6 +43,8 @@ export async function runOne(
   const artifactsDir = join(ctx.voyageDir, "artifacts", options.artifactsPath, behavior.id);
   await mkdir(artifactsDir, { recursive: true });
   await mkdir(ctx.kaneCwd, { recursive: true });
+  // Not caught below: a run on leftover state would blame the app for another run's writes.
+  if (ctx.resetState !== undefined) await ctx.resetState(target);
   if (emit) ctx.bus.emit({ type: "behavior-start", targetId: target.id, behaviorId: behavior.id, round: options.round });
   let outcome: KaneOutcome;
   try {

@@ -1,14 +1,27 @@
 import type { Behavior, BehaviorResult, Spec } from "@theseus/schema";
-import type { TargetConfig } from "../config.js";
+import type { StateConfig, TargetConfig } from "../config.js";
 import { isInfrastructure, isPassed, rcaCategory, rcaRootCause } from "../kane/outcome.js";
 
-function stackBrief(target: TargetConfig): string {
+/** What SPEC.md tells the builder about seeded, shared state. */
+export interface StateContract {
+  readonly method: StateConfig["method"];
+  /** The reset path, e.g. "/__theseus/reset". */
+  readonly resetPath: string;
+  /** The seed doc's markdown, rendered verbatim. */
+  readonly seedDoc: string;
+}
+
+const OWNS_ITS_DATA =
+  "The app owns its own API and storage: implement every endpoint it needs inside this project, never call the original app's backend or any other server, and keep all persistence local (SQLite or a JSON file in the workspace).";
+
+function stackBrief(target: TargetConfig, state: StateContract | undefined): string {
   const common = `Build it with ${target.stack}.`;
   const platform =
     target.platform === "web"
       ? [
           "It is a web app. From a clean checkout, `npm install && npm run build && npm run start` must work, and the server must listen on the port in the PORT environment variable (default 3000).",
           "Use npm (commit package-lock.json). Do not depend on any external service or API key.",
+          ...(state === undefined ? [] : [OWNS_ITS_DATA]),
         ]
       : [
           `It is a native Expo app (React Native) that runs on ${target.platform === "android" ? "the Android emulator" : "the iOS simulator"}.`,
@@ -18,8 +31,26 @@ function stackBrief(target: TargetConfig): string {
   return [common, ...platform, ...(target.brief === undefined ? [] : [target.brief])].join("\n");
 }
 
+function dataContract(state: StateContract): string[] {
+  const endpoint = `${state.method} ${state.resetPath}`;
+  return [
+    "## Data and reset contract",
+    "",
+    "This app keeps shared data, and every behavior starts from the same seed. The contract:",
+    "",
+    "- The app must ship this seed. On first start the data is exactly the seed below: the same accounts and passwords, the same content, the same counts and order. Behaviors sign in with these accounts and refer to this content by its exact text.",
+    `- Implement \`${endpoint}\`. It must restore exactly this seed, discarding every change made since, in under 2 seconds, and answer with a 2xx status.`,
+    `- \`${endpoint}\` is called once right after the app starts and before every behavior run. If it is missing or fails, the round counts as a build failure.`,
+    "",
+    "### Seed",
+    "",
+    state.seedDoc.trim(),
+    "",
+  ];
+}
+
 /** SPEC.md is the only description of the app the builder ever sees: behaviors grouped by area, plus the stack brief. */
-export function renderSpecMarkdown(spec: Spec, target: TargetConfig, referenceFiles: readonly string[]): string {
+export function renderSpecMarkdown(spec: Spec, target: TargetConfig, referenceFiles: readonly string[], state?: StateContract): string {
   const areas = new Map<string, Behavior[]>();
   for (const behavior of spec.behaviors) {
     const list = areas.get(behavior.area) ?? [];
@@ -53,8 +84,9 @@ export function renderSpecMarkdown(spec: Spec, target: TargetConfig, referenceFi
     "",
     "## Target stack",
     "",
-    stackBrief(target),
+    stackBrief(target, state),
     "",
+    ...(state === undefined ? [] : dataContract(state)),
     ...(referenceFiles.length > 0
       ? ["## Reference screenshots", "", "Screens of the app this spec was captured from, in `reference/`. Match their layout and wording:", "", ...referenceFiles.map((file) => `- reference/${file}`), ""]
       : []),
