@@ -39,7 +39,7 @@ export class CodexAgent implements BuilderAgent {
   readonly #runner: typeof runProcess;
 
   constructor(options: CodexOptions = {}) {
-    this.#binary = options.binary ?? "codex";
+    this.#binary = options.binary ?? process.env["THESEUS_CODEX_BIN"] ?? "codex";
     this.#model = options.model;
     this.#runner = options.runner ?? runProcess;
   }
