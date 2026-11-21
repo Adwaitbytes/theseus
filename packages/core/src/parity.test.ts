@@ -82,3 +82,10 @@ describe("computeParity", () => {
     expect(report.rows[0]?.verdict).toBe("failed-candidate");
   });
 });
+
+describe("list spacing", () => {
+  it("treats Kane's comma spacing in joined lists as equal", () => {
+    expect(valuesEqual("Buy milk,Walk the dog", "Buy milk, Walk the dog")).toBe(true);
+    expect(valuesEqual("Blurred", "Blurred\n×")).toBe(false);
+  });
+});

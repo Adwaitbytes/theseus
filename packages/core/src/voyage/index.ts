@@ -1,4 +1,5 @@
 import { mkdirSync, renameSync, writeFileSync } from "node:fs";
+import { mkdir, rm, stat } from "node:fs/promises";
 import { dirname, relative } from "node:path";
 import type { BehaviorResult, Regrowth, Voyage } from "@theseus/schema";
 import { baseline } from "../baseline.js";
@@ -50,7 +51,29 @@ export function completedPhases(voyage: Voyage | undefined, config: ResolvedConf
 }
 
 /** Serializes voyage.json writes; targets regrow concurrently and each persists after every round. */
-class VoyageWriter {
+/** A lock directory created atomically; stale locks (a crashed writer) are broken after 30 s. */
+async function withFileLock<T>(lockDir: string, work: () => Promise<T>): Promise<T> {
+  const deadline = Date.now() + 60_000;
+  for (;;) {
+    try {
+      await mkdir(lockDir);
+      break;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+      const age = Date.now() - (await stat(lockDir).catch(() => ({ mtimeMs: Date.now() }))).mtimeMs;
+      if (age > 30_000) await rm(lockDir, { recursive: true, force: true });
+      else if (Date.now() > deadline) throw new TheseusError("voyage-locked", `timed out waiting for ${lockDir}; remove it if no theseus process is running`);
+      else await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+  }
+  try {
+    return await work();
+  } finally {
+    await rm(lockDir, { recursive: true, force: true });
+  }
+}
+
+export class VoyageWriter {
   #voyage: Voyage | undefined;
   #chain: Promise<void> = Promise.resolve();
   readonly #file: string;
@@ -65,13 +88,20 @@ class VoyageWriter {
   }
 
   update(change: (voyage: Voyage | undefined) => Voyage): Promise<Voyage> {
-    // Keep the in-memory copy identical to what is on disk, so a resumed run sees the same data.
-    const next = sanitizeForPersistence(change(this.#voyage));
-    this.#voyage = next;
-    const write = this.#chain.then(() => writeVoyage(this.#file, next));
+    // Several `theseus regrow --target` processes can share one voyage. Each change is applied to what is
+    // on disk right now, under a cross-process lock, so no process overwrites another's regrowth.
+    const write = this.#chain.then(() =>
+      withFileLock(`${this.#file}.lock`, async () => {
+        const onDisk = (await readVoyage(this.#file)) ?? this.#voyage;
+        const next = sanitizeForPersistence(change(onDisk));
+        await writeVoyage(this.#file, next);
+        this.#voyage = next;
+        return next;
+      }),
+    );
     // The chain itself must not stay rejected, or every later write would fail too; the caller still sees this error.
-    this.#chain = write.catch(() => undefined);
-    return write.then(() => next);
+    this.#chain = write.then(() => undefined, () => undefined);
+    return write;
   }
 }
 

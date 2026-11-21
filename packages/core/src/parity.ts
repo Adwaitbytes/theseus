@@ -6,7 +6,9 @@ export function normalizeValue(value: string): string {
   let text = value.trim().replace(/\s+/g, " ");
   const quoted = /^(["'`])(.*)\1$/s.exec(text);
   if (quoted?.[2] !== undefined) text = quoted[2].trim();
-  return text;
+  // Kane chooses its own spacing when it joins a list ("A,B" or "A, B"); the app's content is the same.
+  // Numbers keep their thousands separators untouched.
+  return /^[-+]?[\d.,\s]+$/.test(text) ? text : text.replace(/\s*,\s*/g, ", ");
 }
 
 function asBoolean(text: string): boolean | undefined {

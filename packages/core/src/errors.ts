@@ -1,6 +1,7 @@
 /** Every error the engine raises on purpose carries a stable code so the CLI can map it to an exit status and a message. */
 export type TheseusErrorCode =
   | "config-invalid"
+  | "voyage-locked"
   | "file-invalid"
   | "agent-failed"
   | "agent-output-invalid"
