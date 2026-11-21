@@ -148,3 +148,13 @@ describe("spawnDetached", () => {
     await expect(pending).rejects.toMatchObject({ code: "command-failed" });
   });
 });
+
+describe("failureExcerpt", () => {
+  it("returns the Gradle cause instead of the trailing boilerplate", async () => {
+    const { failureExcerpt } = await import("../exec.js");
+    const log = ["> Task :app:compileReleaseJavaWithJavac FAILED", "* What went wrong:", "Execution failed for task ':app:compileReleaseJavaWithJavac'.", "error: illegal start of type", "* Try:", "> Run with --stacktrace", "BUILD FAILED in 14s"].join("\n");
+    const excerpt = failureExcerpt(log);
+    expect(excerpt).toContain("illegal start of type");
+    expect(excerpt).not.toContain("BUILD FAILED");
+  });
+});

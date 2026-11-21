@@ -1,7 +1,12 @@
 import { createAgent, type EngineDeps, type EventBus, type MobileBuilder, type MobilePlatform } from "@theseus/core";
 import { createKaneClient } from "@theseus/kane";
 
-function isMobileModule(value: unknown): value is { buildExpo: MobileBuilder["buildExpo"]; ensureDevice: MobileBuilder["ensureDevice"] } {
+interface MobileModule {
+  buildExpo(workdir: string, platform: MobilePlatform, options?: { clean?: boolean }): Promise<{ appPath: string }>;
+  ensureDevice(platform: MobilePlatform): Promise<unknown>;
+}
+
+function isMobileModule(value: unknown): value is MobileModule {
   if (typeof value !== "object" || value === null) return false;
   const record = value as Record<string, unknown>;
   return typeof record.buildExpo === "function" && typeof record.ensureDevice === "function";
@@ -22,7 +27,8 @@ export async function loadMobileBuilder(): Promise<MobileBuilder | undefined> {
   }
   if (!isMobileModule(mod)) throw new Error("@theseus/mobile does not export buildExpo and ensureDevice");
   return {
-    buildExpo: (workdir: string, platform: MobilePlatform) => mod.buildExpo(workdir, platform),
+    // A clean prebuild every time: the agent edits app.json and JS, so stale generated native code must never survive a round.
+    buildExpo: (workdir: string, platform: MobilePlatform) => mod.buildExpo(workdir, platform, { clean: true }),
     ensureDevice: async (platform: MobilePlatform) => {
       const device: unknown = await mod.ensureDevice(platform);
       if (isDeviceInfo(device)) bootedDevices[platform] = { name: device.deviceName, osVersion: device.osVersion };

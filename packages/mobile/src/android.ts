@@ -2,7 +2,7 @@ import { writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { MobileError, type MobileErrorCode } from "./errors.js";
-import { type CommandSpec, commandFailed, runChecked, tailLines } from "./exec.js";
+import { type CommandSpec, commandFailed, runChecked, failureExcerpt, tailLines } from "./exec.js";
 import { prepareNativeProject } from "./expo.js";
 import { type Context, info, step } from "./system.js";
 import { type AndroidSdk, resolveAndroidSdk, resolveJavaHome } from "./toolchain.js";
@@ -262,7 +262,7 @@ export async function buildAndroid(ctx: Context, projectDir: string, options: Bu
   if (result.exitCode !== 0) {
     const log = `${result.stdout}\n${result.stderr}`;
     const { code, remedy } = classifyGradleFailure(log);
-    throw new MobileError(code, `Gradle assembleRelease failed with code ${result.exitCode}`, remedy, { logTail: tailLines(log) });
+    throw new MobileError(code, `Gradle assembleRelease failed with code ${result.exitCode}`, remedy, { logTail: failureExcerpt(log) });
   }
 
   const apk = join(projectDir, RELEASE_APK);

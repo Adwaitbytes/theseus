@@ -48,6 +48,18 @@ export function tailLines(text: string, count = TAIL_LINES): string {
   return text.trimEnd().split("\n").slice(-count).join("\n");
 }
 
+/**
+ * The part of a build log that explains the failure. Gradle prints its cause in a
+ * "What went wrong" block followed by boilerplate, so the plain tail misses it.
+ */
+export function failureExcerpt(text: string, count = TAIL_LINES): string {
+  const lines = text.split("\n");
+  const start = lines.findIndex((line) => line.includes("What went wrong"));
+  if (start === -1) return tailLines(text, count);
+  const end = lines.findIndex((line, index) => index > start && line.includes("* Try:"));
+  return lines.slice(start, end === -1 ? start + count : Math.min(end, start + count)).join("\n");
+}
+
 /** Splits a chunked stream into whole lines, holding back a partial final line until the next chunk. */
 export class LineSplitter {
   private pending = "";

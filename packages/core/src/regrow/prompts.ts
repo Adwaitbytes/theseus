@@ -29,6 +29,7 @@ function stackBrief(target: TargetConfig, state: StateContract | undefined): str
           "Make every control reachable by its visible label (set accessibilityLabel to the visible text where needed), because the behaviors are driven by what is on screen.",
           "It ships as a standalone release build: no Metro, no Expo Go, no dev client, no Expo Updates, and no network calls of any kind (no fetch, analytics, remote fonts or images).",
           "Persist all app data with @react-native-async-storage/async-storage so it survives closing and reopening the app. On a phone, reloading or reopening the app means relaunching it, and the screen must look exactly as it did before.",
+          "Give the Android package and iOS bundle identifier a plain name such as com.theseus.app. Never use a Java or Kotlin keyword (native, new, class, default, package) as any segment, because the generated native code will not compile.",
           "Where the web original used URL routes for views or filters, keep that view state in the app and persist it the same way, so reopening the app returns to the same view.",
         ];
   return [common, ...platform, ...(target.brief === undefined ? [] : [target.brief])].join("\n");
