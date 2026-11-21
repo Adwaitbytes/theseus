@@ -1,0 +1,28 @@
+{
+  "behaviors": [
+    {
+      "id": "counter-plural",
+      "title": "Pluralized counter",
+      "area": "Counter",
+      "objective": "Starting from a fresh app with no items, add \"One\", store the counter text exactly as shown as 'counter_one', then add \"Two\" and store the counter text exactly as shown as 'counter_two'. Verify the stored counter_one value is \"1 item left\" and the stored counter_two value is \"2 items left\" on screen.",
+      "stores": [
+        "counter_one",
+        "counter_two"
+      ],
+      "tags": [],
+      "source": "docs"
+    },
+    {
+      "id": "edit-empty-removes",
+      "title": "Empty edit removes todo",
+      "area": "Editing",
+      "objective": "Starting from a fresh app with no items, add \"Remove me\", enter editing for it, focus its title field, clear the full title, confirm the field is empty, and submit the edit. Store the counter text exactly as shown, or the word none if no counter is visible, as 'counter_text', then store the visible todo titles in display order separated by commas, or the word none if no todos are visible, as 'visible_titles'. Verify the stored visible_titles value is none and the stored counter_text value is none, and verify no todo item or counter is shown on screen.",
+      "stores": [
+        "counter_text",
+        "visible_titles"
+      ],
+      "tags": [],
+      "source": "docs"
+    }
+  ]
+}

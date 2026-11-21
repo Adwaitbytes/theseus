@@ -1,0 +1,71 @@
+{
+  "startUrl": "http://localhost:4170",
+  "crawledAt": "2026-11-20T22:11:46.676Z",
+  "pages": [
+    {
+      "label": "page 1",
+      "url": "http://localhost:4170/#/all",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/page-1.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    },
+    {
+      "label": "page 2",
+      "url": "http://localhost:4170/#/all",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/page-2.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    },
+    {
+      "label": "page 3",
+      "url": "http://localhost:4170/#/active",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/page-3.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    },
+    {
+      "label": "page 4",
+      "url": "http://localhost:4170/#/completed",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/page-4.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    }
+  ],
+  "states": [
+    {
+      "label": "after typing 3 entries into the first text field and pressing Enter after each",
+      "url": "http://localhost:4170/#/all",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/state-1-entries.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- main:\n  - checkbox \"❯ Mark all as complete\"\n  - text: ❯ Mark all as complete\n  - list:\n    - listitem:\n      - checkbox\n      - text: Buy milk\n    - listitem:\n      - checkbox\n      - text: Walk the dog\n    - listitem:\n      - checkbox\n      - text: Write the report\n- strong: \"3\"\n- text: items left\n- list:\n  - listitem:\n    - link \"All\":\n      - /url: \"#/all\"\n  - listitem:\n    - link \"Active\":\n      - /url: \"#/active\"\n  - listitem:\n    - link \"Completed\":\n      - /url: \"#/completed\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    },
+    {
+      "label": "after clicking the first checkbox",
+      "url": "http://localhost:4170/#/all",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/state-2-toggled.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- main:\n  - checkbox \"❯ Mark all as complete\" [checked]\n  - text: ❯ Mark all as complete\n  - list:\n    - listitem:\n      - checkbox [checked]\n      - text: Buy milk\n    - listitem:\n      - checkbox [checked]\n      - text: Walk the dog\n    - listitem:\n      - checkbox [checked]\n      - text: Write the report\n- strong: \"0\"\n- text: items left\n- list:\n  - listitem:\n    - link \"All\":\n      - /url: \"#/all\"\n  - listitem:\n    - link \"Active\":\n      - /url: \"#/active\"\n  - listitem:\n    - link \"Completed\":\n      - /url: \"#/completed\"\n- button \"Clear completed\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    },
+    {
+      "label": "the screen at #/all with the sample data above",
+      "url": "http://localhost:4170/#/all",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/state-3-link.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- main:\n  - checkbox \"❯ Mark all as complete\" [checked]\n  - text: ❯ Mark all as complete\n  - list:\n    - listitem:\n      - checkbox [checked]\n      - text: Buy milk\n    - listitem:\n      - checkbox [checked]\n      - text: Walk the dog\n    - listitem:\n      - checkbox [checked]\n      - text: Write the report\n- strong: \"0\"\n- text: items left\n- list:\n  - listitem:\n    - link \"All\":\n      - /url: \"#/all\"\n  - listitem:\n    - link \"Active\":\n      - /url: \"#/active\"\n  - listitem:\n    - link \"Completed\":\n      - /url: \"#/completed\"\n- button \"Clear completed\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    },
+    {
+      "label": "the screen at #/active with the sample data above",
+      "url": "http://localhost:4170/#/active",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/state-4-link.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- strong: \"0\"\n- text: items left\n- list:\n  - listitem:\n    - link \"All\":\n      - /url: \"#/all\"\n  - listitem:\n    - link \"Active\":\n      - /url: \"#/active\"\n  - listitem:\n    - link \"Completed\":\n      - /url: \"#/completed\"\n- button \"Clear completed\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    },
+    {
+      "label": "the screen at #/completed with the sample data above",
+      "url": "http://localhost:4170/#/completed",
+      "title": "TodoMVC: jQuery",
+      "screenshot": "artifacts/capture/screens/state-5-link.png",
+      "aria": "- heading \"todos\" [level=1]\n- textbox \"What needs to be done?\"\n- main:\n  - checkbox \"❯ Mark all as complete\" [checked]\n  - text: ❯ Mark all as complete\n  - list:\n    - listitem:\n      - checkbox [checked]\n      - text: Buy milk\n    - listitem:\n      - checkbox [checked]\n      - text: Walk the dog\n    - listitem:\n      - checkbox [checked]\n      - text: Write the report\n- strong: \"0\"\n- text: items left\n- list:\n  - listitem:\n    - link \"All\":\n      - /url: \"#/all\"\n  - listitem:\n    - link \"Active\":\n      - /url: \"#/active\"\n  - listitem:\n    - link \"Completed\":\n      - /url: \"#/completed\"\n- button \"Clear completed\"\n- contentinfo:\n  - paragraph: Double-click to edit a todo\n  - paragraph:\n    - text: Created by\n    - link \"Sindre Sorhus\":\n      - /url: http://sindresorhus.com\n  - paragraph: Updated by the TodoMVC Team\n  - paragraph:\n    - text: Part of\n    - link \"TodoMVC\":\n      - /url: http://todomvc.com"
+    }
+  ]
+}

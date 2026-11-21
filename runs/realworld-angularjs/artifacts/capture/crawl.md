@@ -1,0 +1,1867 @@
+# Crawl of the original app
+
+Start URL: http://localhost:4171
+
+## Screens reachable from the start URL
+
+### page 1: Home — Conduit
+
+Screenshot: screens/page-1.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 2: Home — Conduit
+
+Screenshot: screens/page-2.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 3: Sign in — Conduit
+
+Screenshot: screens/page-3.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "Sign in" [level=1]
+- paragraph:
+  - link "Need an account?":
+    - /url: "#/register"
+- group:
+  - group:
+    - textbox "Email"
+  - group:
+    - textbox "Password"
+  - button "Sign in"
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 4: Sign up — Conduit
+
+Screenshot: screens/page-4.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "Sign up" [level=1]
+- paragraph:
+  - link "Have an account?":
+    - /url: "#/login"
+- group:
+  - group:
+    - textbox "Username"
+  - group:
+    - textbox "Email"
+  - group:
+    - textbox "Password"
+  - button "Sign up"
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 5: Home — Conduit
+
+Screenshot: screens/page-5.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 6: Home — Conduit
+
+Screenshot: screens/page-6.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 7: Home — Conduit
+
+Screenshot: screens/page-7.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 8: @alice — Conduit
+
+Screenshot: screens/page-8.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- img
+- heading "alice" [level=4]
+- paragraph: Writes about legacy frontends and how to retire them gracefully.
+- button " Follow alice"
+- list:
+  - listitem:
+    - link "My Articles":
+      - /url: "#/@alice"
+  - listitem:
+    - link "Favorited Articles":
+      - /url: "#/@alice/favorites"
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- navigation:
+  - list:
+    - listitem:
+      - link "1":
+        - /url: ""
+    - listitem:
+      - link "2":
+        - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 9: Favorites and counters — Conduit
+
+Screenshot: screens/page-9.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "Favorites and counters" [level=1]
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " Follow alice"
+- button " Favorite Article (1)"
+- paragraph: Favoriting toggles. The counter goes up by one, and back down by one when you undo it.
+- list:
+  - listitem: testing
+  - listitem: javascript
+- separator
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " Follow alice"
+- button " Favorite Article (1)"
+- link "Sign in":
+  - /url: "#/login"
+- text: or
+- link "sign up":
+  - /url: "#/register"
+- text: to add comments on this article.
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### page 10: @bob — Conduit
+
+Screenshot: screens/page-10.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- img
+- heading "bob" [level=4]
+- paragraph: Backend person. Prefers boring databases.
+- button " Follow bob"
+- list:
+  - listitem:
+    - link "My Articles":
+      - /url: "#/@bob"
+  - listitem:
+    - link "Favorited Articles":
+      - /url: "#/@bob/favorites"
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+## Interactive states
+
+### the screen at #/ with the sample data above: Home — Conduit
+
+Screenshot: screens/state-1-link.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### the screen at #/login with the sample data above: Sign in — Conduit
+
+Screenshot: screens/state-2-link.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "Sign in" [level=1]
+- paragraph:
+  - link "Need an account?":
+    - /url: "#/register"
+- group:
+  - group:
+    - textbox "Email"
+  - group:
+    - textbox "Password"
+  - button "Sign in"
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### the screen at #/register with the sample data above: Sign up — Conduit
+
+Screenshot: screens/state-3-link.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "Sign up" [level=1]
+- paragraph:
+  - link "Have an account?":
+    - /url: "#/login"
+- group:
+  - group:
+    - textbox "Username"
+  - group:
+    - textbox "Email"
+  - group:
+    - textbox "Password"
+  - button "Sign up"
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### the screen at #/editor/ with the sample data above: Home — Conduit
+
+Screenshot: screens/state-4-link.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### the screen at #/settings with the sample data above: Home — Conduit
+
+Screenshot: screens/state-5-link.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
+
+### the screen at #/@ with the sample data above: Home — Conduit
+
+Screenshot: screens/state-6-link.png
+
+```yaml
+- navigation:
+  - link "conduit":
+    - /url: "#/"
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: "#/"
+    - listitem:
+      - link "Sign in":
+        - /url: "#/login"
+    - listitem:
+      - link "Sign up":
+        - /url: "#/register"
+- heading "conduit" [level=1]
+- paragraph: A place to share your knowledge.
+- list:
+  - listitem:
+    - link "Global Feed":
+      - /url: ""
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 8, 2024
+- button " 1"
+- link "Favorites and counters Keeping the heart count honest. Read more... testing javascript":
+  - /url: "#/article/favorites-and-counters"
+  - heading "Favorites and counters" [level=1]
+  - paragraph: Keeping the heart count honest.
+  - text: Read more...
+  - list:
+    - listitem: testing
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 7, 2024
+- button " 0"
+- link "Designing a follow feed Your Feed shows only authors you follow. Read more... backend realworld":
+  - /url: "#/article/designing-a-follow-feed"
+  - heading "Designing a follow feed" [level=1]
+  - paragraph: Your Feed shows only authors you follow.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 6, 2024
+- button " 0"
+- link "Pagination without surprises Offsets, limits and counts that agree with each other. Read more... javascript":
+  - /url: "#/article/pagination-without-surprises"
+  - heading "Pagination without surprises" [level=1]
+  - paragraph: Offsets, limits and counts that agree with each other.
+  - text: Read more...
+  - list:
+    - listitem: javascript
+- link:
+  - /url: "#/@bob"
+  - img
+- link "bob":
+  - /url: "#/@bob"
+- text: March 5, 2024
+- button " 0"
+- link "Boring databases win Why the dull choice is usually the right one. Read more... backend javascript":
+  - /url: "#/article/boring-databases-win"
+  - heading "Boring databases win" [level=1]
+  - paragraph: Why the dull choice is usually the right one.
+  - text: Read more...
+  - list:
+    - listitem: backend
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 4, 2024
+- button " 0"
+- link "Markdown in article bodies Bodies are stored as Markdown and rendered on the article page. Read more... realworld":
+  - /url: "#/article/markdown-in-article-bodies"
+  - heading "Markdown in article bodies" [level=1]
+  - paragraph: Bodies are stored as Markdown and rendered on the article page.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 3, 2024
+- button " 0"
+- link "A tour of the RealWorld spec Conduit is a Medium clone with a shared API contract. Read more... realworld javascript":
+  - /url: "#/article/a-tour-of-the-realworld-spec"
+  - heading "A tour of the RealWorld spec" [level=1]
+  - paragraph: Conduit is a Medium clone with a shared API contract.
+  - text: Read more...
+  - list:
+    - listitem: realworld
+    - listitem: javascript
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 2, 2024
+- button " 0"
+- link "Testing in plain English Behavior specs anyone on the team can read. Read more... testing":
+  - /url: "#/article/testing-in-plain-english"
+  - heading "Testing in plain English" [level=1]
+  - paragraph: Behavior specs anyone on the team can read.
+  - text: Read more...
+  - list:
+    - listitem: testing
+- link:
+  - /url: "#/@alice"
+  - img
+- link "alice":
+  - /url: "#/@alice"
+- text: March 1, 2024
+- button " 0"
+- link "How to retire an AngularJS app A field guide to moving off a framework that reached end of life. Read more... angularjs migration":
+  - /url: "#/article/how-to-retire-an-angularjs-app"
+  - heading "How to retire an AngularJS app" [level=1]
+  - paragraph: A field guide to moving off a framework that reached end of life.
+  - text: Read more...
+  - list:
+    - listitem: angularjs
+    - listitem: migration
+- paragraph: Popular Tags
+- link "angularjs":
+  - /url: ""
+- link "migration":
+  - /url: ""
+- link "testing":
+  - /url: ""
+- link "realworld":
+  - /url: ""
+- link "javascript":
+  - /url: ""
+- link "backend":
+  - /url: ""
+- contentinfo:
+  - link "conduit":
+    - /url: "#/"
+  - text: © 2026. An interactive learning project from
+  - link "Thinkster":
+    - /url: https://thinkster.io
+  - text: . Code licensed under MIT.
+```
