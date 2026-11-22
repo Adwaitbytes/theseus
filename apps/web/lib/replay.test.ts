@@ -96,3 +96,24 @@ describe("formatDuration", () => {
     expect(formatDuration(4512)).toBe("1 h 15 m");
   });
 });
+
+describe("finalAttemptEvents", () => {
+  it("drops aborted regrowth attempts and superseded baseline results", async () => {
+    const { finalAttemptEvents } = await import("./replay");
+    const at = "2026-11-21T00:00:00.000Z";
+    const outcome = (status: "passed" | "failed") => ({ status, exitCode: status === "passed" ? 0 : 1, oneLiner: "", reason: "", durationS: 1, credits: 1, finalState: {}, steps: [], artifacts: {} });
+    const result = (targetId: string, round: number, status: "passed" | "failed") =>
+      ({ type: "behavior-result", at, targetId, round, result: { behaviorId: "add", targetId, outcome: outcome(status) } }) as const;
+    const voyage = { spec: { app: { origin: { id: "original" } } } } as unknown as Parameters<typeof finalAttemptEvents>[0];
+    const events = [
+      result("original", 0, "failed"),
+      result("original", 0, "passed"),
+      { type: "round-start", at, targetId: "nextjs", round: 1 } as const,
+      result("nextjs", 1, "failed"),
+      { type: "round-start", at, targetId: "nextjs", round: 1 } as const,
+      result("nextjs", 1, "passed"),
+    ];
+    const kept = finalAttemptEvents(voyage, events).filter((e) => e.type === "behavior-result");
+    expect(kept.map((e) => (e.type === "behavior-result" ? `${e.targetId}:${e.result.outcome.status}` : ""))).toEqual(["original:passed", "nextjs:passed"]);
+  });
+});

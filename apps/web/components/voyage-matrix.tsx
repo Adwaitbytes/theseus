@@ -158,7 +158,7 @@ export function VoyageMatrix({ data, certificateHref }: { data: ReplayData; cert
         <dl className="grid grid-cols-2 border-y border-rule sm:grid-cols-4">
           <Counter label="Behaviors proven everywhere" value={`${snap.proven}`} suffix={`/${data.rows.length}`} />
           <Counter label="Regrowth rounds" value={`${snap.rounds}`} />
-          <Counter label="Bugs Kane caught" value={`${snap.bugsCaught}`} />
+          <Counter label="Red verdicts fed back" value={`${snap.bugsCaught}`} />
           <Counter label="Kane credits" value={nf.format(snap.credits)} />
         </dl>
 

@@ -90,7 +90,40 @@ function columnsOf(voyage: Voyage): ReplayColumn[] {
  * Turns a voyage and its recorded events into replay frames. When no events were recorded,
  * frames are rebuilt from the voyage itself (baseline, then each regrowth's rounds in order).
  */
-export function buildReplay(voyage: Voyage, events: readonly TheseusEvent[]): ReplayData {
+/**
+ * Keeps only the attempt each certificate is built from. The event log is append-only, so it also holds
+ * runs that were aborted or restarted (a crashed session, a fixed toolchain); replaying those would
+ * inflate rounds and failures. Regrowths keep events from their last round 1 onward; the original keeps
+ * only the latest baseline result per behavior.
+ */
+export function finalAttemptEvents(voyage: Voyage, events: readonly TheseusEvent[]): TheseusEvent[] {
+  const originId = voyage.spec.app.origin.id;
+  const attemptStart = new Map<string, number>();
+  events.forEach((e, index) => {
+    if (e.type === "round-start" && e.round === 1) attemptStart.set(e.targetId, index);
+  });
+  const lastBaseline = new Map<string, number>();
+  events.forEach((e, index) => {
+    if (e.type === "behavior-result" && e.result.targetId === originId && e.round === 0) lastBaseline.set(e.result.behaviorId, index);
+  });
+  return events.filter((e, index) => {
+    if (e.type !== "behavior-start" && e.type !== "behavior-result") return true;
+    const targetId = e.type === "behavior-start" ? e.targetId : e.result.targetId;
+    const behaviorId = e.type === "behavior-start" ? e.behaviorId : e.result.behaviorId;
+    if (targetId === originId && e.round === 0) {
+      const last = lastBaseline.get(behaviorId);
+      if (last === undefined) return false;
+      if (e.type === "behavior-result") return index === last;
+      // The start that belongs to the kept result is the latest start before it.
+      const nextStart = events.findIndex((x, i) => i > index && x.type === "behavior-start" && x.targetId === originId && x.behaviorId === behaviorId && x.round === 0);
+      return nextStart === -1 || nextStart > last;
+    }
+    return index >= (attemptStart.get(targetId) ?? 0);
+  });
+}
+
+export function buildReplay(voyage: Voyage, allEvents: readonly TheseusEvent[]): ReplayData {
+  const events = finalAttemptEvents(voyage, allEvents);
   const columns = columnsOf(voyage);
   const rows: ReplayRow[] = voyage.spec.behaviors.map((b) => ({ id: b.id, title: b.title }));
   const colIndex = new Map(columns.map((c, i) => [c.id, i]));
