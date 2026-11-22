@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8" /><title>regression</title></head>
+  <body>
+    <template>
+      <style>
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+#root { position: absolute; inset: 0; overflow: hidden; color: #ecedef; font-family: "IBM Plex Sans", sans-serif;
+  --paper: #0b0c0e; --surface: #121418; --sunken: #08090a; --ink: #ecedef; --ink-2: #a5a9b1; --ink-3: #82868f;
+  --rule: #1f2228; --rule-strong: #2e323a; --accent: #8c9eff; --pass: #4cc38a; --fail: #ff7563; }
+#regression-ground { position: absolute; inset: 0; background: var(--paper); }
+#root .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 18px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+#root .serif { font-family: "Newsreader", serif; font-weight: 400; letter-spacing: -0.02em; }
+#root .mono { font-family: "IBM Plex Mono", monospace; }
+#root .chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 18px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule-strong); color: var(--ink-2); }
+#root .chip.fail { color: var(--fail); border-color: rgba(255,117,99,0.45); }
+#root .chip.pass { color: var(--pass); border-color: rgba(76,195,138,0.45); }
+#root .win { position: absolute; border-radius: 14px; overflow: hidden; background: var(--surface); border: 1px solid var(--rule-strong);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 60px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.4); }
+#root .win .bar { position: absolute; left: 0; right: 0; top: 0; height: 40px; background: #16181d; border-bottom: 1px solid var(--rule); display: flex; align-items: center; padding: 0 16px; gap: 8px; }
+#root .win .dot { width: 11px; height: 11px; border-radius: 50%; background: #2e323a; }
+#root .win .addr { margin-left: 14px; font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--ink-3); }
+#root .win .view { position: absolute; left: 0; right: 0; bottom: 0; top: 40px; overflow: hidden; }
+#root .win video { position: absolute; }
+#root .label { position: absolute; font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--ink-3); }
+
+#rx-label { position: absolute; left: 60px; top: 70px; }
+#rx-card { position: absolute; left: 1350px; top: 110px; width: 480px; }
+#rx-t { margin-top: 14px; font-size: 30px; font-weight: 600; color: var(--fail); display: flex; gap: 12px; align-items: center; }
+#rx-t .sq { width: 18px; height: 18px; border-radius: 4px; background: var(--fail); }
+#rx-rctext { margin-top: 12px; font-size: 22px; line-height: 1.5; color: var(--ink-2); }
+#rx-end { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule-strong); }
+#rx-end .n { font-family: "IBM Plex Mono", monospace; font-size: 72px; line-height: 1; margin-top: 10px; }
+      </style>
+      <div id="root" data-composition-id="regression" data-width="1920" data-height="1080">
+        <div id="regression-ground" class="clip" data-start="0" data-duration="23.21"></div>
+
+        <div id="rx-label" class="eyebrow">Final regression pass &nbsp;/&nbsp; replay, sped up</div>
+        <div id="rx-win" class="win" style="left:60px;top:110px;width:1240px;height:738px">
+          <div class="bar" data-layout-ignore><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">terminal</span></div>
+          <div class="view">
+            <video id="rx-v" class="clip" src="assets/footage/term-demo-fast.mp4" muted playsinline data-start="0" data-duration="23.21" data-media-start="43.2" style="left:0px;top:0px;width:1240px;height:698px"></video>
+          </div>
+        </div>
+        <div id="rx-card"><div class="eyebrow">Next.js, round 5</div><div id="rx-t"><span class="sq"></span>Pluralized counter failed</div>
+          <div style="margin-top:18px"><span class="eyebrow">Kane root cause</span> <span class="chip">automation_bug</span></div>
+          <div id="rx-rctext">The automation did not pass the values saved as counter_one and counter_two into the final verification. The page showed the expected counts after each item was added.</div>
+          <div id="rx-end"><div class="eyebrow">Counted as a failure</div><div class="n">21<span style="color:var(--ink-3)">/22</span></div></div></div>
+      </div>
+      <script>
+        const tl = gsap.timeline({ paused: true });
+        const S = [0.5,5.82,8.62,16.46];
+
+        tl.fromTo("#rx-win", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+        tl.fromTo("#rx-label", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.2);
+        tl.fromTo("#rx-card > div:nth-child(-n+2)", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, S[1]);
+        tl.fromTo(["#rx-card > div:nth-child(3)", "#rx-rctext"], { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, S[2]);
+        tl.fromTo("#rx-end", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5 }, S[3]);
+        window.__timelines["regression"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

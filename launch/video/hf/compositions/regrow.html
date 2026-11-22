@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8" /><title>regrow</title></head>
+  <body>
+    <template>
+      <style>
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+#root { position: absolute; inset: 0; overflow: hidden; color: #ecedef; font-family: "IBM Plex Sans", sans-serif;
+  --paper: #0b0c0e; --surface: #121418; --sunken: #08090a; --ink: #ecedef; --ink-2: #a5a9b1; --ink-3: #82868f;
+  --rule: #1f2228; --rule-strong: #2e323a; --accent: #8c9eff; --pass: #4cc38a; --fail: #ff7563; }
+#regrow-ground { position: absolute; inset: 0; background: var(--paper); }
+#root .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 18px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+#root .serif { font-family: "Newsreader", serif; font-weight: 400; letter-spacing: -0.02em; }
+#root .mono { font-family: "IBM Plex Mono", monospace; }
+#root .chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 18px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule-strong); color: var(--ink-2); }
+#root .chip.fail { color: var(--fail); border-color: rgba(255,117,99,0.45); }
+#root .chip.pass { color: var(--pass); border-color: rgba(76,195,138,0.45); }
+#root .win { position: absolute; border-radius: 14px; overflow: hidden; background: var(--surface); border: 1px solid var(--rule-strong);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 60px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.4); }
+#root .win .bar { position: absolute; left: 0; right: 0; top: 0; height: 40px; background: #16181d; border-bottom: 1px solid var(--rule); display: flex; align-items: center; padding: 0 16px; gap: 8px; }
+#root .win .dot { width: 11px; height: 11px; border-radius: 50%; background: #2e323a; }
+#root .win .addr { margin-left: 14px; font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--ink-3); }
+#root .win .view { position: absolute; left: 0; right: 0; bottom: 0; top: 40px; overflow: hidden; }
+#root .win video { position: absolute; }
+#root .label { position: absolute; font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--ink-3); }
+#rg-label { position: absolute; left: 211px; top: 26px; }
+      </style>
+      <div id="root" data-composition-id="regrow" data-width="1920" data-height="1080">
+        <div id="regrow-ground" class="clip" data-start="0" data-duration="13.82"></div>
+
+        <div id="rg-label" class="eyebrow">Round 1 &nbsp;/&nbsp; Codex building, Kane verifying &nbsp;/&nbsp; replay, sped up</div>
+        <div id="rg-win" class="win" style="left:211px;top:64px;width:1498px;height:882px">
+          <div class="bar" data-layout-ignore><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">terminal</span></div>
+          <div class="view">
+            <video id="rg-v" class="clip" src="assets/footage/term-demo.mp4" muted playsinline data-start="0" data-duration="13.82" data-media-start="116" data-playback-rate="2" style="left:0px;top:0px;width:1498px;height:842px"></video>
+          </div>
+        </div>
+      </div>
+      <script>
+        const tl = gsap.timeline({ paused: true });
+        const S = [0.5,6.01];
+
+        tl.fromTo("#rg-win", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0);
+        tl.fromTo("#rg-label", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.2);
+        window.__timelines["regrow"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

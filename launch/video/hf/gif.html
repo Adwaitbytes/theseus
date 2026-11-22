@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=960, height=540" />
+    <title>Red to green</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 960px; height: 540px; overflow: hidden; background: #0b0c0e; }
+      #root { position: relative; width: 100%; height: 100%; background: #0b0c0e; color: #ecedef; font-family: "IBM Plex Sans", sans-serif; --paper:#0b0c0e;--surface:#121418;--ink:#ecedef;--ink-2:#a5a9b1;--ink-3:#82868f;--rule:#1f2228;--rule-strong:#2e323a;--accent:#8c9eff;--pass:#4cc38a;--fail:#ff7563; }
+      #g-eye { position: absolute; left: 40px; top: 30px; font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+      #g-title { position: absolute; left: 40px; top: 58px; font-family: "Newsreader", serif; font-size: 46px; letter-spacing: -0.02em; }
+      #g-shot { position: absolute; left: 40px; top: 136px; width: 430px; height: 270px; border-radius: 10px; overflow: hidden; outline: 3px solid var(--fail); }
+      #g-shot img { position: absolute; left: -356px; top: 0; width: 1146px; height: 645px; }
+      #g-shot2 { position: absolute; inset: 0; opacity: 0; }
+      #g-rounds { position: absolute; left: 510px; top: 136px; width: 410px; }
+      .rd { display: flex; align-items: center; gap: 14px; padding: 13px 16px; margin-bottom: 10px; border-radius: 10px; background: var(--surface); border: 1px solid var(--rule); font-size: 21px; }
+      .rd .n { font-family: "IBM Plex Mono", monospace; color: var(--ink-2); width: 100px; font-size: 18px; }
+      .sq { width: 16px; height: 16px; border-radius: 4px; }
+      .rd.fail .sq { background: var(--fail); } .rd.fail .v { color: var(--fail); }
+      .rd.pass .sq { background: var(--pass); } .rd.pass .v { color: var(--pass); }
+      #g-foot { position: absolute; left: 40px; right: 40px; top: 440px; display: flex; justify-content: space-between; align-items: baseline; }
+      #g-why { font-size: 18px; color: var(--ink-2); width: 520px; line-height: 1.4; }
+      #g-big { font-family: "IBM Plex Mono", monospace; font-size: 56px; color: var(--pass); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="gif" data-start="0" data-duration="8" data-width="960" data-height="540">
+      <div id="g-eye">Kane CLI / Next.js regrowth / counter-plural</div>
+      <div id="g-title">Pluralized counter</div>
+      <div id="g-shot"><img src="assets/shots/nextjs-r1-counter-plural-fail.jpg" alt="Round 1 failing step" /><div id="g-shot2"><img src="assets/shots/nextjs-r4-counter-plural-final.jpg" alt="Round 4 final state" /></div></div>
+      <div id="g-rounds"><div class="rd fail" id="t-rd1"><span class="sq"></span><span class="n">Round 1</span><span class="v">failed</span></div><div class="rd fail" id="t-rd2"><span class="sq"></span><span class="n">Round 2</span><span class="v">failed</span></div><div class="rd fail" id="t-rd3"><span class="sq"></span><span class="n">Round 3</span><span class="v">failed</span></div><div class="rd pass" id="t-rd4"><span class="sq"></span><span class="n">Round 4</span><span class="v">passed</span></div></div>
+      <div id="g-foot"><div id="g-why">Kane root cause, round 1: automation_bug. The app was right; the agent changed no code.</div><div id="g-big">22/22</div></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.set(".rd", { opacity: 0 }, 0);
+      tl.set("#g-big", { opacity: 0 }, 0);
+      tl.to("#t-rd1", { opacity: 1, duration: 0.3 }, 0.4);
+      tl.to("#t-rd2", { opacity: 1, duration: 0.3 }, 1.6);
+      tl.to("#t-rd3", { opacity: 1, duration: 0.3 }, 2.8);
+      tl.to("#t-rd4", { opacity: 1, duration: 0.3 }, 4.2);
+      tl.to("#g-shot", { outlineColor: "#4cc38a", duration: 0.4 }, 4.2);
+      tl.to("#g-shot2", { opacity: 1, duration: 0.4 }, 4.2);
+      tl.to("#g-big", { opacity: 1, duration: 0.4 }, 4.8);
+      window.__timelines["gif"] = tl;
+    </script>
+  </body>
+</html>

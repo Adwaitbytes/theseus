@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8" /><title>cleanroom</title></head>
+  <body>
+    <template>
+      <style>
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+#root { position: absolute; inset: 0; overflow: hidden; color: #ecedef; font-family: "IBM Plex Sans", sans-serif;
+  --paper: #0b0c0e; --surface: #121418; --sunken: #08090a; --ink: #ecedef; --ink-2: #a5a9b1; --ink-3: #82868f;
+  --rule: #1f2228; --rule-strong: #2e323a; --accent: #8c9eff; --pass: #4cc38a; --fail: #ff7563; }
+#cleanroom-ground { position: absolute; inset: 0; background: var(--paper); }
+#root .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 18px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+#root .serif { font-family: "Newsreader", serif; font-weight: 400; letter-spacing: -0.02em; }
+#root .mono { font-family: "IBM Plex Mono", monospace; }
+#root .chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 18px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule-strong); color: var(--ink-2); }
+#root .chip.fail { color: var(--fail); border-color: rgba(255,117,99,0.45); }
+#root .chip.pass { color: var(--pass); border-color: rgba(76,195,138,0.45); }
+#root .win { position: absolute; border-radius: 14px; overflow: hidden; background: var(--surface); border: 1px solid var(--rule-strong);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 60px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.4); }
+#root .win .bar { position: absolute; left: 0; right: 0; top: 0; height: 40px; background: #16181d; border-bottom: 1px solid var(--rule); display: flex; align-items: center; padding: 0 16px; gap: 8px; }
+#root .win .dot { width: 11px; height: 11px; border-radius: 50%; background: #2e323a; }
+#root .win .addr { margin-left: 14px; font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--ink-3); }
+#root .win .view { position: absolute; left: 0; right: 0; bottom: 0; top: 40px; overflow: hidden; }
+#root .win video { position: absolute; }
+#root .label { position: absolute; font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--ink-3); }
+
+#cr-title { position: absolute; left: 140px; top: 110px; font-size: 120px; line-height: 1; }
+#cr-a { position: absolute; left: 140px; top: 330px; width: 640px; }
+#cr-b { position: absolute; left: 1000px; top: 330px; width: 780px; }
+#root .tree { margin-top: 18px; font-family: "IBM Plex Mono", monospace; font-size: 24px; line-height: 1.65; }
+#cr-a .f { position: relative; color: var(--ink-2); }
+#cr-a .strike { position: absolute; left: 0; top: 50%; height: 2px; width: 100%; background: var(--fail); transform-origin: left center; }
+#cr-b .f { color: var(--ink); }
+#cr-b .f em { font-style: normal; color: var(--ink-3); }
+#cr-b .box { margin-top: 18px; padding: 26px 30px; border-radius: 14px; border: 1px solid var(--accent); background: rgba(140,158,255,0.06); }
+      </style>
+      <div id="root" data-composition-id="cleanroom" data-width="1920" data-height="1080">
+        <div id="cleanroom-ground" class="clip" data-start="0" data-duration="11.29"></div>
+
+        <div id="cr-title" class="serif">The code is gone.</div>
+        <div id="cr-a"><div class="eyebrow">examples/todomvc-jquery/original</div><div class="tree"><div class="f">index.html<span class="strike"></span></div><div class="f">app.js<span class="strike"></span></div><div class="f">app.src.js<span class="strike"></span></div><div class="f">base.js<span class="strike"></span></div><div class="f">app.css<span class="strike"></span></div><div class="f">base.css<span class="strike"></span></div><div class="f">index.css<span class="strike"></span></div><div class="f">jquery.min.js<span class="strike"></span></div><div class="f">handlebars.min.js<span class="strike"></span></div><div class="f">director.min.js<span class="strike"></span></div></div></div>
+        <div id="cr-b"><div class="eyebrow">Each builder's clean room</div><div class="box tree"><div class="f">SPEC.md <em>&nbsp;22 behaviors in plain English</em></div><div class="f">reference/ <em>&nbsp;screenshots</em></div></div>
+          <div class="tree" style="font-size:21px;color:var(--ink-3);width:520px">No original source in the workspace, the prompt or the feedback.</div></div>
+      </div>
+      <script>
+        const tl = gsap.timeline({ paused: true });
+        const S = [0.6,2.42];
+
+        tl.fromTo("#cr-title", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.05);
+        tl.fromTo("#cr-a", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.2);
+        tl.fromTo("#cr-a .strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, stagger: 0.07, ease: "power2.in" }, S[0] + 0.3);
+        tl.to("#cr-a .tree", { opacity: 0.28, duration: 0.6 }, S[0] + 1.3);
+        tl.fromTo("#cr-b > *", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.18, ease: "power3.out" }, S[1]);
+        tl.fromTo("#cr-b .box", { borderColor: "rgba(140,158,255,0.35)" }, { borderColor: "rgba(140,158,255,1)", duration: 1.2, yoyo: true, repeat: 3, ease: "sine.inOut" }, S[1] + 1);
+        tl.fromTo("#cr-title", { x: 0 }, { x: 18, duration: 10, ease: "none" }, 0.8);
+        window.__timelines["cleanroom"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

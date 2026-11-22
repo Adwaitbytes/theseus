@@ -1,0 +1,282 @@
+[
+  {
+    "scene": "verdict",
+    "index": 0,
+    "text": "This is Kane CLI failing an app that an AI agent just rebuilt from scratch.",
+    "src": "assets/vo/voiceover-temp-verdict-1-183e22d3.wav",
+    "duration": 5.397
+  },
+  {
+    "scene": "verdict",
+    "index": 1,
+    "text": "Step nine failed, and Kane says why.",
+    "src": "assets/vo/voiceover-temp-verdict-2-8fe43796.wav",
+    "duration": 2.389
+  },
+  {
+    "scene": "verdict",
+    "index": 2,
+    "text": "The test never saved the second counter value, and the screenshots show the app was right.",
+    "src": "assets/vo/voiceover-temp-verdict-3-4e259d48.wav",
+    "duration": 5.483
+  },
+  {
+    "scene": "verdict",
+    "index": 3,
+    "text": "That report goes straight back to the agent.",
+    "src": "assets/vo/voiceover-temp-verdict-4-dfa4a129.wav",
+    "duration": 2.389
+  },
+  {
+    "scene": "original",
+    "index": 0,
+    "text": "The app being rebuilt is this one: TodoMVC in jQuery, from 2012.",
+    "src": "assets/vo/voiceover-temp-original-1-ba6a4c4e.wav",
+    "duration": 6.315
+  },
+  {
+    "scene": "original",
+    "index": 1,
+    "text": "Theseus deletes its code, has coding agents grow it back in new stacks, and lets Kane decide when they are done.",
+    "src": "assets/vo/voiceover-temp-original-2-41ffac37.wav",
+    "duration": 7.403
+  },
+  {
+    "scene": "title",
+    "index": 0,
+    "text": "Theseus. Delete the code. Keep the ship.",
+    "src": "assets/vo/voiceover-temp-title-1-f5d52320.wav",
+    "duration": 2.517
+  },
+  {
+    "scene": "capture",
+    "index": 0,
+    "text": "First, capture.",
+    "src": "assets/vo/voiceover-temp-capture-1-4bb386e4.wav",
+    "duration": 1.237
+  },
+  {
+    "scene": "capture",
+    "index": 1,
+    "text": "Theseus crawled the running app, and an agent drafted twenty two behaviors in plain English.",
+    "src": "assets/vo/voiceover-temp-capture-2-41fe4abe.wav",
+    "duration": 5.867
+  },
+  {
+    "scene": "capture",
+    "index": 2,
+    "text": "Kane ran every one of them on the original app.",
+    "src": "assets/vo/voiceover-temp-capture-3-ce28c252.wav",
+    "duration": 2.923
+  },
+  {
+    "scene": "capture",
+    "index": 3,
+    "text": "Only what Kane proves on the original goes into the spec.",
+    "src": "assets/vo/voiceover-temp-capture-4-5de8edb9.wav",
+    "duration": 3.584
+  },
+  {
+    "scene": "falsegreen",
+    "index": 0,
+    "text": "Kane also caught a mistake in our own baseline.",
+    "src": "assets/vo/voiceover-temp-falsegreen-1-e3395714.wav",
+    "duration": 2.923
+  },
+  {
+    "scene": "falsegreen",
+    "index": 1,
+    "text": "The recorded pass for persist items had added the todos again after reopening the app.",
+    "src": "assets/vo/voiceover-temp-falsegreen-2-ef3a8cc6.wav",
+    "duration": 5.888
+  },
+  {
+    "scene": "falsegreen",
+    "index": 2,
+    "text": "That was a false green.",
+    "src": "assets/vo/voiceover-temp-falsegreen-3-bf413b0f.wav",
+    "duration": 1.557
+  },
+  {
+    "scene": "falsegreen",
+    "index": 3,
+    "text": "Theseus verify ran it again, Kane failed it, and the certificate now records it as failed on the original.",
+    "src": "assets/vo/voiceover-temp-falsegreen-4-5bce3c17.wav",
+    "duration": 7.253
+  },
+  {
+    "scene": "cleanroom",
+    "index": 0,
+    "text": "Then the code is gone.",
+    "src": "assets/vo/voiceover-temp-cleanroom-1-d0766cd9.wav",
+    "duration": 1.472
+  },
+  {
+    "scene": "cleanroom",
+    "index": 1,
+    "text": "Each agent starts in an empty clean room that holds only the spec and reference screenshots, never the original source.",
+    "src": "assets/vo/voiceover-temp-cleanroom-2-ad9fc7e2.wav",
+    "duration": 7.872
+  },
+  {
+    "scene": "regrow",
+    "index": 0,
+    "text": "Codex builds a Next.js version and a SvelteKit version side by side.",
+    "src": "assets/vo/voiceover-temp-regrow-1-28805dd0.wav",
+    "duration": 5.163
+  },
+  {
+    "scene": "regrow",
+    "index": 1,
+    "text": "Kane tests every build in a real browser, with the same plain English sentences it ran on the original.",
+    "src": "assets/vo/voiceover-temp-regrow-2-69d0eb99.wav",
+    "duration": 6.912
+  },
+  {
+    "scene": "loop",
+    "index": 0,
+    "text": "Next.js round one: twenty of twenty two.",
+    "src": "assets/vo/voiceover-temp-loop-1-d0ee1565.wav",
+    "duration": 3.093
+  },
+  {
+    "scene": "loop",
+    "index": 1,
+    "text": "Both failures go back to Codex with the failing step, Kane's reason, its root cause and its suggested fix.",
+    "src": "assets/vo/voiceover-temp-loop-2-d1e28383.wav",
+    "duration": 7.168
+  },
+  {
+    "scene": "loop",
+    "index": 2,
+    "text": "Kane's root causes said the app was right, so Codex left the working code alone.",
+    "src": "assets/vo/voiceover-temp-loop-3-8792f054.wav",
+    "duration": 5.099
+  },
+  {
+    "scene": "loop",
+    "index": 3,
+    "text": "Kane ran the failures again.",
+    "src": "assets/vo/voiceover-temp-loop-4-24221519.wav",
+    "duration": 2.005
+  },
+  {
+    "scene": "loop",
+    "index": 4,
+    "text": "Fresh empty view passed in round two, and the pluralized counter went green in round four.",
+    "src": "assets/vo/voiceover-temp-loop-5-6a781214.wav",
+    "duration": 5.696
+  },
+  {
+    "scene": "loop",
+    "index": 5,
+    "text": "Twenty two of twenty two.",
+    "src": "assets/vo/voiceover-temp-loop-6-ef17f222.wav",
+    "duration": 1.728
+  },
+  {
+    "scene": "sveltekit",
+    "index": 0,
+    "text": "SvelteKit, also built by Codex in a clean room, passed all twenty two on its first build.",
+    "src": "assets/vo/voiceover-temp-sveltekit-1-c3383b1e.wav",
+    "duration": 6.187
+  },
+  {
+    "scene": "regression",
+    "index": 0,
+    "text": "Then a final regression pass ran every behavior on Next.js again.",
+    "src": "assets/vo/voiceover-temp-regression-1-40a3c78e.wav",
+    "duration": 4.971
+  },
+  {
+    "scene": "regression",
+    "index": 1,
+    "text": "Kane caught the pluralized counter once more.",
+    "src": "assets/vo/voiceover-temp-regression-2-50c05f2f.wav",
+    "duration": 2.453
+  },
+  {
+    "scene": "regression",
+    "index": 2,
+    "text": "Its root cause says the app showed the right counts, and the test did not carry its stored values into the final check.",
+    "src": "assets/vo/voiceover-temp-regression-3-13bee0f2.wav",
+    "duration": 7.488
+  },
+  {
+    "scene": "regression",
+    "index": 3,
+    "text": "We count it as a failure anyway. Next.js ends at twenty one of twenty two.",
+    "src": "assets/vo/voiceover-temp-regression-4-a7747f7b.wav",
+    "duration": 5.547
+  },
+  {
+    "scene": "parity",
+    "index": 0,
+    "text": "Passing is not the finish line.",
+    "src": "assets/vo/voiceover-temp-parity-1-6bc88c82.wav",
+    "duration": 2.155
+  },
+  {
+    "scene": "parity",
+    "index": 1,
+    "text": "Kane stores values while it tests, like the counter text, and Theseus compares them with the values it read on the original.",
+    "src": "assets/vo/voiceover-temp-parity-2-0c9a0244.wav",
+    "duration": 8.021
+  },
+  {
+    "scene": "parity",
+    "index": 2,
+    "text": "Next.js: nineteen identical. SvelteKit: twenty identical.",
+    "src": "assets/vo/voiceover-temp-parity-3-3aab320b.wav",
+    "duration": 4.651
+  },
+  {
+    "scene": "parity",
+    "index": 3,
+    "text": "Every divergence and every failure is on the certificate.",
+    "src": "assets/vo/voiceover-temp-parity-4-2a0dd440.wav",
+    "duration": 3.755
+  },
+  {
+    "scene": "live",
+    "index": 0,
+    "text": "All three apps run today. Here are the original and both regrowths, doing the same things.",
+    "src": "assets/vo/voiceover-temp-live-1-6c9dbe89.wav",
+    "duration": 5.952
+  },
+  {
+    "scene": "live",
+    "index": 1,
+    "text": "And here is Kane re-proving one certificate cell on the Next.js build, live, for this video.",
+    "src": "assets/vo/voiceover-temp-live-2-441e4b33.wav",
+    "duration": 6.528
+  },
+  {
+    "scene": "expo",
+    "index": 0,
+    "text": "A native Android regrowth in Expo is running on the emulator now. Its result is not in yet.",
+    "src": "assets/vo/voiceover-temp-expo-1-87474e87.wav",
+    "duration": 6.805
+  },
+  {
+    "scene": "end",
+    "index": 0,
+    "text": "Plain English tests are the only tests that survive a rewrite.",
+    "src": "assets/vo/voiceover-temp-end-1-fadb473d.wav",
+    "duration": 4.053
+  },
+  {
+    "scene": "end",
+    "index": 1,
+    "text": "Theseus treats them as the source code.",
+    "src": "assets/vo/voiceover-temp-end-2-88b18db3.wav",
+    "duration": 2.432
+  },
+  {
+    "scene": "end",
+    "index": 2,
+    "text": "Built on Kane CLI for the TestMu AI hackathon.",
+    "src": "assets/vo/voiceover-temp-end-3-12211370.wav",
+    "duration": 3.669
+  }
+]

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8" /><title>loop</title></head>
+  <body>
+    <template>
+      <style>
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+#root { position: absolute; inset: 0; overflow: hidden; color: #ecedef; font-family: "IBM Plex Sans", sans-serif;
+  --paper: #0b0c0e; --surface: #121418; --sunken: #08090a; --ink: #ecedef; --ink-2: #a5a9b1; --ink-3: #82868f;
+  --rule: #1f2228; --rule-strong: #2e323a; --accent: #8c9eff; --pass: #4cc38a; --fail: #ff7563; }
+#loop-ground { position: absolute; inset: 0; background: var(--paper); }
+#root .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 18px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+#root .serif { font-family: "Newsreader", serif; font-weight: 400; letter-spacing: -0.02em; }
+#root .mono { font-family: "IBM Plex Mono", monospace; }
+#root .chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 18px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule-strong); color: var(--ink-2); }
+#root .chip.fail { color: var(--fail); border-color: rgba(255,117,99,0.45); }
+#root .chip.pass { color: var(--pass); border-color: rgba(76,195,138,0.45); }
+#root .win { position: absolute; border-radius: 14px; overflow: hidden; background: var(--surface); border: 1px solid var(--rule-strong);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 60px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.4); }
+#root .win .bar { position: absolute; left: 0; right: 0; top: 0; height: 40px; background: #16181d; border-bottom: 1px solid var(--rule); display: flex; align-items: center; padding: 0 16px; gap: 8px; }
+#root .win .dot { width: 11px; height: 11px; border-radius: 50%; background: #2e323a; }
+#root .win .addr { margin-left: 14px; font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--ink-3); }
+#root .win .view { position: absolute; left: 0; right: 0; bottom: 0; top: 40px; overflow: hidden; }
+#root .win video { position: absolute; }
+#root .label { position: absolute; font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--ink-3); }
+
+#lp-col { position: absolute; left: 110px; top: 90px; width: 700px; }
+#lp-col .head { display: flex; justify-content: space-between; }
+#root .row { position: relative; margin-top: 16px; padding: 20px 24px; border-radius: 12px; background: var(--surface); border: 1px solid var(--rule); }
+#root .row .top { display: flex; align-items: center; gap: 14px; }
+#root .row .n { font-family: "IBM Plex Mono", monospace; font-size: 18px; color: var(--ink-3); width: 86px; }
+#root .row .sq { width: 18px; height: 18px; border-radius: 4px; }
+#root .row .l { font-size: 27px; font-weight: 500; }
+#root .row .d { margin-top: 6px; margin-left: 100px; font-size: 19px; color: var(--ink-2); }
+#root .row .diff { position: absolute; right: 22px; top: 24px; font-family: "IBM Plex Mono", monospace; font-size: 16px; color: var(--ink-3); }
+#root .row.fail .sq { background: var(--fail); } #root .row.fail .l { color: var(--fail); }
+#root .row.pass .sq { background: var(--pass); } #root .row.pass .l { color: var(--pass); }
+#root .row.mixed .sq { background: var(--pass); }
+#lp-fb { margin-top: 16px; display: flex; align-items: center; gap: 12px; font-family: "IBM Plex Mono", monospace; font-size: 18px; color: var(--accent); }
+#lp-big { position: absolute; left: 110px; top: 800px; font-family: "IBM Plex Mono", monospace; font-size: 64px; color: var(--pass); }
+#lp-big small { font-size: 22px; color: var(--ink-2); margin-left: 16px; font-family: "IBM Plex Sans", sans-serif; }
+      </style>
+      <div id="root" data-composition-id="loop" data-width="1920" data-height="1080">
+        <div id="loop-ground" class="clip" data-start="0" data-duration="28.64"></div>
+
+        <div id="lp-col"><div class="head"><span class="eyebrow">Next.js regrowth, Codex</span><span class="eyebrow">diff</span></div>
+          <div id="lp-r1" class="row fail"><div class="top"><span class="n">Round 1</span><span class="sq"></span><span class="l">20/22 passed</span></div><div class="d">fresh-empty and counter-plural failed</div><span class="diff">10 files</span></div>
+          <div id="lp-r2" class="row mixed"><div class="top"><span class="n">Round 2</span><span class="sq"></span><span class="l">fresh-empty passed</span></div><div class="d">counter-plural failed again</div><span class="diff">0 files</span></div>
+          <div id="lp-r3" class="row fail"><div class="top"><span class="n">Round 3</span><span class="sq"></span><span class="l">counter-plural failed</span></div><div class="d">Kane: the app shows the right counts</div><span class="diff">0 files</span></div>
+          <div id="lp-r4" class="row pass"><div class="top"><span class="n">Round 4</span><span class="sq"></span><span class="l">counter-plural passed</span></div><div class="d">22/22 proven</div><span class="diff">0 files</span></div>
+          <div id="lp-fb">Each failure sent back with step, reason, root cause, fix</div></div>
+        <div id="lp-big">22/22<small>by round 4, with no code changed after round 1</small></div>
+        <div id="lp-win" class="win" style="left:880px;top:60px;width:930px;height:878px">
+          <div class="bar" data-layout-ignore><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">theseus-umber.vercel.app/voyages/todomvc-jquery/nextjs</span></div>
+          <div class="view">
+            <video id="lp-v" class="clip" src="assets/footage/nextjs-rounds.mp4" muted playsinline data-start="0" data-duration="28.64" data-media-start="5" data-playback-rate="0.7681564245810055" style="left:-300px;top:0px;width:1536px;height:864px"></video>
+          </div>
+        </div>
+      </div>
+      <script>
+        const tl = gsap.timeline({ paused: true });
+        const S = [0.5,3.94,11.46,16.91,19.27,25.31];
+
+        tl.fromTo("#lp-win", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+        tl.fromTo("#lp-col .head", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.1);
+        tl.fromTo("#lp-r1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, S[0]);
+        tl.fromTo("#lp-fb", { opacity: 0 }, { opacity: 1, duration: 0.5 }, S[1]);
+        tl.fromTo("#lp-r1 .diff", { color: "#82868f" }, { color: "#ecedef", duration: 0.3 }, S[2]);
+        tl.fromTo("#lp-r2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, S[3]);
+        tl.fromTo("#lp-r3", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, S[4]);
+        tl.fromTo("#lp-r4", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, S[4] + 2.4);
+        tl.fromTo("#lp-big", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, S[5]);
+        window.__timelines["loop"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
