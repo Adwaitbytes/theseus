@@ -18,8 +18,8 @@ Hero voyage: the 2012 jQuery TodoMVC (`examples/todomvc-jquery`, MIT, vendored u
 | Baseline | 22 of 22 proven by Kane on the original; a later `theseus verify` showed one of them (`persist-items`) had been a false green, and the certificate records that |
 | SvelteKit regrowth (Codex, clean room) | 22 of 22 proven on the first build; parity: 20 identical, 1 diverged, 1 failed on the original |
 | Next.js regrowth (Codex, clean room) | 22 of 22 by round 4; the final regression pass caught `counter-plural` again (Kane's own root cause says the app is right), ending at 21 of 22; parity: 19 identical |
-| Expo on Android (Codex, clean room) | native release build running on the emulator, Kane verifying |
-| Second voyage: AngularJS RealWorld "Conduit", full stack | baseline running |
+| Expo on Android (Codex, clean room, native) | 21 of 22 proven on the Android emulator from the plain-English spec; parity: 21 identical, the one miss is the original's own false green |
+| Second voyage: AngularJS RealWorld "Conduit", full stack into Next.js (Codex) | 16 behaviors proven on the original, 14 of 16 proven on the rebuild by round 2; parity: 13 identical |
 
 Use them live (Kane re-verified both regrowths against these public URLs): [original jQuery TodoMVC](https://theseus-todomvc-original.vercel.app), [Next.js regrowth](https://theseus-todomvc-nextjs.vercel.app), [SvelteKit regrowth](https://theseus-todomvc-sveltekit.vercel.app). Certificates and round-by-round replays: [theseus-umber.vercel.app](https://theseus-umber.vercel.app/voyages/todomvc-jquery). The regrown source code is in `examples/todomvc-jquery/regrown/`, with each round's commit in `ROUNDS.md`. One honest note: Codex pinned Next.js 15.5.2, which Vercel blocks as vulnerable, so the deployed copy runs the patched 15.5.29; the committed source is unchanged.
 

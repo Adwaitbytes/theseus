@@ -1,0 +1,610 @@
+[
+  {
+    "behaviorId": "profile-tabs-show-authored-and-favorited-articles",
+    "targetId": "original",
+    "outcome": {
+      "status": "failed",
+      "exitCode": 1,
+      "oneLiner": "The run tried to verify the article-title list before saving the visible titles.",
+      "reason": "Checkpoint assertion failed: \"the stored {{article_titles}} value is \"Designing a follow feed, Boring databases win\"\" Missing stored values: article_titles, favorite_article_titles.",
+      "durationS": 73.5,
+      "credits": 23.51641,
+      "finalState": {},
+      "steps": [
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "navigate: Navigate to http://localhost:4171"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "click: Opening bob's profile by clicking the bob link"
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "wait: PRIMARY: wait for bob's profile heading to be visible"
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "analyze: ANALYZE(literal, 'the stored {{article_titles}} value is \"Designing a follow fee"
+        },
+        {
+          "index": 6,
+          "status": "failed",
+          "remark": "assert: the stored {{article_titles}} value is \"Designing a follow feed, Boring database"
+        }
+      ],
+      "failingStep": {
+        "index": 6,
+        "remark": "assert: the stored {{article_titles}} value is \"Designing a follow feed, Boring database"
+      },
+      "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZC01G0MRYTWRR26745EFSC/dashboard/share/US_55B7HK9WMWZA4XWFZRJBIDETLTNCLX2C4ZTW7LHZM5JMTS7T8XX34RM0AKP73RNL?type=summary&agentView=true&fqdn=summary-page",
+      "sessionDir": "/Users/adwaitkeshari/.testmuai/kaneai/sessions/bd254ad3-41c7-43ba-a4d5-c5848aeecd25",
+      "rca": {
+        "rootCause": "[automation_bug] Bob’s page loaded correctly and showed “Designing a follow feed” followed by “Boring databases win,” but the run left `article_titles` empty and checked the placeholder instead.",
+        "suggestedFix": "Update the collection step to read the two visible My Articles titles in display order and save their comma-separated value as `article_titles` before running the verification."
+      },
+      "artifacts": {
+        "finalShot": "artifacts/original/baseline/profile-tabs-show-authored-and-favorited-articles/profile-tabs-show-authored-and-favorited-articles-final.jpg",
+        "failShot": "artifacts/original/baseline/profile-tabs-show-authored-and-favorited-articles/profile-tabs-show-authored-and-favorited-articles-fail.jpg",
+        "evidencePack": "/Users/adwaitkeshari/.testmuai/kaneai/sessions/bd254ad3-41c7-43ba-a4d5-c5848aeecd25/evidence/6e133e87-2f4a-4d34-9f74-f4ce8e000234.evidence"
+      }
+    }
+  },
+  {
+    "behaviorId": "publish-article-with-tags-and-remove-a-tag",
+    "targetId": "original",
+    "outcome": {
+      "status": "timeout",
+      "exitCode": 143,
+      "oneLiner": "Exceeded the 300s wall-clock limit; the run was killed. Missing stored values: article_tags, article_titles. Evidence pack not found; no screenshots were saved.",
+      "reason": "Exceeded the 300s wall-clock limit; the run was killed. Missing stored values: article_tags, article_titles. Evidence pack not found; no screenshots were saved.",
+      "durationS": 330.059,
+      "credits": 0,
+      "finalState": {},
+      "steps": [
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "navigate: Navigate to http://localhost:4171"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "click: Clicking Sign in"
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "wait: queued plan (3 steps): type \"Email\"; type \"Password\"; click \"Sign in\""
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "type: Type \"carol@example.com\" into \"Email\""
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": ""
+        },
+        {
+          "index": 7,
+          "status": "done",
+          "remark": "wait: queued plan (2 steps): type \"Password\"; click \"Sign in\""
+        },
+        {
+          "index": 8,
+          "status": "done",
+          "remark": "type: Type \"conduit-demo\" into \"Password\""
+        },
+        {
+          "index": 9,
+          "status": "done",
+          "remark": ""
+        },
+        {
+          "index": 10,
+          "status": "done",
+          "remark": "click: Clicking Sign in button for carol@example.com"
+        },
+        {
+          "index": 11,
+          "status": "done",
+          "remark": "wait: Waiting signed-in account state confirmed"
+        },
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "click: Clicking New Article in the top navigation"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "wait: queued plan (7 steps): type \"Article Title\"; type \"What's this article about?\"; "
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "type: Type \"A new field note\" into \"Article Title\""
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": ""
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": "type: Entering description in the article editor text box"
+        },
+        {
+          "index": 7,
+          "status": "done",
+          "remark": "type: Typing the first line into the article editor"
+        },
+        {
+          "index": 8,
+          "status": "done",
+          "remark": "type: Typing “testing” into the tags textbox"
+        },
+        {
+          "index": 9,
+          "status": "done",
+          "remark": "press_key: PRIMARY: add tags \"testing\", \"notes\", and \"draft\"; role=textbox; text=\"Enter tag"
+        },
+        {
+          "index": 10,
+          "status": "done",
+          "remark": "type: Entering tag notes in the editor field"
+        },
+        {
+          "index": 11,
+          "status": "done",
+          "remark": "press_key: PRIMARY: add tags \"testing\", \"notes\", and \"draft\"; role=textbox; text=\"Enter tag"
+        },
+        {
+          "index": 12,
+          "status": "done",
+          "remark": "type: Typing draft in tag input box"
+        },
+        {
+          "index": 13,
+          "status": "done",
+          "remark": "press_key: PRIMARY: add tags \"testing\", \"notes\", and \"draft\"; role=textbox; text=\"Enter tag"
+        },
+        {
+          "index": 14,
+          "status": "done",
+          "remark": "click: Clicking the draft remove icon"
+        },
+        {
+          "index": 15,
+          "status": "done",
+          "remark": "click: Clicking Publish Article button"
+        },
+        {
+          "index": 16,
+          "status": "done",
+          "remark": "wait: PRIMARY: wait for the published article heading \"A new field note\" to be visible"
+        },
+        {
+          "index": 17,
+          "status": "done",
+          "remark": "analyze: the stored {{article_tags}} value is \"testing, notes\""
+        },
+        {
+          "index": 18,
+          "status": "done",
+          "remark": "assert: the page shows \"A new field note\" and \"First line.\" and the stored {{article_tag"
+        },
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "click: Clicking carol's profile link in the top navigation"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "click: Clicking My Articles tab in profile"
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "analyze: ANALYZE(textual_visual, 'The visible My Articles titles in display order are sto"
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "analyze: ANALYZE(textual_visual, 'The stored {{article_titles}} value is \"A new field not"
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": "assert: The stored {{article_titles}} value is \"A new field note\""
+        }
+      ],
+      "artifacts": {}
+    }
+  },
+  {
+    "behaviorId": "edit-own-article-and-keep-changes",
+    "targetId": "original",
+    "outcome": {
+      "status": "failed",
+      "exitCode": 1,
+      "oneLiner": "Publishing saves the article, but the requested description is not visible on the published page.",
+      "reason": "The published article page contains no visible description despite the editor field update. Missing stored values: article_description.",
+      "durationS": 157.4,
+      "credits": 43.139354999999995,
+      "finalState": {},
+      "steps": [
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "navigate: Navigate to http://localhost:4171"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "click: Clicking Sign in"
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "wait: queued plan (3 steps): type \"Email\"; type \"Password\"; click \"Sign in\""
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "type: Type \"alice@example.com\" into \"Email\""
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": ""
+        },
+        {
+          "index": 7,
+          "status": "done",
+          "remark": "wait: queued plan (2 steps): type \"Password\"; click \"Sign in\""
+        },
+        {
+          "index": 8,
+          "status": "done",
+          "remark": "type: Type \"conduit-demo\" into \"Password\""
+        },
+        {
+          "index": 9,
+          "status": "done",
+          "remark": ""
+        },
+        {
+          "index": 10,
+          "status": "done",
+          "remark": "click: Clicking Sign in button"
+        },
+        {
+          "index": 11,
+          "status": "done",
+          "remark": "wait: Waiting for the signed-in home page to remain visible"
+        },
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "click: Clicking Global Feed link in the feed tabs near the top of the page"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "scroll: Scrolling to the Testing in plain English link"
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "click: Clicking Testing in plain English link in the Global Feed"
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "click: Clicking Edit Article"
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": "wait: queued plan (2 steps): type \"What's this article about?\"; type \"Write your artic"
+        },
+        {
+          "index": 7,
+          "status": "done",
+          "remark": "type: Type \"Behavior specifications for every team.\" into \"What's this article about?\""
+        },
+        {
+          "index": 8,
+          "status": "done",
+          "remark": "type: Type \"Updated **bold** guidance.\" into \"Write your article (in markdown)\""
+        },
+        {
+          "index": 9,
+          "status": "done",
+          "remark": "click: Clicking Publish Article"
+        },
+        {
+          "index": 10,
+          "status": "done",
+          "remark": "analyze: ANALYZE(unknown, 'the stored {{article_description}} value is \"Behavior specific"
+        },
+        {
+          "index": 11,
+          "status": "failed",
+          "remark": "wait: Waiting after failed article description checkpoint"
+        }
+      ],
+      "failingStep": {
+        "index": 11,
+        "remark": "wait: Waiting after failed article description checkpoint"
+      },
+      "bug": {
+        "category": "functional_defect",
+        "severity": "major",
+        "oneLiner": "Publishing saves the article, but the requested description is not visible on the published page.",
+        "confidence": 0.97
+      },
+      "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZCHM5JN3Z32P5ZER7SPYKB/dashboard/share/US_ZHJSXTTXTHWTQFPN4TWUCWOJ749R6AVKNSF9K0HT4NZ0QPXFH021PF9OPLXVSXU8?type=summary&agentView=true&fqdn=summary-page",
+      "sessionDir": "/Users/adwaitkeshari/.testmuai/kaneai/sessions/8feb9843-289e-492a-a6e4-6b6e5fff15db",
+      "rca": {
+        "rootCause": "[application_issue] The article page does not display the description that was entered and saved during editing, even though the body is published correctly.",
+        "suggestedFix": "Fix the published article view so it retains and displays the saved description, and address the page error triggered after publishing."
+      },
+      "artifacts": {
+        "finalShot": "artifacts/original/baseline/edit-own-article-and-keep-changes/edit-own-article-and-keep-changes-final.jpg",
+        "failShot": "artifacts/original/baseline/edit-own-article-and-keep-changes/edit-own-article-and-keep-changes-fail.png",
+        "evidencePack": "/Users/adwaitkeshari/.testmuai/kaneai/sessions/8feb9843-289e-492a-a6e4-6b6e5fff15db/evidence/58e1c313-f5bc-4104-952c-15caac46546e.evidence"
+      }
+    }
+  },
+  {
+    "behaviorId": "settings-update-profile-and-logout",
+    "targetId": "original",
+    "outcome": {
+      "status": "failed",
+      "exitCode": 1,
+      "oneLiner": "The settings form rejects the required username “carol-updated,” so the requested profile changes cannot be saved.",
+      "reason": "Save returns a username pattern error for the required hyphenated username, so the requested settings cannot be saved. Missing stored values: profile_summary, navigation_labels.",
+      "durationS": 80.6,
+      "credits": 27.937405,
+      "finalState": {},
+      "steps": [
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "navigate: Navigate to http://localhost:4171"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "click: Clicking Sign in in the top navigation"
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "wait: queued plan (3 steps): type \"Email\"; type \"Password\"; click \"Sign in\""
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "type: Type \"carol@example.com\" into \"Email\""
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": ""
+        },
+        {
+          "index": 7,
+          "status": "done",
+          "remark": "wait: queued plan (2 steps): type \"Password\"; click \"Sign in\""
+        },
+        {
+          "index": 8,
+          "status": "done",
+          "remark": "type: Type \"conduit-demo\" into \"Password\""
+        },
+        {
+          "index": 9,
+          "status": "done",
+          "remark": ""
+        },
+        {
+          "index": 10,
+          "status": "done",
+          "remark": "click: Clicking Sign in with email and password"
+        },
+        {
+          "index": 11,
+          "status": "done",
+          "remark": "wait: Waiting confirm sign-in is complete"
+        },
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "click: Clicking Settings in the top navigation"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "wait: queued plan (2 steps): type \"Username\"; type \"Short bio about you\""
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "type: Type \"carol-updated\" into \"Username\""
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "type: Type \"Writes clear release notes.\" into \"Short bio about you\""
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": "click: Clicking Update Settings button"
+        },
+        {
+          "index": 7,
+          "status": "failed",
+          "remark": "wait: Waiting after the attempted Save the settings action"
+        }
+      ],
+      "failingStep": {
+        "index": 7,
+        "remark": "wait: Waiting after the attempted Save the settings action"
+      },
+      "bug": {
+        "category": "validation_defect",
+        "severity": "major",
+        "oneLiner": "The settings form rejects the required username “carol-updated,” so the requested profile changes cannot be saved.",
+        "confidence": 0.99
+      },
+      "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZBGETHQMN087RSFHAQN8AC/dashboard/share/US_8E8GNQVIEH4L363CCK3Z2GVVOV33IIU9EICWOF6X9LLQV1GUSW6712XJGTJ6U4UT?type=summary&agentView=true&fqdn=summary-page",
+      "sessionDir": "/Users/adwaitkeshari/.testmuai/kaneai/sessions/25a4306e-db22-42bf-86df-fd9df2aa6de2",
+      "rca": {
+        "rootCause": "[application_issue] The service does not allow a hyphen in the username, even though the requested username includes one.",
+        "suggestedFix": "Update the username validation to allow hyphens, then retry saving “carol-updated” with the requested bio."
+      },
+      "artifacts": {
+        "finalShot": "artifacts/original/baseline/settings-update-profile-and-logout/settings-update-profile-and-logout-final.jpg",
+        "failShot": "artifacts/original/baseline/settings-update-profile-and-logout/settings-update-profile-and-logout-fail.png",
+        "evidencePack": "/Users/adwaitkeshari/.testmuai/kaneai/sessions/25a4306e-db22-42bf-86df-fd9df2aa6de2/evidence/63666e24-c435-4c10-aeee-722d92e49d32.evidence"
+      }
+    }
+  },
+  {
+    "behaviorId": "signed-out-protected-pages-return-home",
+    "targetId": "original",
+    "outcome": {
+      "status": "failed",
+      "exitCode": 1,
+      "oneLiner": "The page was correct after sign-out, but the run did not save the values needed for its final check.",
+      "reason": "Final verification failed: \"the stored {{feed_tabs}} value is \"Global Feed\" and the navigation shows \"Sign in\" and \"Sign up\"\" Missing stored values: feed_tabs.",
+      "durationS": 156.3,
+      "credits": 50.459692499999996,
+      "finalState": {},
+      "steps": [
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "navigate: Navigate to http://localhost:4171"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "click: Clicking Sign in"
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "wait: queued plan (3 steps): type \"Email\"; type \"Password\"; click \"Sign in\""
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "type: Type \"alice@example.com\" into \"Email\""
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": ""
+        },
+        {
+          "index": 7,
+          "status": "done",
+          "remark": "type: Typing password in sign-in form"
+        },
+        {
+          "index": 8,
+          "status": "done",
+          "remark": "click: Clicking Sign in button"
+        },
+        {
+          "index": 9,
+          "status": "done",
+          "remark": "click: Clicking New Article in the header navigation"
+        },
+        {
+          "index": 10,
+          "status": "done",
+          "remark": "wait: PRIMARY: wait for the article editor to load"
+        },
+        {
+          "index": 11,
+          "status": "done",
+          "remark": "analyze: the article editor is shown"
+        },
+        {
+          "index": 12,
+          "status": "done",
+          "remark": "assert: the article editor is shown"
+        },
+        {
+          "index": 2,
+          "status": "done",
+          "remark": "click: Clicking Settings in the top navigation"
+        },
+        {
+          "index": 3,
+          "status": "done",
+          "remark": "wait: PRIMARY: wait for the heading \"Your Settings\" to be visible"
+        },
+        {
+          "index": 4,
+          "status": "done",
+          "remark": "analyze: \"Your Settings\" is shown"
+        },
+        {
+          "index": 5,
+          "status": "done",
+          "remark": "assert: \"Your Settings\" is shown"
+        },
+        {
+          "index": 6,
+          "status": "done",
+          "remark": "click: Clicking sign out in the settings form"
+        },
+        {
+          "index": 7,
+          "status": "done",
+          "remark": "wait: PRIMARY: Open Home; role=link; text=\"Home\" | HINTS: container=top navigation"
+        },
+        {
+          "index": 8,
+          "status": "done",
+          "remark": "analyze: the stored {{feed_tabs}} value is \"Global Feed\""
+        },
+        {
+          "index": 9,
+          "status": "failed",
+          "remark": "assert: the stored {{feed_tabs}} value is \"Global Feed\" and the navigation shows \"Sign i"
+        }
+      ],
+      "failingStep": {
+        "index": 9,
+        "remark": "assert: the stored {{feed_tabs}} value is \"Global Feed\" and the navigation shows \"Sign i"
+      },
+      "testUrl": "https://test-manager.lambdatest.com/projects/01M7XERP63VQV9E74EPKHX1BXC/test-cases/01M7ZCQEEVTCSCB56Y68ETNKAS/dashboard/share/US_J2QXGRK0JEKP8JWGBYE3DN1HDR4JDJW9O1AE6DOP1HIYF8SDLSN14BAJ8PEPD2BF?type=summary&agentView=true&fqdn=summary-page",
+      "sessionDir": "/Users/adwaitkeshari/.testmuai/kaneai/sessions/57becfa5-ee0f-4e1e-bbeb-704fe30b5b46",
+      "rca": {
+        "rootCause": "[automation_bug] After opening Home, the agent identified the feed label but did not record it in the required stored value. It also did not save whether the Sign in and Sign up links were visible. The final check therefore received the literal placeholders instead of collected results.",
+        "suggestedFix": "Update the run to explicitly extract the visible feed-tab labels in order and save them to feed_tabs, then save the two navigation-presence checks before making the final assertion."
+      },
+      "artifacts": {
+        "finalShot": "artifacts/original/baseline/signed-out-protected-pages-return-home/signed-out-protected-pages-return-home-final.jpg",
+        "failShot": "artifacts/original/baseline/signed-out-protected-pages-return-home/signed-out-protected-pages-return-home-fail.jpg",
+        "evidencePack": "/Users/adwaitkeshari/.testmuai/kaneai/sessions/57becfa5-ee0f-4e1e-bbeb-704fe30b5b46/evidence/6ba7b44e-2dd4-4e7a-b27e-d5862c522442.evidence"
+      }
+    }
+  }
+]

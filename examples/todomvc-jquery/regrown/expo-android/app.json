@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "TodoMVC",
+    "slug": "todovmc-native",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.theseus.todos"
+    },
+    "ios": {
+      "bundleIdentifier": "com.theseus.todos"
+    },
+    "assetBundlePatterns": ["**/*"]
+  }
+}

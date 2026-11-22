@@ -1,0 +1,11 @@
+node_modules/
+.next/
+.svelte-kit/
+build/
+dist/
+.expo/
+android/
+ios/
+.testmuai/
+.theseus-feedback/
+*.log

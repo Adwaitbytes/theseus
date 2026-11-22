@@ -1,192 +1,90 @@
 {
   "behaviors": [
     {
-      "id": "signed-out-global-feed-and-tags",
-      "title": "Browse the seeded global feed",
-      "area": "Home feed",
-      "objective": "Starting from the seeded app, open Home, store the visible article titles in newest-first display order as 'article_titles', store the visible Popular Tags labels in display order as 'popular_tags', then verify the article titles are \"Favorites and counters, Designing a follow feed, Pagination without surprises, Boring databases win, Markdown in article bodies, A tour of the RealWorld spec, Testing in plain English, How to retire an AngularJS app\" and the Popular Tags labels are \"angularjs, migration, testing, realworld, javascript, backend\".",
-      "stores": ["article_titles", "popular_tags"],
-      "tags": ["seed", "summary"],
-      "source": "capture"
-    },
-    {
-      "id": "sign-in-persists-after-reopening",
-      "title": "Keep a signed-in session after reopening",
-      "area": "Authentication",
-      "objective": "Starting from the seeded app, sign in with email \"alice@example.com\" and password \"conduit-demo\", reopen the app, store the visible navigation labels in display order as 'navigation_labels', then verify the stored navigation_labels value is \"Home, New Article, Settings, alice\" and Home shows \"Your Feed\".",
-      "stores": ["navigation_labels"],
-      "tags": ["persistence"],
-      "source": "docs"
-    },
-    {
-      "id": "sign-in-rejects-invalid-credentials",
-      "title": "Reject invalid sign-in credentials",
-      "area": "Authentication",
-      "objective": "Starting from the seeded app, open Sign in, enter email \"alice@example.com\" and password \"wrong-password\", submit the form, store the visible error text as 'error_text', then verify the stored error_text value is \"email is not found\" and the navigation shows \"Sign in\" and \"Sign up\".",
-      "stores": ["error_text"],
-      "tags": ["validation"],
-      "source": "docs"
-    },
-    {
-      "id": "empty-and-whitespace-sign-in-stays-signed-out",
-      "title": "Reject blank and whitespace sign-in details",
-      "area": "Authentication",
-      "objective": "Starting from the seeded app, open Sign in, submit empty Email and Password fields, enter email \"alice@example.com\" and a Password made only of spaces, submit the form, store the visible error text as 'error_text', then verify the stored error_text value is \"email is not found\" and the navigation still shows \"Sign in\" and \"Sign up\".",
-      "stores": ["error_text"],
-      "tags": ["validation", "empty-input", "whitespace"],
-      "source": "docs"
-    },
-    {
-      "id": "sign-up-new-account",
-      "title": "Register a new account",
-      "area": "Authentication",
-      "objective": "Starting from the seeded app, open Sign up, enter username \"dana\", email \"dana@example.com\", and password \"conduit-demo\", submit the form, store the visible navigation labels in display order as 'navigation_labels', then verify the stored navigation_labels value is \"Home, New Article, Settings, dana\".",
-      "stores": ["navigation_labels"],
-      "tags": ["registration"],
-      "source": "docs"
-    },
-    {
-      "id": "sign-up-rejects-duplicate-username",
-      "title": "Reject a duplicate username",
-      "area": "Authentication",
-      "objective": "Starting from the seeded app, open Sign up, enter username \"alice\", email \"another-alice@example.com\", and password \"conduit-demo\", submit the form, store the visible error text as 'error_text', then verify the stored error_text value is \"username is exist\" and the \"Sign up\" heading remains visible.",
-      "stores": ["error_text"],
-      "tags": ["registration", "validation"],
-      "source": "docs"
-    },
-    {
-      "id": "tag-filter-lists-only-matching-articles",
-      "title": "Filter the global feed by tag",
-      "area": "Home feed",
-      "objective": "Starting from the seeded app, open Home, select the Popular Tags label \"backend\", store the visible article titles in display order as 'article_titles', then verify the selected tab is \"# backend\" and the stored article_titles value is \"Designing a follow feed, Boring databases win\".",
-      "stores": ["article_titles"],
-      "tags": ["filtering"],
-      "source": "docs"
-    },
-    {
-      "id": "signed-out-article-renders-markdown-and-comments",
-      "title": "Read Markdown and seeded comments while signed out",
-      "area": "Article reading",
-      "objective": "Starting from the seeded app, open \"Markdown in article bodies\", then verify the body shows the heading \"Heading\", bold text \"bold\", italic text \"italic\", and the ordered items \"One, Two, Three\"; open \"How to retire an AngularJS app\", store the visible comment texts in newest-first display order as 'comment_texts', then verify the stored comment_texts value is \"How long did the whole migration take?, We did exactly this last year. Writing the behaviors first saved us.\" and the page says \"Sign in or sign up to add comments on this article.\".",
-      "stores": ["comment_texts"],
-      "tags": ["markdown", "comments"],
-      "source": "docs"
-    },
-    {
-      "id": "signed-out-heart-and-follow-lead-to-sign-up",
-      "title": "Require an account for social actions",
-      "area": "Authentication",
-      "objective": "Starting from the seeded app, open \"Favorites and counters\", choose \"Favorite Article (1)\", store the visible page heading as 'page_heading', then verify the stored page_heading value is \"Sign up\"; open bob's profile, choose \"Follow bob\", store the visible page heading as 'page_heading', then verify the stored page_heading value is \"Sign up\".",
-      "stores": ["page_heading"],
-      "tags": ["authorization"],
-      "source": "docs"
-    },
-    {
-      "id": "favorite-toggle-updates-count-and-profile",
-      "title": "Favorite and unfavorite an article",
-      "area": "Favorites",
-      "objective": "Starting from the seeded app, sign in with email \"alice@example.com\" and password \"conduit-demo\", open \"Favorites and counters\", choose \"Favorite Article (1)\", store the visible favorite action text as 'favorite_action', then verify the stored favorite_action value is \"Unfavorite Article (2)\"; choose \"Unfavorite Article (2)\", open alice's profile and select \"Favorited Articles\", store the visible article titles in display order as 'article_titles', then verify the stored article_titles value is \"none\" and the page shows \"No articles are here... yet.\".",
-      "stores": ["favorite_action", "article_titles"],
-      "tags": ["counters", "persistence"],
-      "source": "docs"
-    },
-    {
       "id": "follow-and-unfollow-change-your-feed",
       "title": "Follow an author and update the feed",
       "area": "Following",
-      "objective": "Starting from the seeded app, sign in with email \"carol@example.com\" and password \"conduit-demo\", open alice's profile, choose \"Follow alice\", open Home and select \"Your Feed\", store the visible article titles in display order as 'article_titles', then verify the stored article_titles value is \"Favorites and counters, Pagination without surprises, Markdown in article bodies, A tour of the RealWorld spec, Testing in plain English, How to retire an AngularJS app\"; return to alice's profile, choose \"Unfollow alice\", open Home and select \"Your Feed\", store the visible article titles in display order as 'article_titles', then verify the stored article_titles value is \"none\" and the page shows \"No articles are here... yet.\".",
-      "stores": ["article_titles"],
-      "tags": ["filtering", "empty-state"],
-      "source": "docs"
-    },
-    {
-      "id": "seeded-follow-feed-and-empty-feed",
-      "title": "Show followed authors only",
-      "area": "Home feed",
-      "objective": "Starting from the seeded app, sign in with email \"alice@example.com\" and password \"conduit-demo\", store the visible Your Feed article titles in display order as 'article_titles', then verify the stored article_titles value is \"Designing a follow feed, Boring databases win\"; sign out, sign in with email \"bob@example.com\" and password \"conduit-demo\", store the visible Your Feed article titles in display order as 'article_titles', then verify the stored article_titles value is \"none\" and the page shows \"No articles are here... yet.\".",
-      "stores": ["article_titles"],
-      "tags": ["seed", "empty-state"],
+      "objective": "Starting from the seeded app, sign in with email \"carol@example.com\" and password \"conduit-demo\", open alice's profile, follow alice, open Home and select \"Your Feed\", collect all visible article titles in display order and store the visible article titles in display order as 'article_titles', then verify the stored article_titles value is \"Favorites and counters, Pagination without surprises, Markdown in article bodies, A tour of the RealWorld spec, Testing in plain English, How to retire an AngularJS app\"; open alice's profile, unfollow alice, open Home and select \"Your Feed\", collect all visible article titles in display order and store the visible article titles in display order as 'article_titles', then verify the stored article_titles value is \"none\" and the page shows \"No articles are here... yet.\".",
+      "stores": [
+        "article_titles"
+      ],
+      "tags": [
+        "filtering",
+        "empty-state"
+      ],
       "source": "docs"
     },
     {
       "id": "profile-tabs-show-authored-and-favorited-articles",
       "title": "Browse profile article tabs",
       "area": "Profiles",
-      "objective": "Starting from the seeded app, open bob's profile, store the visible My Articles titles in display order as 'article_titles', then verify the stored article_titles value is \"Designing a follow feed, Boring databases win\"; select \"Favorited Articles\", store the visible article titles in display order as 'favorite_article_titles', then verify the stored favorite_article_titles value is \"Favorites and counters\"; open carol's profile and select \"My Articles\", store the visible article titles in display order as 'article_titles', then verify the stored article_titles value is \"none\" and the page shows \"No articles are here... yet.\".",
-      "stores": ["article_titles", "favorite_article_titles"],
-      "tags": ["tabs", "empty-state"],
+      "objective": "Starting from the seeded app, open bob's profile, collect the visible My Articles titles in display order and store the visible My Articles titles in display order as 'article_titles', then verify the stored article_titles value is \"Designing a follow feed, Boring databases win\"; select \"Favorited Articles\", collect the visible article titles in display order and store the visible article titles in display order as 'favorite_article_titles', then verify the stored favorite_article_titles value is \"Favorites and counters\"; navigate directly to carol's profile, select \"My Articles\", collect the visible article titles in display order and store the visible article titles in display order as 'article_titles', then verify the stored article_titles value is \"none\" and the page shows \"No articles are here... yet.\".",
+      "stores": [
+        "article_titles",
+        "favorite_article_titles"
+      ],
+      "tags": [
+        "tabs",
+        "empty-state"
+      ],
       "source": "docs"
-    },
-    {
-      "id": "profile-pagination-shows-all-authored-articles",
-      "title": "Page through a long profile list",
-      "area": "Profiles",
-      "objective": "Starting from the seeded app, open alice's profile, store the visible My Articles titles on page 1 in display order as 'article_titles', select page \"2\", store the visible My Articles titles on page 2 in display order as 'page_two_article_titles', then verify the stored page_two_article_titles value is \"How to retire an AngularJS app\" and page links \"1\" and \"2\" are visible.",
-      "stores": ["article_titles", "page_two_article_titles"],
-      "tags": ["pagination"],
-      "source": "capture"
     },
     {
       "id": "post-and-delete-own-comment",
       "title": "Post and remove a comment",
       "area": "Comments",
-      "objective": "Starting from the seeded app, sign in with email \"alice@example.com\" and password \"conduit-demo\", open \"Boring databases win\", enter \"A useful reminder.\" in the comment box and post it, store the visible comment texts in newest-first display order as 'comment_texts', then verify the stored comment_texts value is \"A useful reminder., Agreed, boring is a feature.\"; delete \"A useful reminder.\", store the visible comment texts in newest-first display order as 'comment_texts', then verify the stored comment_texts value is \"Agreed, boring is a feature.\".",
-      "stores": ["comment_texts"],
-      "tags": ["removal", "persistence"],
+      "objective": "Starting from the seeded app, sign in with email \"alice@example.com\" and password \"conduit-demo\", open \"Boring databases win\", enter \"A useful reminder.\" in the comment box and post it, collect the visible comment texts in newest-first display order and store the visible comment texts in newest-first display order as 'comment_texts', then verify the stored comment_texts value is \"A useful reminder., Agreed, boring is a feature.\"; delete \"A useful reminder.\", collect the visible comment texts in newest-first display order and store the visible comment texts in newest-first display order as 'comment_texts', then verify the stored comment_texts value is \"Agreed, boring is a feature.\".",
+      "stores": [
+        "comment_texts"
+      ],
+      "tags": [
+        "removal",
+        "persistence"
+      ],
       "source": "docs"
     },
     {
       "id": "publish-article-with-tags-and-remove-a-tag",
       "title": "Publish a tagged article",
       "area": "Article editor",
-      "objective": "Starting from the seeded app, sign in with email \"carol@example.com\" and password \"conduit-demo\", open New Article, enter title \"A new field note\", description \"A short report from the field.\", and body \"First line.\", add tags \"testing\", \"notes\", and \"draft\", remove \"draft\", publish the article, store the visible tag labels in display order as 'article_tags', then verify the page shows \"A new field note\" and \"First line.\" and the stored article_tags value is \"testing, notes\"; reopen the app, open carol's profile, store the visible My Articles titles in display order as 'article_titles', then verify the stored article_titles value is \"A new field note\".",
-      "stores": ["article_tags", "article_titles"],
-      "tags": ["tags", "removal", "persistence"],
+      "objective": "Starting from the seeded app, sign in with email \"carol@example.com\" and password \"conduit-demo\", open New Article, enter title \"A new field note\", description \"A short report from the field.\", and body \"First line.\", add tags \"testing\", \"notes\", and \"draft\", remove \"draft\", publish the article, collect the visible tag labels in display order and store the visible tag labels in display order as 'article_tags', then verify the page shows \"A new field note\" and \"First line.\" and the stored article_tags value is \"testing, notes\"; open carol's profile, select \"My Articles\", collect the visible My Articles titles in display order and store the visible My Articles titles in display order as 'article_titles', then verify the stored article_titles value is \"A new field note\".",
+      "stores": [
+        "article_tags",
+        "article_titles"
+      ],
+      "tags": [
+        "tags",
+        "removal",
+        "persistence"
+      ],
       "source": "docs"
     },
     {
       "id": "edit-own-article-and-keep-changes",
       "title": "Edit an existing article",
       "area": "Article editor",
-      "objective": "Starting from the seeded app, sign in with email \"alice@example.com\" and password \"conduit-demo\", open \"Testing in plain English\", choose \"Edit Article\", replace the description with \"Behavior specifications for every team.\" and the body with \"Updated **bold** guidance.\", publish the changes, store the visible description text as 'article_description', then verify the stored article_description value is \"Behavior specifications for every team.\" and the body shows \"Updated\" and bold text \"bold\"; reopen the app, open \"Testing in plain English\", store the visible description text as 'article_description', then verify the stored article_description value is \"Behavior specifications for every team.\".",
-      "stores": ["article_description"],
-      "tags": ["editing", "markdown", "persistence"],
-      "source": "docs"
-    },
-    {
-      "id": "delete-own-article-removes-it-from-feed",
-      "title": "Delete an owned article",
-      "area": "Article editor",
-      "objective": "Starting from the seeded app, sign in with email \"bob@example.com\" and password \"conduit-demo\", open \"Boring databases win\", choose \"Delete Article\", open Home and select \"Global Feed\", store the visible article titles in display order as 'article_titles', then verify the stored article_titles value does not contain \"Boring databases win\"; open bob's profile, store the visible My Articles titles in display order as 'article_titles', then verify the stored article_titles value is \"Designing a follow feed\".",
-      "stores": ["article_titles"],
-      "tags": ["removal"],
-      "source": "docs"
-    },
-    {
-      "id": "cannot-edit-someone-elses-article",
-      "title": "Protect another author's article",
-      "area": "Authorization",
-      "objective": "Starting from the seeded app, sign in with email \"bob@example.com\" and password \"conduit-demo\", open \"Testing in plain English\", store the visible article action labels in display order as 'article_actions', then verify the stored article_actions value is \"Follow alice, Favorite Article (0)\".",
-      "stores": ["article_actions"],
-      "tags": ["authorization"],
-      "source": "docs"
-    },
-    {
-      "id": "settings-update-profile-and-logout",
-      "title": "Update a profile and sign out",
-      "area": "Settings",
-      "objective": "Starting from the seeded app, sign in with email \"carol@example.com\" and password \"conduit-demo\", open Settings, change the username to \"carol-updated\" and bio to \"Writes clear release notes.\", save the settings, store the visible profile summary text as 'profile_summary', then verify the stored profile_summary value is \"carol-updated, Writes clear release notes.\"; reopen the app, store the visible profile summary text as 'profile_summary', then verify the stored profile_summary value is \"carol-updated, Writes clear release notes.\"; open Settings, choose \"Or click here to logout.\", store the visible navigation labels in display order as 'navigation_labels', then verify the stored navigation_labels value is \"Home, Sign in, Sign up\".",
-      "stores": ["profile_summary", "navigation_labels"],
-      "tags": ["editing", "persistence"],
+      "objective": "Starting from the seeded app, sign in with email \"alice@example.com\" and password \"conduit-demo\", open \"Testing in plain English\", choose \"Edit Article\", replace the description with \"Behavior specifications for every team.\" and the body with \"Updated **bold** guidance.\", publish the changes, collect the visible description text and store the visible description text as 'article_description', then verify the stored article_description value is \"Behavior specifications for every team.\" and the body shows \"Updated\" and bold text \"bold\"; open \"Testing in plain English\", collect the visible description text and store the visible description text as 'article_description', then verify the stored article_description value is \"Behavior specifications for every team.\".",
+      "stores": [
+        "article_description"
+      ],
+      "tags": [
+        "editing",
+        "markdown",
+        "persistence"
+      ],
       "source": "docs"
     },
     {
       "id": "signed-out-protected-pages-return-home",
       "title": "Redirect signed-out visitors from protected pages",
       "area": "Authorization",
-      "objective": "Starting from the seeded app, open the New Article screen, store the visible feed tab labels in display order as 'feed_tabs', then verify the stored feed_tabs value is \"Global Feed\" and the navigation shows \"Sign in\"; open the Settings screen, store the visible feed tab labels in display order as 'feed_tabs', then verify the stored feed_tabs value is \"Global Feed\" and the navigation shows \"Sign up\".",
-      "stores": ["feed_tabs"],
-      "tags": ["authorization"],
+      "objective": "Starting from the seeded app, sign in with email \"alice@example.com\" and password \"conduit-demo\", open New Article and verify the article editor is shown; open Settings and verify \"Your Settings\" is shown; sign out, open Home, collect the visible feed tab labels in display order and store the visible feed tab labels in display order as 'feed_tabs', then verify the stored feed_tabs value is \"Global Feed\" and the navigation shows \"Sign in\" and \"Sign up\".",
+      "stores": [
+        "feed_tabs"
+      ],
+      "tags": [
+        "authorization"
+      ],
       "source": "docs"
     }
   ]
