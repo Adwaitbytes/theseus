@@ -37,18 +37,20 @@
 #rx-t .sq { width: 18px; height: 18px; border-radius: 4px; background: var(--fail); }
 #rx-rctext { margin-top: 12px; font-size: 22px; line-height: 1.5; color: var(--ink-2); }
 #rx-end { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule-strong); }
+#rx-note { position: absolute; left: 860px; top: 566px; width: 460px; line-height: 1.4; padding: 8px 14px; border-radius: 8px; background: rgba(140,158,255,0.14); border: 1px solid rgba(140,158,255,0.55); font-family: "IBM Plex Mono", monospace; font-size: 18px; color: var(--accent); }
 #rx-end .n { font-family: "IBM Plex Mono", monospace; font-size: 72px; line-height: 1; margin-top: 10px; }
       </style>
       <div id="root" data-composition-id="regression" data-width="1920" data-height="1080">
-        <div id="regression-ground" class="clip" data-start="0" data-duration="23.21"></div>
+        <div id="regression-ground" class="clip" data-start="0" data-duration="23.08"></div>
 
         <div id="rx-label" class="eyebrow">Final regression pass &nbsp;/&nbsp; replay, sped up</div>
         <div id="rx-win" class="win" style="left:60px;top:110px;width:1240px;height:738px">
           <div class="bar" data-layout-ignore><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">terminal</span></div>
           <div class="view">
-            <video id="rx-v" class="clip" src="assets/footage/term-demo-fast.mp4" muted playsinline data-start="0" data-duration="23.21" data-media-start="43.2" style="left:0px;top:0px;width:1240px;height:698px"></video>
+            <video id="rx-v" class="clip" src="assets/footage/term-demo-fast.mp4" muted playsinline data-start="0" data-duration="23.08" data-media-start="56" style="left:0px;top:0px;width:1240px;height:698px"></video>
           </div>
         </div>
+        <div id="rx-note">Baseline row shows the recorded pass. theseus verify later failed persist-items: 21/22.</div>
         <div id="rx-card"><div class="eyebrow">Next.js, round 5</div><div id="rx-t"><span class="sq"></span>Pluralized counter failed</div>
           <div style="margin-top:18px"><span class="eyebrow">Kane root cause</span> <span class="chip">automation_bug</span></div>
           <div id="rx-rctext">The automation did not pass the values saved as counter_one and counter_two into the final verification. The page showed the expected counts after each item was added.</div>
@@ -56,13 +58,14 @@
       </div>
       <script>
         const tl = gsap.timeline({ paused: true });
-        const S = [0.5,5.82,8.62,16.46];
+        const S = [0.5,5.77,8.74,16.5];
 
         tl.fromTo("#rx-win", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
         tl.fromTo("#rx-label", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.2);
         tl.fromTo("#rx-card > div:nth-child(-n+2)", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, S[1]);
         tl.fromTo(["#rx-card > div:nth-child(3)", "#rx-rctext"], { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, S[2]);
         tl.fromTo("#rx-end", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5 }, S[3]);
+        tl.fromTo("#rx-note", { opacity: 0 }, { opacity: 1, duration: 0.5 }, S[0] + 4.5);
         window.__timelines["regression"] = tl;
       </script>
     </template>

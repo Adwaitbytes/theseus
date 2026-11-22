@@ -37,25 +37,27 @@
 #root .stat b { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 34px; color: var(--pass); margin-right: 10px; }
       </style>
       <div id="root" data-composition-id="parity" data-width="1920" data-height="1080">
-        <div id="parity-ground" class="clip" data-start="0" data-duration="21.43"></div>
+        <div id="parity-ground" class="clip" data-start="0" data-duration="20.56"></div>
 
         <div id="pt-label" class="eyebrow">Parity certificate &nbsp;/&nbsp; theseus-umber.vercel.app</div>
         <div id="pt-win" class="win" style="left:192px;top:56px;width:1536px;height:904px">
           <div class="bar" data-layout-ignore><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">theseus-umber.vercel.app/voyages/todomvc-jquery</span></div>
           <div class="view">
-            <video id="pt-v" class="clip" src="assets/footage/cert.mp4" muted playsinline data-start="0" data-duration="21.43" data-media-start="0" data-playback-rate="0.7932804479701353" style="left:0px;top:0px;width:1536px;height:864px"></video>
+            <video id="pt-v" class="clip" src="assets/footage/cert.mp4" muted playsinline data-start="0" data-duration="20.56" data-media-start="2.4" data-playback-rate="0.7295719844357977" style="left:0px;top:0px;width:1536px;height:864px"></video>
           </div>
         </div>
-        <div id="pt-chips"><div id="pt-a" class="stat"><b>19/22</b>Next.js identical</div><div id="pt-b" class="stat"><b>20/22</b>SvelteKit identical</div></div>
+        <div id="pt-chips"><div id="pt-a" class="stat"><b>19/22</b>Next.js identical</div><div id="pt-b" class="stat"><b>20/22</b>SvelteKit identical</div><div id="pt-c" class="stat"><b>21/22</b>Expo on Android identical</div></div>
       </div>
       <script>
         const tl = gsap.timeline({ paused: true });
-        const S = [0.6,3.1,11.48,16.48];
+        const S = [0.6,2.95,8.43,15.6];
 
         tl.fromTo("#pt-win", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+        tl.fromTo("#pt-win .view", { scale: 1 }, { scale: 1.05, duration: 20.56, ease: "none", transformOrigin: "50% 40%" }, 0);
         tl.fromTo("#pt-label", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.2);
         tl.fromTo("#pt-a", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, S[2]);
-        tl.fromTo("#pt-b", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, S[2] + 1.3);
+        tl.fromTo("#pt-b", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, S[2] + 1.4);
+        tl.fromTo("#pt-c", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, S[2] + 2.4);
         tl.to("#pt-chips", { opacity: 0, duration: 0.4 }, S[3] + 1.2);
         window.__timelines["parity"] = tl;
       </script>

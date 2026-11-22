@@ -13,6 +13,7 @@ const repoDir = join(videoDir, "..", "..");
 const hf = join(videoDir, "hf");
 const lines = JSON.parse(readFileSync(join(hf, "assets", "vo", "lines.json"), "utf8"));
 const voyage = JSON.parse(readFileSync(join(repoDir, "runs", "todomvc-jquery", "voyage.json"), "utf8"));
+const conduitVoyage = JSON.parse(readFileSync(join(repoDir, "runs", "realworld-angularjs", "voyage.json"), "utf8"));
 
 // ---------- facts, read from the voyage record ----------
 function regrowth(id) {
@@ -32,6 +33,8 @@ function splitCause(text) {
   return { category: m[1], text: m[2] };
 }
 const nextjs = regrowth("nextjs");
+const expo = regrowth("expo-android");
+const conduit = conduitVoyage.regrowths.find((r) => r.id === "nextjs-fullstack");
 const sveltekit = regrowth("sveltekit");
 const r1 = result(nextjs, 1, "counter-plural");
 const r5 = result(nextjs, 5, "counter-plural");
@@ -53,6 +56,14 @@ const FACTS = {
   sveltekitR1: passedIn(sveltekit, 1),
   nextjsRounds: nextjs.rounds.length,
   diffs: nextjs.rounds.map((x) => x.diffStat.files),
+  expoR1: passedIn(expo, 1),
+  expoIdentical: expo.parity.summary.identical,
+  expoMiss: expo.rounds[0].results.filter((x) => x.outcome.status !== "passed").map((x) => x.behaviorId),
+  conduitBehaviors: conduitVoyage.spec.behaviors.length,
+  conduitBaseline: conduitVoyage.baseline.filter((b) => b.outcome.status === "passed").length,
+  conduitR2: passedIn(conduit, 2),
+  conduitIdentical: conduit.parity.summary.identical,
+  conduitStack: conduitVoyage.spec.app.origin.stack,
 };
 const check = (cond, msg) => {
   if (!cond) throw new Error(`fact check failed: ${msg}`);
@@ -65,10 +76,13 @@ check(FACTS.sveltekitR1 === 22, "SvelteKit 22/22 first build");
 check(result(nextjs, 2, "fresh-empty").status === "passed", "fresh-empty green in round 2");
 check(result(nextjs, 4, "counter-plural").status === "passed", "counter-plural green in round 4");
 check(FACTS.diffs.slice(1).every((f) => f === 0), "rounds 2 to 6 changed no files");
-check(!voyage.regrowths.some((r) => r.id === "expo-android"), "expo-android has no recorded result yet");
+check(FACTS.expoR1 === 21 && FACTS.expoIdentical === 21 && FACTS.expoMiss.join() === "persist-items", "Expo 21/22, parity 21, miss persist-items");
+check(voyage.baseline.find((b) => b.behaviorId === "persist-items").outcome.status === "failed", "persist-items fails on the original");
+check(FACTS.conduitBehaviors === 16 && FACTS.conduitBaseline === 16, "Conduit 16 proven on the original");
+check(FACTS.conduitR2 === 14 && FACTS.conduitIdentical === 13, "Conduit 14/16 by round 2, parity 13/16");
 
 // ---------- timing ----------
-const GAP = 0.35;
+const GAP = 0.3;
 const sceneSpec = {
   verdict: { lead: 0.35, tail: 0.9 },
   original: { lead: 0.5, tail: 0.9 },
@@ -78,11 +92,12 @@ const sceneSpec = {
   cleanroom: { lead: 0.6, tail: 1.0 },
   regrow: { lead: 0.5, tail: 0.9 },
   loop: { lead: 0.5, tail: 1.6 },
-  sveltekit: { lead: 0.4, tail: 1.2 },
+  sveltekit: { lead: 0.4, tail: 1.0 },
+  android: { lead: 0.5, tail: 1.2 },
   regression: { lead: 0.5, tail: 1.2 },
   parity: { lead: 0.6, tail: 1.2 },
-  live: { lead: 0.5, tail: 0.6, at: { 1: 12.8 }, min: 26 },
-  expo: { lead: 0.5, tail: 1.4 },
+  conduit: { lead: 0.5, tail: 1.2 },
+  live: { lead: 0.5, tail: 0.6, at: { 1: 12.8 }, min: 24.5 },
   end: { lead: 0.6, tail: 3.5 },
 };
 const order = Object.keys(sceneSpec);
@@ -224,6 +239,7 @@ const builders = {
         <div id="vd-back"><span class="line"></span>Sent back to the builder agent as round 2 feedback</div>`;
     const js = `
         tl.fromTo("#vd-shot", { opacity: 0.0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0);
+        tl.fromTo("#vd-shot img", { scale: 1 }, { scale: 1.08, duration: ${D}, ease: "none", transformOrigin: "40% 30%" }, 0);
         tl.fromTo("#vd-col > *", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: "power3.out" }, 0.05);
         tl.fromTo(["#vd-shotcap", "#vd-count"], { opacity: 0 }, { opacity: 1, duration: 0.4, stagger: 0.1 }, 0.4);
         tl.fromTo("#vd-step", { backgroundColor: "rgba(255,117,99,0.0)" }, { backgroundColor: "rgba(255,117,99,0.16)", duration: 0.3, yoyo: true, repeat: 1 }, S[1]);
@@ -243,7 +259,7 @@ const builders = {
     const body = `
         <div id="og-text"><div class="eyebrow">The original</div><div id="og-title" class="serif">jQuery TodoMVC <span id="og-year">2012</span></div>
           <div id="og-stack">${esc(voyage.spec.app.origin.stack)}</div><div id="og-note">Vendored unchanged from tastejs/todomvc</div></div>
-${win("og-win", { x: 1080, y: 70, w: 608, h: 855, addr: "localhost:4270" }, video("og-v", "app-original.mp4", { duration: D, rate: 12 / D, width: 608, height: 855 }))}`;
+${win("og-win", { x: 1080, y: 70, w: 608, h: 855, addr: "theseus-todomvc-original.vercel.app" }, video("og-v", "app-original.mp4", { duration: D, mediaStart: 1.5, rate: 12 / D, width: 608, height: 855 }))}`;
     const js = `
         tl.fromTo("#og-text > *", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: "power3.out" }, 0.1);
         tl.fromTo("#og-win", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0);`;
@@ -303,7 +319,7 @@ ${win("cp-win", { x: 211, y: 64, w: 1498, h: 842, addr: "terminal" }, video("cp-
           <div id="fg-was"><span class="old">recorded: passed</span><span class="new">theseus verify: failed</span></div></div>
         <div id="fg-right"><div class="eyebrow">What the re-run found</div><div id="fg-quote">"${esc(quote[1])}"</div>
           <div id="fg-rc"><span class="chip">${FACTS.persist.cause.category}</span><div id="fg-rctext">${esc(FACTS.persist.cause.text)}</div></div></div>
-${win("fg-win", { x: 180, y: 500, w: 1560, h: 330, addr: "theseus-umber.vercel.app/voyages/todomvc-jquery" }, video("fg-v", "cert.mp4", { duration: D, mediaStart: 17.6, rate: 2.2 / D, left: -468, top: -300, width: 2496, height: 1404 }))}`;
+${win("fg-win", { x: 180, y: 500, w: 1560, h: 330, addr: "theseus-umber.vercel.app/voyages/todomvc-jquery" }, video("fg-v", "cert.mp4", { duration: D, mediaStart: 17.6, rate: 2.2 / D, left: -425, top: -400, width: 2208, height: 1242 }))}`;
     const js = `
         tl.fromTo("#fg-left > *", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power3.out" }, 0.05);
         tl.fromTo("#fg-right > *", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "power3.out" }, S[1]);
@@ -400,7 +416,7 @@ ${win("lp-win", { x: 880, y: 60, w: 930, h: 838, addr: "theseus-umber.vercel.app
 #sk-sub { margin-top: 22px; font-size: 30px; color: var(--ink-2); }`;
     const body = `
         <div id="sk-text"><div class="eyebrow">SvelteKit regrowth, Codex, clean room</div><div id="sk-big">${FACTS.sveltekitR1}<span>/22</span></div><div id="sk-sub">proven by Kane on the first build</div></div>
-${win("sk-win", { x: 1080, y: 70, w: 608, h: 855, addr: "localhost:4172" }, video("sk-v", "app-sveltekit.mp4", { duration: D, rate: 12.4 / D, width: 608, height: 855 }))}`;
+${win("sk-win", { x: 1080, y: 70, w: 608, h: 855, addr: "theseus-todomvc-sveltekit.vercel.app" }, video("sk-v", "app-sveltekit.mp4", { duration: D, mediaStart: 1.5, rate: 11 / D, width: 608, height: 855 }))}`;
     const js = `
         tl.fromTo("#sk-text > *", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.12, ease: "power3.out" }, 0.05);
         tl.fromTo("#sk-win", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.1);`;
@@ -415,10 +431,12 @@ ${win("sk-win", { x: 1080, y: 70, w: 608, h: 855, addr: "localhost:4172" }, vide
 #rx-t .sq { width: 18px; height: 18px; border-radius: 4px; background: var(--fail); }
 #rx-rctext { margin-top: 12px; font-size: 22px; line-height: 1.5; color: var(--ink-2); }
 #rx-end { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule-strong); }
+#rx-note { position: absolute; left: 860px; top: 566px; width: 460px; line-height: 1.4; padding: 8px 14px; border-radius: 8px; background: rgba(140,158,255,0.14); border: 1px solid rgba(140,158,255,0.55); font-family: "IBM Plex Mono", monospace; font-size: 18px; color: var(--accent); }
 #rx-end .n { font-family: "IBM Plex Mono", monospace; font-size: 72px; line-height: 1; margin-top: 10px; }`;
     const body = `
         <div id="rx-label" class="eyebrow">Final regression pass &nbsp;/&nbsp; replay, sped up</div>
-${win("rx-win", { x: 60, y: 110, w: 1240, h: 698, addr: "terminal" }, video("rx-v", "term-demo-fast.mp4", { duration: D, mediaStart: 43.2, width: 1240, height: 698 }))}
+${win("rx-win", { x: 60, y: 110, w: 1240, h: 698, addr: "terminal" }, video("rx-v", "term-demo-fast.mp4", { duration: D, mediaStart: 56, width: 1240, height: 698 }))}
+        <div id="rx-note">Baseline row shows the recorded pass. theseus verify later failed persist-items: 21/22.</div>
         <div id="rx-card"><div class="eyebrow">Next.js, round 5</div><div id="rx-t"><span class="sq"></span>Pluralized counter failed</div>
           <div style="margin-top:18px"><span class="eyebrow">Kane root cause</span> <span class="chip">${FACTS.r5.cause.category}</span></div>
           <div id="rx-rctext">${esc(FACTS.r5.cause.text)}</div>
@@ -428,7 +446,8 @@ ${win("rx-win", { x: 60, y: 110, w: 1240, h: 698, addr: "terminal" }, video("rx-
         tl.fromTo("#rx-label", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.2);
         tl.fromTo("#rx-card > div:nth-child(-n+2)", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, S[1]);
         tl.fromTo(["#rx-card > div:nth-child(3)", "#rx-rctext"], { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, S[2]);
-        tl.fromTo("#rx-end", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5 }, S[3]);`;
+        tl.fromTo("#rx-end", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5 }, S[3]);
+        tl.fromTo("#rx-note", { opacity: 0 }, { opacity: 1, duration: 0.5 }, S[0] + 4.5);`;
     return { css, body, js };
   },
 
@@ -440,13 +459,15 @@ ${win("rx-win", { x: 60, y: 110, w: 1240, h: 698, addr: "terminal" }, video("rx-
 #root .stat b { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 34px; color: var(--pass); margin-right: 10px; }`;
     const body = `
         <div id="pt-label" class="eyebrow">Parity certificate &nbsp;/&nbsp; theseus-umber.vercel.app</div>
-${win("pt-win", { x: 192, y: 56, w: 1536, h: 864, addr: "theseus-umber.vercel.app/voyages/todomvc-jquery" }, video("pt-v", "cert.mp4", { duration: D, mediaStart: 0, rate: 17 / D, width: 1536, height: 864 }))}
-        <div id="pt-chips"><div id="pt-a" class="stat"><b>${FACTS.nextjsIdentical}/22</b>Next.js identical</div><div id="pt-b" class="stat"><b>${FACTS.sveltekitIdentical}/22</b>SvelteKit identical</div></div>`;
+${win("pt-win", { x: 192, y: 56, w: 1536, h: 864, addr: "theseus-umber.vercel.app/voyages/todomvc-jquery" }, video("pt-v", "cert.mp4", { duration: D, mediaStart: 2.4, rate: 15 / D, width: 1536, height: 864 }))}
+        <div id="pt-chips"><div id="pt-a" class="stat"><b>${FACTS.nextjsIdentical}/22</b>Next.js identical</div><div id="pt-b" class="stat"><b>${FACTS.sveltekitIdentical}/22</b>SvelteKit identical</div><div id="pt-c" class="stat"><b>${FACTS.expoIdentical}/22</b>Expo on Android identical</div></div>`;
     const js = `
         tl.fromTo("#pt-win", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+        tl.fromTo("#pt-win .view", { scale: 1 }, { scale: 1.05, duration: ${D}, ease: "none", transformOrigin: "50% 40%" }, 0);
         tl.fromTo("#pt-label", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.2);
         tl.fromTo("#pt-a", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, S[2]);
-        tl.fromTo("#pt-b", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, S[2] + 1.3);
+        tl.fromTo("#pt-b", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, S[2] + 1.4);
+        tl.fromTo("#pt-c", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, S[2] + 2.4);
         tl.to("#pt-chips", { opacity: 0, duration: 0.4 }, S[3] + 1.2);`;
     return { css, body, js };
   },
@@ -455,9 +476,9 @@ ${win("pt-win", { x: 192, y: 56, w: 1536, h: 864, addr: "theseus-umber.vercel.ap
     const cut = 12.6;
     const wait = 6.2;
     const apps = [
-      { id: "lv-a", src: "app-original.mp4", name: "jQuery TodoMVC (2012)", port: 4270, x: 151 },
-      { id: "lv-b", src: "app-nextjs.mp4", name: "Next.js regrowth", port: 4271, x: 710 },
-      { id: "lv-c", src: "app-sveltekit.mp4", name: "SvelteKit regrowth", port: 4172, x: 1269 },
+      { id: "lv-a", src: "app-original.mp4", name: "jQuery TodoMVC (2012)", host: "theseus-todomvc-original", x: 151 },
+      { id: "lv-b", src: "app-nextjs.mp4", name: "Next.js regrowth", host: "theseus-todomvc-nextjs", x: 710 },
+      { id: "lv-c", src: "app-sveltekit.mp4", name: "SvelteKit regrowth", host: "theseus-todomvc-sveltekit", x: 1269 },
     ];
     const css = `
 #lv-apps { position: absolute; inset: 0; }
@@ -468,11 +489,11 @@ ${win("pt-win", { x: 192, y: 56, w: 1536, h: 864, addr: "theseus-umber.vercel.ap
 #lv-skip { position: absolute; right: 230px; top: 112px; padding: 10px 16px; border-radius: 10px; background: rgba(140,158,255,0.12); border: 1px solid rgba(140,158,255,0.5); font-family: "IBM Plex Mono", monospace; font-size: 19px; color: var(--accent); }`;
     const body = `
         <div id="lv-apps">
-          <div id="lv-label" class="eyebrow">Served locally from the committed source, recorded for this video</div>
-${apps.map((a) => `          <div class="appname" style="left:${a.x}px">${a.name}</div>\n${win(a.id, { x: a.x, y: 130, w: 499, h: 702, addr: `localhost:${a.port}` }, video(`${a.id}-v`, a.src, { duration: cut, rate: 11 / cut, width: 499, height: 702 }))}`).join("\n")}
+          <div id="lv-label" class="eyebrow">Live on Vercel, recorded for this video</div>
+${apps.map((a) => `          <div class="appname" style="left:${a.x}px">${a.name}</div>\n${win(a.id, { x: a.x, y: 130, w: 499, h: 702, addr: `${a.host}.vercel.app` }, video(`${a.id}-v`, a.src, { duration: cut, mediaStart: 1.5, rate: 11 / cut, width: 499, height: 702 }))}`).join("\n")}
         </div>
         <div id="lv-term">
-          <div id="lv-tlabel" class="eyebrow">theseus verify &nbsp;/&nbsp; a live Kane run, recorded for this video</div>
+          <div id="lv-tlabel" class="eyebrow">theseus verify &nbsp;/&nbsp; a Kane run on the Next.js build, recorded for this video</div>
 ${win("lv-win", { x: 211, y: 64, w: 1498, h: 842, addr: "terminal" }, [
       video("lv-t1", "term-verify.mp4", { start: cut, duration: wait, mediaStart: 0, width: 1498, height: 842 }),
       video("lv-t2", "term-verify.mp4", { start: Number((cut + wait).toFixed(2)), duration: Number((D - cut - wait).toFixed(2)), mediaStart: 121.6, width: 1498, height: 842 }),
@@ -491,18 +512,64 @@ ${win("lv-win", { x: 211, y: 64, w: 1498, h: 842, addr: "terminal" }, [
     return { css, body, js };
   },
 
-  expo() {
+  android(D) {
+    const shots = ["expo-add-many-final.jpg", "expo-complete-one-final.jpg", "expo-filter-active-final.jpg"];
     const css = `
-#ex-wrap { position: absolute; left: 140px; top: 330px; width: 1300px; }
-#ex-title { font-size: 104px; line-height: 1.02; margin-top: 18px; }
-#ex-status { margin-top: 34px; display: flex; align-items: center; gap: 16px; font-family: "IBM Plex Mono", monospace; font-size: 26px; color: var(--ink-2); }
-#ex-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--accent); }`;
+#an-text { position: absolute; left: 140px; top: 250px; width: 760px; }
+#an-title { margin-top: 18px; font-size: 92px; line-height: 1.02; }
+#an-big { margin-top: 34px; font-family: "IBM Plex Mono", monospace; font-size: 120px; line-height: 1; color: var(--pass); }
+#an-big span { color: var(--ink-3); }
+#an-sub { margin-top: 16px; font-size: 28px; color: var(--ink-2); }
+#an-miss { margin-top: 26px; display: flex; gap: 12px; align-items: center; font-size: 23px; color: var(--ink-2); line-height: 1.4; }
+#root .phone { position: absolute; top: 96px; width: 330px; height: 733px; border-radius: 34px; overflow: hidden; border: 8px solid #1b1d22; background: #f5f5f5;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 0 1px var(--rule-strong); }
+#root .phone img { width: 100%; height: 100%; display: block; }
+#an-cap { position: absolute; left: 1020px; top: 860px; font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--ink-3); }`;
     const body = `
-        <div id="ex-wrap"><div class="eyebrow">Expo on Android, Codex, clean room</div><div id="ex-title" class="serif">Native, on the emulator.</div>
-          <div id="ex-status"><span id="ex-dot"></span>Running now. No result recorded yet.</div></div>`;
+        <div id="an-text"><div class="eyebrow">Expo on Android, Codex, clean room</div><div id="an-title" class="serif">Native, on the emulator.</div>
+          <div id="an-big">${FACTS.expoR1}<span>/22</span></div><div id="an-sub">proven by Kane on the first build</div>
+          <div id="an-miss"><span class="chip fail">persist-items</span><span>the one miss, which also fails on the original</span></div></div>
+${shots.map((f, i) => `        <div id="an-p${i}" class="phone" style="left:${1020 + i * 260}px;z-index:${3 - i}"><img src="assets/shots/${f}" alt="Kane screenshot of the Expo app on the Android emulator" /></div>`).join("\n")}
+        <div id="an-cap">Kane screenshots, Android emulator</div>`;
     const js = `
-        tl.fromTo("#ex-wrap > *", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.14, ease: "power3.out" }, 0.05);
-        tl.fromTo("#ex-dot", { backgroundColor: "rgba(140,158,255,0)" }, { backgroundColor: "rgba(140,158,255,0.9)", duration: 0.7, yoyo: true, repeat: 7, ease: "sine.inOut" }, 0.6);`;
+        tl.fromTo("#an-text > div:nth-child(-n+2)", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: "power3.out" }, 0.05);
+        tl.fromTo(["#an-p0", "#an-p1", "#an-p2"], { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.18, ease: "power3.out" }, 0.3);
+        tl.fromTo("#an-cap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.2);
+        tl.fromTo(["#an-big", "#an-sub"], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power3.out" }, S[1]);
+        tl.fromTo("#an-miss", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, S[2]);
+        tl.fromTo(["#an-p0", "#an-p1", "#an-p2"], { x: 0 }, { x: -24, duration: ${D}, ease: "none" }, 0);`;
+    return { css, body, js };
+  },
+
+  conduit(D) {
+    const css = `
+#cd-head { position: absolute; left: 140px; top: 80px; width: 900px; }
+#cd-title { margin-top: 14px; font-size: 60px; line-height: 1.08; }
+#cd-stack { margin-top: 12px; font-family: "IBM Plex Mono", monospace; font-size: 20px; color: var(--ink-3); }
+#root .shot { position: absolute; top: 380px; width: 760px; }
+#root .shot .frame { height: 428px; border-radius: 12px; overflow: hidden; border: 1px solid var(--rule-strong); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+#root .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+#root .shot .l { margin-top: 12px; font-family: "IBM Plex Mono", monospace; font-size: 18px; color: var(--ink-2); }
+#cd-stats { position: absolute; right: 140px; top: 96px; display: flex; gap: 20px; }
+#root .st { padding: 18px 22px; border-radius: 12px; background: var(--surface); border: 1px solid var(--rule-strong); min-width: 200px; }
+#root .st b { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 46px; line-height: 1; }
+#root .st span { display: block; margin-top: 8px; font-size: 18px; color: var(--ink-2); }`;
+    const body = `
+        <div id="cd-head"><div class="eyebrow">Second voyage, full stack</div><div id="cd-title" class="serif">RealWorld Conduit, AngularJS 2016</div>
+          <div id="cd-stack">${esc(FACTS.conduitStack)}</div></div>
+        <div id="cd-stats"><div id="cd-s1" class="st"><b>${FACTS.conduitBaseline}</b><span>proven on the original</span></div>
+          <div id="cd-s2" class="st"><b style="color:var(--pass)">${FACTS.conduitR2}/${FACTS.conduitBehaviors}</b><span>proven by round 2</span></div>
+          <div id="cd-s3" class="st"><b style="color:var(--pass)">${FACTS.conduitIdentical}/${FACTS.conduitBehaviors}</b><span>parity identical</span></div></div>
+        <div id="cd-a" class="shot" style="left:140px"><div class="frame"><img src="assets/shots/conduit-original-feed.jpg" alt="Kane screenshot of the AngularJS original" /></div><div class="l">AngularJS original, Kane screenshot</div></div>
+        <div id="cd-b" class="shot" style="left:1020px"><div class="frame"><img src="assets/shots/conduit-nextjs-feed.jpg" alt="Kane screenshot of the Next.js rebuild" /></div><div class="l">Next.js full stack rebuild, round 2, Kane screenshot</div></div>`;
+    const js = `
+        tl.fromTo("#cd-head > *", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: "power3.out" }, 0.05);
+        tl.fromTo("#cd-a", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.4);
+        tl.fromTo("#cd-s1", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, S[1]);
+        tl.fromTo("#cd-b", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, S[1] + 2);
+        tl.fromTo("#cd-s2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, S[2]);
+        tl.fromTo("#cd-s3", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, S[2] + 2);
+        tl.fromTo(["#cd-a .frame img", "#cd-b .frame img"], { scale: 1 }, { scale: 1.06, duration: ${D}, ease: "none" }, 0);`;
     return { css, body, js };
   },
 
@@ -543,7 +610,7 @@ const CAPTION_FIX = [
   [/\bStep nine\b/g, "Step 9"], [/\bpersist items\b/g, "persist-items"], [/\bTheseus verify\b/g, "theseus verify"],
   [/\bPlain English\b/g, "Plain-English"], [/\bplain English\b/g, "plain English"],
 ];
-const captionText = (t) => CAPTION_FIX.reduce((s, [re, to]) => s.replace(re, to), t);
+const captionText = (t) => t;
 
 const audio = [];
 const captions = [];
@@ -553,7 +620,7 @@ for (const s of scenes) {
     const at = Number((s.start + s.starts[i]).toFixed(2));
     audio.push(`      <audio id="vo-${s.id}-${i + 1}" src="${l.src}" data-start="${at}" data-duration="${l.duration}" data-volume="1" data-audio-group="voiceover"></audio>`);
     captions.push(`        <div id="cap-${s.id}-${i + 1}" class="clip cap" data-start="${at}" data-duration="${(l.duration + 0.25).toFixed(2)}"><span>${esc(captionText(l.text))}</span></div>`);
-    vo.push({ at, end: at + l.duration, scene: s.id, text: l.text });
+    vo.push({ at, end: at + l.duration, scene: s.id, text: l.text, say: l.say });
   });
 }
 
@@ -594,23 +661,17 @@ writeFileSync(join(hf, "index.html"), index);
 
 // ---------- voiceover script for the human recording ----------
 const mmss = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
+const voCfg = JSON.parse(readFileSync(join(videoDir, "vo.json"), "utf8"));
 const md = [
   "# Theseus demo: voiceover script",
   "",
-  `Final cut: launch/video/theseus-demo.mp4, ${mmss(total)} at 1920x1080, 30 fps. The cut currently carries a temporary synthetic voice (files named voiceover-temp-*, local Kokoro TTS, voice ${JSON.parse(readFileSync(join(videoDir, "vo.json"), "utf8")).voice}) so it can be reviewed. Record each line below and drop it in at its timestamp; every line has room to breathe, so a natural read that runs a little longer still fits before the next line.`,
+  `Final cut: launch/video/theseus-demo.mp4, ${mmss(total)} at 1920x1080, 30 fps. The voice is local Kokoro TTS, voice ${voCfg.voice}, normalized to -16 LUFS. Each line below is the burned-in caption and the words spoken; where a name needs help, the TTS reads a phonetic spelling (column Spoken as).`,
   "",
-  "Every number spoken here is read from `runs/todomvc-jquery/voyage.json`. Read numbers as words (\"twenty two\"), the captions show digits.",
+  "Every number is read from `runs/todomvc-jquery/voyage.json` or `runs/realworld-angularjs/voyage.json`, and `launch/video/scripts/build.mjs` refuses to build if one of them changes.",
   "",
-  "| Start | End | Scene | Line |",
-  "|---|---|---|---|",
-  ...vo.map((v) => `| ${mmss(v.at)} | ${mmss(v.end)} | ${v.scene} | ${v.text} |`),
-  "",
-  "## Delivery notes",
-  "",
-  "- Calm and exact. This is a test report, not an ad. No emphasis on adjectives; let the numbers carry it.",
-  "- The opening line must land inside the first 15 seconds while Kane's red verdict and root cause are on screen.",
-  "- Pause a beat after \"That was a false green.\" and after \"Twenty two of twenty two.\"",
-  "- \"Kane\" rhymes with \"rain\". \"Theseus\" is THEE-see-us.",
+  "| Start | End | Scene | Caption and line | Spoken as |",
+  "|---|---|---|---|---|",
+  ...vo.map((v) => `| ${mmss(v.at)} | ${mmss(v.end)} | ${v.scene} | ${v.text} | ${v.say === v.text ? "" : v.say} |`),
   "",
 ];
 writeFileSync(join(repoDir, "launch", "voiceover.md"), `${md.join("\n")}`);

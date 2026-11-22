@@ -1,7 +1,7 @@
 // Builds the vertical teaser (hf/teaser.html, 1080x1920) and the red-to-green GIF composition
 // (hf/gif.html, 960x540) from the same voyage facts and voiceover lines as the main film.
 // Usage: node launch/video/scripts/build-social.mjs   (after voiceover.mjs)
-import { readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -13,12 +13,25 @@ const voyage = JSON.parse(readFileSync(join(repoDir, "runs", "todomvc-jquery", "
 
 const nextjs = voyage.regrowths.find((r) => r.id === "nextjs");
 const sveltekit = voyage.regrowths.find((r) => r.id === "sveltekit");
+const expo = voyage.regrowths.find((r) => r.id === "expo-android");
+if (expo?.parity.summary.identical !== 21) throw new Error("Expo parity changed");
 const outcome = (n, b) => nextjs.rounds.find((r) => r.n === n).results.find((x) => x.behaviorId === b)?.outcome;
 const r1 = outcome(1, "counter-plural");
 const cause = /^\[([a-z_]+)\]\s*(.*)$/s.exec(r1.rca.rootCause);
 const statusByRound = [1, 2, 3, 4].map((n) => outcome(n, "counter-plural").status);
 if (statusByRound.join() !== "failed,failed,failed,passed") throw new Error(`counter-plural rounds changed: ${statusByRound}`);
 if (nextjs.parity.summary.identical !== 19 || sveltekit.parity.summary.identical !== 20) throw new Error("parity changed");
+// Each social cut is its own HyperFrames project, so no project has two root compositions.
+function project(name, files) {
+  const dir = join(videoDir, name);
+  rmSync(join(dir, "assets"), { recursive: true, force: true });
+  for (const sub of ["fonts", "shots", "vo"]) mkdirSync(join(dir, "assets", sub), { recursive: true });
+  for (const f of readdirSync(join(hf, "assets", "fonts"))) copyFileSync(join(hf, "assets", "fonts", f), join(dir, "assets", "fonts", f));
+  for (const f of files) copyFileSync(join(hf, f), join(dir, f));
+  for (const f of ["package.json", "hyperframes.json"]) copyFileSync(join(hf, f), join(dir, f));
+  writeFileSync(join(dir, "meta.json"), `${JSON.stringify({ id: name, name }, null, 2)}\n`);
+  return dir;
+}
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const line = (scene, index) => {
   const l = lines.find((x) => x.scene === scene && x.index === index);
@@ -28,22 +41,30 @@ const line = (scene, index) => {
 
 const FONTS = readFileSync(join(hf, "index.html"), "utf8").match(/(@font-face[^}]*}\s*)+/)[0];
 const PALETTE = `--paper:#0b0c0e;--surface:#121418;--ink:#ecedef;--ink-2:#a5a9b1;--ink-3:#82868f;--rule:#1f2228;--rule-strong:#2e323a;--accent:#8c9eff;--pass:#4cc38a;--fail:#ff7563;`;
-const CAPFIX = [[/\btwenty two\b/gi, "22"], [/\bStep nine\b/g, "Step 9"], [/\bround two\b/g, "round 2"], [/\bround four\b/g, "round 4"], [/\bnineteen\b/g, "19"], [/\btwenty\b/g, "20"]];
-const cap = (t) => CAPFIX.reduce((s, [re, to]) => s.replace(re, to), t);
 
 // ---------- vertical teaser ----------
-const plan = [
-  ["verdict", 0, 0.3], ["verdict", 1, 6.0], ["verdict", 2, 8.7], ["verdict", 3, 14.5],
-  ["loop", 2, 17.8], ["loop", 4, 23.2], ["loop", 5, 29.2],
-  ["parity", 2, 31.9],
-  ["end", 1, 37.5],
+const sections = [
+  { id: "a", lines: [["verdict", 0], ["verdict", 1], ["verdict", 2]], lead: 0.3, tail: 0.5 },
+  { id: "b", lines: [["loop", 2], ["loop", 4], ["loop", 5]], lead: 0.4, tail: 0.7 },
+  { id: "c", lines: [["parity", 2]], lead: 0.3, tail: 1.6 },
+  { id: "d", lines: [["end", 1]], lead: 0.3, tail: 2.2 },
 ];
-const placed = plan.map(([s, i, at]) => ({ ...line(s, i), at }));
-placed.forEach((p, i) => {
-  const next = placed[i + 1];
-  if (next && p.at + p.duration > next.at) throw new Error(`teaser line ${p.scene}/${p.index} overlaps the next`);
-});
-const TOTAL = 42;
+const placed = [];
+const sec = {};
+let clock = 0;
+for (const section of sections) {
+  const start = clock;
+  let t = start + section.lead;
+  for (const [scene, index] of section.lines) {
+    const l = line(scene, index);
+    placed.push({ ...l, at: Number(t.toFixed(2)) });
+    t += l.duration + 0.3;
+  }
+  clock = t - 0.3 + section.tail;
+  sec[section.id] = { start: Number(start.toFixed(2)), duration: Number((clock - start).toFixed(2)) };
+}
+const TOTAL = Number(clock.toFixed(2));
+if (TOTAL < 30 || TOTAL > 45) throw new Error(`teaser is ${TOTAL} s, outside 30 to 45`);
 const rounds = statusByRound
   .map((st, i) => `<div class="rd ${st === "passed" ? "pass" : "fail"}" id="t-rd${i + 1}"><span class="sq"></span><span class="n">Round ${i + 1}</span><span class="v">${st === "passed" ? "passed" : "failed"}</span></div>`)
   .join("");
@@ -83,9 +104,9 @@ const teaser = `<!doctype html>
       .rd.fail .v { color: var(--fail); } .rd.pass .v { color: var(--pass); }
       #b-diff { position: absolute; left: 80px; top: 1130px; width: 920px; font-size: 32px; line-height: 1.4; color: var(--ink-2); }
       #b-big { position: absolute; left: 80px; top: 1260px; font-family: "IBM Plex Mono", monospace; font-size: 150px; color: var(--pass); }
-      #c-wrap { position: absolute; left: 80px; top: 360px; width: 920px; }
-      .stat { margin-top: 40px; padding: 40px; border-radius: 16px; background: var(--surface); border: 1px solid var(--rule-strong); }
-      .stat b { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 140px; line-height: 1; color: var(--pass); }
+      #c-wrap { position: absolute; left: 80px; top: 200px; width: 920px; }
+      .stat { margin-top: 32px; padding: 34px 40px; border-radius: 16px; background: var(--surface); border: 1px solid var(--rule-strong); }
+      .stat b { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 110px; line-height: 1; color: var(--pass); }
       .stat span { display: block; margin-top: 14px; font-size: 36px; color: var(--ink-2); }
       #d-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
       #d-word { font-size: 190px; line-height: 1; }
@@ -98,7 +119,7 @@ const teaser = `<!doctype html>
   </head>
   <body>
     <div id="root" data-composition-id="teaser" data-start="0" data-duration="${TOTAL}" data-width="1080" data-height="1920">
-      <div id="sec-a" class="sec clip" data-start="0" data-duration="17.4">
+      <div id="sec-a" class="sec clip" data-start="${sec.a.start}" data-duration="${sec.a.duration}">
         <div class="eyebrow" style="position:absolute;left:80px;top:100px">Kane CLI run report</div>
         <div id="a-shot"><img src="assets/shots/nextjs-r1-counter-plural-fail.jpg" alt="Kane screenshot of the failing step" /></div>
         <div id="a-cap">Kane screenshot at the failing step</div>
@@ -107,24 +128,25 @@ const teaser = `<!doctype html>
           <div id="a-verdict"><span class="sq"></span>Failed at step ${r1.failingStep.index}</div>
           <div id="a-rc"><span class="eyebrow">Kane root cause</span><span class="chip">${cause[1]}</span><div class="t">${esc(cause[2])}</div></div></div>
       </div>
-      <div id="sec-b" class="sec clip" data-start="17.4" data-duration="14.2">
+      <div id="sec-b" class="sec clip" data-start="${sec.b.start}" data-duration="${sec.b.duration}">
         <div id="b-head" class="eyebrow">counter-plural on Next.js</div>
         <div id="b-title" class="serif">Failure fed back. Kane runs it again.</div>
         <div id="b-rounds">${rounds}</div>
         <div id="b-diff">Kane said the app was right, so the agent changed no code after round 1.</div>
         <div id="b-big">22/22</div>
       </div>
-      <div id="sec-c" class="sec clip" data-start="31.6" data-duration="5.6">
+      <div id="sec-c" class="sec clip" data-start="${sec.c.start}" data-duration="${sec.c.duration}">
         <div id="c-wrap"><div class="eyebrow">Parity certificate</div>
           <div class="stat" id="c-a"><b>${nextjs.parity.summary.identical}/22</b><span>Next.js values identical to the 2012 original</span></div>
-          <div class="stat" id="c-b"><b>${sveltekit.parity.summary.identical}/22</b><span>SvelteKit values identical to the 2012 original</span></div></div>
+          <div class="stat" id="c-b"><b>${sveltekit.parity.summary.identical}/22</b><span>SvelteKit values identical to the 2012 original</span></div>
+          <div class="stat" id="c-c"><b>${expo.parity.summary.identical}/22</b><span>Expo on Android values identical to the 2012 original</span></div></div>
       </div>
-      <div id="sec-d" class="sec clip" data-start="37.2" data-duration="${(TOTAL - 37.2).toFixed(1)}" data-hold>
+      <div id="sec-d" class="sec clip" data-start="${sec.d.start}" data-duration="${sec.d.duration}" data-hold>
         <div id="d-wrap"><div id="d-word" class="serif">Theseus</div><div id="d-tag">Delete the code. Keep the ship.</div>
           <div id="d-url">theseus-umber.vercel.app</div><div id="d-kane">Built on Kane CLI by TestMu AI</div></div>
       </div>
       <div id="captions" data-track-kind="captions">
-${placed.map((p, i) => `        <div id="tcap-${i}" class="clip cap" data-start="${p.at}" data-duration="${(p.duration + 0.2).toFixed(2)}"><span>${esc(cap(p.text))}</span></div>`).join("\n")}
+${placed.map((p, i) => `        <div id="tcap-${i}" class="clip cap" data-start="${p.at}" data-duration="${(p.duration + 0.2).toFixed(2)}"><span>${esc(p.text)}</span></div>`).join("\n")}
       </div>
 ${placed.map((p, i) => `      <audio id="tvo-${i}" src="${p.src}" data-start="${p.at}" data-duration="${p.duration}" data-volume="1"></audio>`).join("\n")}
     </div>
@@ -132,19 +154,20 @@ ${placed.map((p, i) => `      <audio id="tvo-${i}" src="${p.src}" data-start="${
       const tl = gsap.timeline({ paused: true });
       tl.fromTo("#a-shot", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0);
       tl.fromTo("#a-col > *", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power3.out" }, 0.1);
-      tl.fromTo("#a-rc", { backgroundColor: "rgba(140,158,255,0.02)" }, { backgroundColor: "rgba(140,158,255,0.16)", duration: 0.6, yoyo: true, repeat: 1 }, 8.7);
-      tl.fromTo(["#b-head", "#b-title"], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, 17.5);
-      tl.fromTo(".rd", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, stagger: 1.1, ease: "power3.out" }, 18.2);
-      tl.fromTo("#b-diff", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 20.5);
-      tl.fromTo("#b-big", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 29.2);
-      tl.fromTo(".stat", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 1.6, ease: "power3.out" }, 31.9);
-      tl.fromTo("#d-wrap > *", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: "power3.out" }, 37.3);
+      tl.fromTo("#a-rc", { backgroundColor: "rgba(140,158,255,0.02)" }, { backgroundColor: "rgba(140,158,255,0.16)", duration: 0.6, yoyo: true, repeat: 1 }, ${placed[2].at});
+      tl.fromTo(["#b-head", "#b-title"], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, ${sec.b.start + 0.1});
+      tl.fromTo(".rd", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, stagger: 1.1, ease: "power3.out" }, ${sec.b.start + 0.8});
+      tl.fromTo("#b-diff", { opacity: 0 }, { opacity: 1, duration: 0.5 }, ${sec.b.start + 3.2});
+      tl.fromTo("#b-big", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, ${placed[5].at});
+      tl.fromTo(".stat", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 1.3, ease: "power3.out" }, ${sec.c.start + 0.3});
+      tl.fromTo("#d-wrap > *", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: "power3.out" }, ${sec.d.start + 0.1});
       window.__timelines["teaser"] = tl;
     </script>
   </body>
 </html>
 `;
-writeFileSync(join(hf, "teaser.html"), teaser);
+const teaserDir = project("hf-teaser", ["assets/shots/nextjs-r1-counter-plural-fail.jpg", ...placed.map((p) => p.src)]);
+writeFileSync(join(teaserDir, "index.html"), teaser);
 
 // ---------- red-to-green GIF, 960x540, 8 s ----------
 const gif = `<!doctype html>
@@ -198,5 +221,6 @@ const gif = `<!doctype html>
   </body>
 </html>
 `;
-writeFileSync(join(hf, "gif.html"), gif);
-console.log("wrote teaser.html (42 s, 1080x1920) and gif.html (8 s, 960x540)");
+const gifDir = project("hf-gif", ["assets/shots/nextjs-r1-counter-plural-fail.jpg", "assets/shots/nextjs-r4-counter-plural-final.jpg"]);
+writeFileSync(join(gifDir, "index.html"), gif);
+console.log(`wrote hf-teaser (${TOTAL} s, 1080x1920) and hf-gif (8 s, 960x540)`);

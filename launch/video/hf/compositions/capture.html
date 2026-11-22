@@ -37,20 +37,20 @@
 #cp-stat .t { margin-top: 10px; font-size: 24px; color: var(--ink-2); line-height: 1.4; }
       </style>
       <div id="root" data-composition-id="capture" data-width="1920" data-height="1080">
-        <div id="capture-ground" class="clip" data-start="0" data-duration="16.06"></div>
+        <div id="capture-ground" class="clip" data-start="0" data-duration="16.17"></div>
 
         <div id="cp-label" class="eyebrow">theseus demo &nbsp;/&nbsp; replay of the recorded voyage, sped up</div>
         <div id="cp-win" class="win" style="left:211px;top:64px;width:1498px;height:882px">
           <div class="bar" data-layout-ignore><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">terminal</span></div>
           <div class="view">
-            <video id="cp-v" class="clip" src="assets/footage/term-demo.mp4" muted playsinline data-start="0" data-duration="16.06" data-media-start="3" data-playback-rate="3" style="left:0px;top:0px;width:1498px;height:842px"></video>
+            <video id="cp-v" class="clip" src="assets/footage/term-demo.mp4" muted playsinline data-start="0" data-duration="16.17" data-media-start="3" data-playback-rate="3" style="left:0px;top:0px;width:1498px;height:842px"></video>
           </div>
         </div>
         <div id="cp-stat"><div class="n">22</div><div class="t">behaviors drafted in plain English, each one run by Kane on the original</div></div>
       </div>
       <script>
         const tl = gsap.timeline({ paused: true });
-        const S = [0.5,2.09,8.3,11.58];
+        const S = [0.5,2.02,8.7,11.98];
 
         tl.fromTo("#cp-win", { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" }, 0);
         tl.fromTo("#cp-label", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.2);

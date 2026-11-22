@@ -40,7 +40,7 @@
 #en-kane { margin-top: 44px; font-size: 22px; color: var(--ink-3); }
       </style>
       <div id="root" data-composition-id="end" data-width="1920" data-height="1080">
-        <div id="end-ground" class="clip" data-start="0" data-duration="14.95"></div>
+        <div id="end-ground" class="clip" data-start="0" data-duration="14.92"></div>
 
         <div id="en-a" class="serif">Plain-English tests are the only tests that survive a rewrite.</div>
         <div id="en-b" data-hold><div id="en-word" class="serif">Theseus</div><div id="en-tag">The tests are the source code.</div>
@@ -50,7 +50,7 @@
       </div>
       <script>
         const tl = gsap.timeline({ paused: true });
-        const S = [0.6,5,7.78];
+        const S = [0.6,4.78,7.62];
 
         tl.fromTo("#en-a", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.1);
         tl.to("#en-a", { opacity: 0, y: -12, duration: 0.5, ease: "power2.in" }, S[1] - 0.3);

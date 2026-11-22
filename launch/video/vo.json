@@ -1,13 +1,41 @@
 {
-  "voice": "am_michael",
-  "speed": 1.0,
-  "note": "Every number below is read from runs/todomvc-jquery/voyage.json. Sentences are spoken and captioned one at a time.",
+  "voice": "af_heart",
+  "speed": 0.85,
+  "note": "Each line is the caption, spelled correctly. voiceover.mjs derives the spoken text with the pronunciation map below. Every number is read from runs/todomvc-jquery/voyage.json or runs/realworld-angularjs/voyage.json.",
+  "pronounce": [
+    ["Kane CLI", "Kane C L I"],
+    ["SvelteKit", "Svelte Kit"],
+    ["Next.js", "Next J S"],
+    ["jQuery", "J Query"],
+    ["TodoMVC", "To do M V C"],
+    ["Expo", "Ex-po"],
+    ["Codex", "Code-ex"],
+    ["RealWorld", "Real World"],
+    ["AngularJS", "Angular J S"],
+    ["TestMu", "Test Mu"],
+    ["Theseus", "Theeseeus"],
+    ["theseus verify", "Theeseeus verify"],
+    ["persist-items", "persist items"],
+    ["2012", "twenty twelve"],
+    ["2016", "twenty sixteen"],
+    ["22", "twenty two"],
+    ["21", "twenty one"],
+    ["20", "twenty"],
+    ["19", "nineteen"],
+    ["16", "sixteen"],
+    ["14", "fourteen"],
+    ["13", "thirteen"],
+    ["Step 9", "Step nine"],
+    ["round 1", "round one"],
+    ["round 2", "round two"],
+    ["round 4", "round four"]
+  ],
   "scenes": [
     {
       "id": "verdict",
       "lines": [
         "This is Kane CLI failing an app that an AI agent just rebuilt from scratch.",
-        "Step nine failed, and Kane says why.",
+        "Step 9 failed, and Kane says why.",
         "The test never saved the second counter value, and the screenshots show the app was right.",
         "That report goes straight back to the agent."
       ]
@@ -15,8 +43,8 @@
     {
       "id": "original",
       "lines": [
-        "The app being rebuilt is this one: TodoMVC in jQuery, from 2012.",
-        "Theseus deletes its code, has coding agents grow it back in new stacks, and lets Kane decide when they are done."
+        "The app being rebuilt is this one: TodoMVC, built with jQuery in 2012.",
+        "Theseus deletes its code, has coding agents grow it back in new stacks, including a native Android app, and lets Kane decide when they are done."
       ]
     },
     {
@@ -27,7 +55,7 @@
       "id": "capture",
       "lines": [
         "First, capture.",
-        "Theseus crawled the running app, and an agent drafted twenty two behaviors in plain English.",
+        "Theseus crawled the original app, and an agent drafted 22 behaviors in plain English.",
         "Kane ran every one of them on the original app.",
         "Only what Kane proves on the original goes into the spec."
       ]
@@ -36,9 +64,9 @@
       "id": "falsegreen",
       "lines": [
         "Kane also caught a mistake in our own baseline.",
-        "The recorded pass for persist items had added the todos again after reopening the app.",
+        "The recorded pass for persist-items had added the todos again after reopening the app.",
         "That was a false green.",
-        "Theseus verify ran it again, Kane failed it, and the certificate now records it as failed on the original."
+        "theseus verify ran it again, Kane failed it, and the certificate records it as failed on the original."
       ]
     },
     {
@@ -51,25 +79,33 @@
     {
       "id": "regrow",
       "lines": [
-        "Codex builds a Next.js version and a SvelteKit version side by side.",
-        "Kane tests every build in a real browser, with the same plain English sentences it ran on the original."
+        "Codex builds a Next.js app, a SvelteKit app and a native Expo app for Android.",
+        "Kane tests every build in a real browser or on the Android emulator, with the same sentences."
       ]
     },
     {
       "id": "loop",
       "lines": [
-        "Next.js round one: twenty of twenty two.",
+        "Next.js round 1: 20 of 22.",
         "Both failures go back to Codex with the failing step, Kane's reason, its root cause and its suggested fix.",
         "Kane's root causes said the app was right, so Codex left the working code alone.",
         "Kane ran the failures again.",
-        "Fresh empty view passed in round two, and the pluralized counter went green in round four.",
-        "Twenty two of twenty two."
+        "Fresh empty view passed in round 2, and the pluralized counter went green in round 4.",
+        "22 of 22."
       ]
     },
     {
       "id": "sveltekit",
       "lines": [
-        "SvelteKit, also built by Codex in a clean room, passed all twenty two on its first build."
+        "SvelteKit, also built by Codex in a clean room, passed all 22 on its first build."
+      ]
+    },
+    {
+      "id": "android",
+      "lines": [
+        "On Android, Kane drove the native Expo app on the emulator with the same sentences.",
+        "21 of 22 passed on its first build.",
+        "The one miss is persist-items, the behavior that also fails on the original."
       ]
     },
     {
@@ -78,29 +114,31 @@
         "Then a final regression pass ran every behavior on Next.js again.",
         "Kane caught the pluralized counter once more.",
         "Its root cause says the app showed the right counts, and the test did not carry its stored values into the final check.",
-        "We count it as a failure anyway. Next.js ends at twenty one of twenty two."
+        "We count it as a failure anyway. Next.js ends at 21 of 22."
       ]
     },
     {
       "id": "parity",
       "lines": [
         "Passing is not the finish line.",
-        "Kane stores values while it tests, like the counter text, and Theseus compares them with the values it read on the original.",
-        "Next.js: nineteen identical. SvelteKit: twenty identical.",
+        "Kane stores values while it tests, and Theseus compares them with the original's.",
+        "Next.js: 19 identical. SvelteKit: 20. Expo on Android: 21.",
         "Every divergence and every failure is on the certificate."
+      ]
+    },
+    {
+      "id": "conduit",
+      "lines": [
+        "The second voyage is the RealWorld Conduit app: full stack, AngularJS, from 2016.",
+        "Kane proved 16 behaviors on the original, and Codex rebuilt it as a full stack Next.js app.",
+        "By round 2, Kane proved 14 of 16. Parity: 13 of 16 identical."
       ]
     },
     {
       "id": "live",
       "lines": [
-        "All three apps run today. Here are the original and both regrowths, doing the same things.",
-        "And here is Kane re-proving one certificate cell on the Next.js build, live, for this video."
-      ]
-    },
-    {
-      "id": "expo",
-      "lines": [
-        "A native Android regrowth in Expo is running on the emulator now. Its result is not in yet."
+        "All three TodoMVC apps are deployed. Here are the original and both web regrowths, live, doing the same things.",
+        "And here is Kane re-proving one certificate cell on the Next.js build, recorded for this video."
       ]
     },
     {

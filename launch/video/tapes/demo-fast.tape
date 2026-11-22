@@ -23,4 +23,4 @@ Sleep 600ms
 Type "theseus demo runs/todomvc-jquery --speed 40"
 Sleep 400ms
 Enter
-Sleep 170s
+Sleep 200s

@@ -1,5 +1,5 @@
 # Raw captures; the transcoded copies used by the film live in hf/assets/footage.
 /footage/
-hf/.hyperframes/
-hf/renders/
-hf/*.log
+.hyperframes/
+renders/
+*.log
