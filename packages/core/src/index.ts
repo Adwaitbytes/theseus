@@ -1,6 +1,7 @@
 export { TheseusError, errorMessage, isAbortError, type TheseusErrorCode } from "./errors.js";
 export { EventBus, systemClock, type Clock, type EventListener, type TheseusEventInput } from "./events/bus.js";
 export { recordEvents, readEvents, parseEventLines } from "./events/recorder.js";
+export { certifiedAttempt } from "./events/certified.js";
 export { replayDelays, replayEvents, realSleep, defaultReplayTiming, type ReplayTiming, type Sleep } from "./events/replay.js";
 export {
   TheseusConfig,

@@ -1,6 +1,7 @@
 import { readdir, stat } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import {
+  certifiedAttempt,
   EventBus,
   TheseusError,
   errorMessage,
@@ -133,8 +134,10 @@ export async function resolveRecording(input: string | undefined, cwd: string = 
 
 export async function demo(input: string | undefined, options: OutputOptions & { speed: number }): Promise<number> {
   const recording = await resolveRecording(input);
-  const events = await readEvents(recording.events);
+  const recorded = await readEvents(recording.events);
   const voyage = await readVoyage(join(recording.dir, "voyage.json"));
+  // Replay what the certificate is built from, not aborted or unfinished attempts in the log.
+  const events = voyage === undefined ? recorded : certifiedAttempt(voyage, recorded);
   // voyage.json does not record the round cap, so the replay shows plain round numbers.
   const seed: ViewSeed = voyage === undefined ? { title: basename(recording.dir) } : seedFromVoyage(voyage);
   const sink = options.json === true ? jsonSink() : tuiSink(seed);
