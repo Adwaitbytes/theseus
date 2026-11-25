@@ -11,7 +11,7 @@ https://github.com/Adwaitbytes/theseus
 https://theseus-umber.vercel.app
 
 **Demo video**
-Upload `launch/video/theseus-demo.mp4` to YouTube as Unlisted or Public, then paste its link.
+https://youtu.be/J3EE_QQQbhg
 
 **About your app**
 

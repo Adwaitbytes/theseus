@@ -6,6 +6,8 @@ Theseus captures what a running app does as plain-English [Kane CLI](https://git
 
 The idea underneath: tests that describe intent in plain English are the only tests that survive a rewrite across frameworks, and even from web to native. Treated that way, they are the real source code of a product.
 
+Demo video (4 minutes): https://youtu.be/J3EE_QQQbhg
+
 Built for the [KaneCLI Online Hackathon](https://www.kaneclihack.sh) by TestMu AI.
 
 ## Status (live voyage, updated as runs finish)
