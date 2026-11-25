@@ -8,7 +8,19 @@ The idea underneath: tests that describe intent in plain English are the only te
 
 Demo video (4 minutes): https://youtu.be/J3EE_QQQbhg
 
-Built for the [KaneCLI Online Hackathon](https://www.kaneclihack.sh) by TestMu AI.
+Built for the [KaneCLI Online Hackathon](https://www.kaneclihack.sh) by TestMu AI. Not to be confused with other rewrite checkers: Theseus starts from deleted code, rebuilds from Kane-proven tests alone, and goes all the way to a native Android app.
+
+## For judges (one click each)
+
+| Bar or dimension | Evidence |
+|---|---|
+| Works end to end | Live original and rebuilds: [jQuery original](https://theseus-todomvc-original.vercel.app), [Next.js](https://theseus-todomvc-nextjs.vercel.app), [SvelteKit](https://theseus-todomvc-sveltekit.vercel.app); certificates at [theseus-umber.vercel.app](https://theseus-umber.vercel.app/voyages/todomvc-jquery); credential-free replay: `node packages/cli/dist/index.js demo runs/todomvc-jquery` |
+| Kane caught or proved something | Kane exposed a false green in our own baseline ([video 0:58](https://youtu.be/J3EE_QQQbhg?t=58)); every certificate cell is a Kane run in [`runs/`](runs) |
+| Agent and Kane talked | Kane's failing step, reason, root cause and fix go back to Codex every round ([video 1:43](https://youtu.be/J3EE_QQQbhg?t=103)); each round is a commit in [`ROUNDS.md`](examples/todomvc-jquery/regrown/nextjs/ROUNDS.md) |
+| Ships | Native Android 21 of 22 identical, SvelteKit 20 of 22, Next.js 19 of 22, RealWorld full stack 13 of 16 ([video 3:02](https://youtu.be/J3EE_QQQbhg?t=182)) |
+| Verified | Kane proves every spec behavior on the original before any rebuild; failures Kane blames on its own run are rerun instead of sent to the agent |
+| Closed loop | Round by round replay: [Next.js rounds](https://theseus-umber.vercel.app/voyages/todomvc-jquery/nextjs) |
+| Craft | `theseus regrow <url> --to nextjs,expo-android`, `theseus verify`, `theseus doctor`; about 290 tests; [regrown source](examples/todomvc-jquery/regrown) |
 
 ## Status (live voyage, updated as runs finish)
 
