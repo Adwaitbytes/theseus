@@ -25,12 +25,12 @@ Agent: Codex (gpt-5.6-terra) builds every app and drafts the spec. Kane CLI is t
 
 ## X post (attach launch/video/theseus-teaser-vertical.mp4)
 
-I deleted a 2012 jQuery app and had Codex grow it back from plain-English tests alone, then let @kane_cli by @testmuai check every behavior.
+I deleted a 2012 jQuery app and had Codex regrow it from plain-English tests, with @kane_cli by @testmuai checking every behavior.
 
-Native Android: 21 of 22 identical to the original.
+Native Android: 21 of 22 identical.
 SvelteKit: 20 of 22.
 
-Ship of Theseus, with a certificate: https://theseus-umber.vercel.app
+https://theseus-umber.vercel.app
 
 #KaneCLIHackathon #KaneCLI
 
