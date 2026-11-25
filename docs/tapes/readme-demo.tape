@@ -6,7 +6,7 @@ Set Shell "bash"
 Set FontFamily "IBM Plex Mono"
 Set FontSize 17
 Set Width 1400
-Set Height 860
+Set Height 640
 Set Padding 28
 Set Framerate 12
 Set TypingSpeed 45ms
@@ -19,8 +19,8 @@ Enter
 Sleep 500ms
 Show
 
-Sleep 600ms
+Sleep 200ms
 Type "theseus demo runs/todomvc-jquery --speed 120"
 Sleep 400ms
 Enter
-Sleep 26s
+Sleep 22s
