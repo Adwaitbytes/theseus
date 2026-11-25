@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Theseus deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&display=block" rel="stylesheet">
+<style>
+@page { size: 1600px 900px; margin: 0; }
+:root {
+  --paper: #f5f3ec; --card: #fbfaf6; --ink: #121316; --ink2: #44474f; --ink3: #767a83; --rule: #dcd8cc;
+  --accent: #2a45d4; --accent-soft: #e4e8fb; --pass: #1e8a4f; --pass-soft: #dcefe3; --fail: #c4402f; --fail-soft: #f7e0db;
+  --div: #c8891c; --div-soft: #f6ead2;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); }
+body { font-family: "IBM Plex Sans", sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; font-feature-settings: "tnum" 1; }
+.slide { width: 1600px; height: 900px; position: relative; overflow: hidden; background: var(--paper); padding: 64px 96px 0; page-break-after: always; break-after: page; }
+.brand { display: flex; align-items: center; gap: 14px; height: 40px; }
+.mark { width: 34px; height: 34px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.mark i { background: var(--ink); border-radius: 2px; }
+.mark i.a { background: var(--accent); }
+.brand b { font-family: "Newsreader", serif; font-weight: 500; font-size: 28px; letter-spacing: -0.01em; }
+.pg { position: absolute; right: 96px; bottom: 44px; font-family: "IBM Plex Mono", monospace; font-size: 16px; color: var(--ink3); }
+.foot { position: absolute; left: 96px; bottom: 44px; font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--ink3); letter-spacing: 0.02em; }
+.kicker { font-family: "IBM Plex Mono", monospace; font-size: 17px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-top: 52px; }
+h1 { font-family: "Newsreader", serif; font-weight: 500; font-size: 62px; line-height: 1.06; letter-spacing: -0.022em; margin-top: 12px; max-width: 1380px; }
+h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+h1.nok { margin-top: 64px; }
+.sub { font-size: 25px; line-height: 1.45; color: var(--ink2); max-width: 1100px; }
+.note { font-family: "Newsreader", serif; font-style: italic; font-size: 27px; line-height: 1.25; color: var(--accent); }
+.mono { font-family: "IBM Plex Mono", monospace; }
+.label { font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink3); }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; }
+.shot { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; background: #f5f5f5; box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 12px 32px -18px rgba(20,20,30,0.25); }
+.shot img { display: block; width: 100%; }
+.tabs { display: flex; gap: 44px; margin-top: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); font-size: 19px; color: var(--ink3); }
+.tabs span b { font-family: "IBM Plex Mono", monospace; font-weight: 500; margin-right: 8px; }
+.tabs span.on { color: var(--ink); font-weight: 600; position: relative; }
+.tabs span.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -15px; height: 3px; background: var(--accent); border-radius: 2px; }
+.ann { position: absolute; pointer-events: none; }
+.pill { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; padding: 4px 9px; border-radius: 999px; background: var(--accent); color: #fff; vertical-align: middle; }
+.ok { color: var(--pass); } .bad { color: var(--fail); }
+.big { font-family: "Newsreader", serif; font-weight: 500; letter-spacing: -0.03em; line-height: 0.95; }
+</style>
+</head>
+<body>
+
+<!-- 1 COVER -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div style="margin-top:150px">
+    <div class="big" style="font-size:150px">Delete the code.<br><em style="font-style:italic;color:var(--accent)">Keep the ship.</em></div>
+    <p class="sub" style="margin-top:44px;font-size:30px;max-width:1150px">An AI rebuilds your app from plain English tests in a new stack, even as a native Android app, and Kane CLI proves every behavior still matches the original.</p>
+  </div>
+  <div style="position:absolute;left:96px;bottom:64px;right:96px;display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div style="display:flex;gap:7px;margin-bottom:14px" id="cover-dots"></div>
+      <div class="mono" style="font-size:15px;color:var(--ink3);letter-spacing:0.04em">22 behaviors of the 2012 jQuery TodoMVC, proven by Kane on the original</div>
+    </div>
+    <div class="mono" style="font-size:16px;color:var(--ink2);text-align:right;line-height:1.7">KaneCLI Online Hackathon by TestMu AI<br>github.com/Adwaitbytes/theseus</div>
+  </div>
+</section>
+
+<!-- 2 PROBLEM -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">Problem</div>
+  <h1>Rewrites change behavior quietly, and the agent that wrote the code is the one saying <em>done</em>.</h1>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:56px">
+    <div>
+      <div class="label">The agent's word</div>
+      <div class="card" style="margin-top:16px;padding:28px 30px;background:#16171b;border-color:#16171b;color:#e9e9ec">
+        <div class="mono" style="font-size:14px;color:#8d909a;letter-spacing:0.06em">CODEX, END OF ITS BUILD</div>
+        <div class="mono" style="font-size:19px;line-height:1.6;margin-top:12px">Built the TodoMVC Next.js App Router application from scratch. Implemented adding, editing, completion, filters, clear completed, persistence…</div>
+      </div>
+      <p class="note" style="margin-top:22px">Its own summary, with no evidence attached.</p>
+    </div>
+    <div>
+      <div class="label">Kane's word</div>
+      <div class="card" style="margin-top:16px;padding:28px 30px">
+        <div class="mono" style="font-size:14px;color:var(--ink3);letter-spacing:0.06em">KANE CLI, SAME BUILD</div>
+        <div style="display:flex;align-items:baseline;gap:16px;margin-top:10px">
+          <div class="big" style="font-size:84px">22</div>
+          <div style="font-size:21px;color:var(--ink2)">behaviors checked one by one<br>in a real browser, pass or fail</div>
+        </div>
+        <div style="display:flex;gap:5px;margin-top:18px" id="p2-dots"></div>
+      </div>
+      <p class="note" style="margin-top:22px">Every claim checked, with a screenshot for each step.</p>
+    </div>
+  </div>
+  <div class="pg">2</div>
+</section>
+
+<!-- 3 THE IDEA -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">The idea</div>
+  <h1>One plain English test ran unchanged on <em>4</em> builds, from 2012 jQuery to a native phone app.</h1>
+  <div class="card" style="margin-top:30px;padding:18px 26px;display:flex;gap:18px;align-items:center">
+    <span class="pill">KANE</span>
+    <span class="mono" style="font-size:17px;color:var(--ink2);line-height:1.5">…enter and submit "Buy milk", "Walk the dog", and "Write the report" … Verify all three items appear in that order and the counter shows "3 items left".</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 0.62fr;gap:28px;margin-top:30px;align-items:end">
+    <div><div class="shot"><img src="assets/todo-original.jpg"></div><div style="margin-top:12px;font-weight:600;font-size:20px">jQuery, 2012</div><div class="mono" style="font-size:15px;color:var(--ink3)">the original</div></div>
+    <div><div class="shot"><img src="assets/todo-nextjs.jpg"></div><div style="margin-top:12px;font-weight:600;font-size:20px">Next.js</div><div class="mono" style="font-size:15px;color:var(--ink3)">rebuilt by Codex</div></div>
+    <div><div class="shot"><img src="assets/todo-sveltekit.jpg"></div><div style="margin-top:12px;font-weight:600;font-size:20px">SvelteKit</div><div class="mono" style="font-size:15px;color:var(--ink3)">rebuilt by Codex</div></div>
+    <div><div class="shot" style="border-radius:22px"><img src="assets/todo-android.jpg" style="height:300px;width:auto;margin:0 auto"></div><div style="margin-top:12px;font-weight:600;font-size:20px">Android, native</div><div class="mono" style="font-size:15px;color:var(--ink3)">rebuilt by Codex</div></div>
+  </div>
+  <div class="pg">3</div>
+</section>
+
+<!-- 4 HOW IT WORKS -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">How it works</div>
+  <h1>Kane decides what goes into the spec, and when a rebuild is <em>done</em>.</h1>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:40px;position:relative" id="flow"></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-top:28px;padding-top:22px;border-top:1px solid var(--rule)">
+    <div><div class="big" style="font-size:50px">22</div><div style="font-size:18px;color:var(--ink2);margin-top:6px">tests drafted from the 2012 TodoMVC, each checked by Kane on the original</div></div>
+    <div><div class="big" style="font-size:50px">0</div><div style="font-size:18px;color:var(--ink2);margin-top:6px">lines of the original source shown to Codex</div></div>
+    <div><div class="big" style="font-size:50px">3</div><div style="font-size:18px;color:var(--ink2);margin-top:6px">rebuilds: Next.js, SvelteKit and native Android</div></div>
+    <div><div class="big" style="font-size:50px">66</div><div style="font-size:18px;color:var(--ink2);margin-top:6px">certificate cells, each backed by a Kane run</div></div>
+  </div>
+  <div class="pg">4</div>
+</section>
+
+<!-- 5 RESULTS -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">Results · TodoMVC, 22 behaviors</div>
+  <h1>The native Android rebuild matched the 2012 original on <em>21 of 22</em> behaviors.</h1>
+  <div style="margin-top:58px" id="matrix"></div>
+  <div style="display:flex;gap:36px;margin-top:30px;font-size:18px;color:var(--ink2);align-items:center" id="legend"></div>
+  <div class="pg">5</div>
+</section>
+
+<!-- 6 LEARNED 1 -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">What we learned · 1 of 3</div>
+  <h1>Kane cleared the app itself, so Codex changed <em>0</em> files in 5 follow-up rounds.</h1>
+  <div class="tabs"><span class="on"><b>1</b>Kane protects working code</span><span><b>2</b>Kane checks our tests too</span><span><b>3</b>Kane knows the original</span></div>
+  <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:60px;margin-top:36px">
+    <div>
+      <div style="font-size:18px;color:var(--ink2)"><b style="color:var(--ink)">Next.js rebuild, round by round</b> · behaviors Kane proved in the round · files Codex changed</div>
+      <div id="rounds" style="margin-top:22px"></div>
+    </div>
+    <div class="card" style="padding:30px 32px;align-self:start">
+      <div class="label">Kane root cause · round 1 · automation_bug</div>
+      <p style="font-family:'Newsreader',serif;font-size:29px;line-height:1.3;margin-top:16px">“The screenshots show the app correctly displayed one item after the first add and two items after the second add.”</p>
+      <p style="font-size:18px;color:var(--ink2);margin-top:20px;line-height:1.5">The red was Kane's own run missing a stored value. Theseus reruns failures like this before the agent hears about them, so nobody rewrites code that already works.</p>
+    </div>
+  </div>
+  <div class="pg">6</div>
+</section>
+
+<!-- 7 LEARNED 2 -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">What we learned · 2 of 3</div>
+  <h1>Kane caught a <em>false green</em> in our own baseline.</h1>
+  <div class="tabs"><span><b>1</b>Kane protects working code</span><span class="on"><b>2</b>Kane checks our tests too</span><span><b>3</b>Kane knows the original</span></div>
+  <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:60px;margin-top:34px">
+    <div class="card" style="padding:22px 26px;position:relative">
+      <div class="label">Recorded run · persist-items · on the original</div>
+      <div class="mono" style="font-size:17px;line-height:1.95;margin-top:10px" id="steps"></div>
+    </div>
+    <div>
+      <div class="label">Same behavior, same app</div>
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:16px">
+        <div class="card" style="padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:20px">Recorded baseline</span><span class="mono ok" style="font-size:18px;text-decoration:line-through;text-decoration-thickness:2px">passed</span></div>
+        <div class="card" style="padding:18px 22px;display:flex;justify-content:space-between;align-items:center;border-color:var(--fail)"><span style="font-size:20px">theseus verify, rerun live</span><span class="mono bad" style="font-size:18px;font-weight:600">failed</span></div>
+      </div>
+      <p style="font-size:20px;color:var(--ink2);line-height:1.5;margin-top:26px">The certificate now counts it as failed on the original, so no rebuild gets credit for it. That is why every rebuild shows a single miss in the same place.</p>
+    </div>
+  </div>
+  <div class="pg">7</div>
+</section>
+
+<!-- 8 LEARNED 3 -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">What we learned · 3 of 3</div>
+  <h1>Kane kept <em>5 of 21</em> drafts out of the RealWorld spec, and named 2 real limits of the original.</h1>
+  <div class="tabs"><span><b>1</b>Kane protects working code</span><span><b>2</b>Kane checks our tests too</span><span class="on"><b>3</b>Kane knows the original</span></div>
+  <div style="margin-top:30px" id="rejects"></div>
+  <div class="pg">8</div>
+</section>
+
+<!-- 9 THE LOOP -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">Closed loop</div>
+  <h1>Every red verdict reaches the agent with Kane's step, reason, root cause and <em>fix</em>.</h1>
+  <div style="display:grid;grid-template-columns:0.9fr 1.15fr 0.85fr;gap:40px;margin-top:44px;align-items:start">
+    <div>
+      <div class="shot" style="position:relative"><img src="assets/fail-counter.jpg"></div>
+      <div class="mono" style="font-size:15px;color:var(--ink3);margin-top:12px">Kane screenshot at the failing step</div>
+    </div>
+    <div class="card" style="padding:26px 28px">
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:14px;height:14px;border-radius:3px;background:var(--fail)"></span><span style="font-weight:600;font-size:22px;color:var(--fail)">Failed at step 9</span><span class="mono" style="font-size:14px;color:var(--ink3);margin-left:auto">Next.js · round 1</span></div>
+      <div class="label" style="margin-top:20px">Root cause</div>
+      <p style="font-size:19px;line-height:1.5;margin-top:8px">The agent skipped the required step to read and save the second counter after adding “Two.” The screenshots show the app correctly displayed one item, then two.</p>
+      <div class="label" style="margin-top:18px">Suggested fix</div>
+      <p style="font-size:19px;line-height:1.5;margin-top:8px">Read the visible counter immediately after adding “Two” and save that text before the final verification.</p>
+    </div>
+    <div>
+      <div class="label">The next round gets</div>
+      <ol style="list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:14px;font-size:20px">
+        <li><b class="mono" style="color:var(--accent)">1</b>&nbsp; the objective</li>
+        <li><b class="mono" style="color:var(--accent)">2</b>&nbsp; the failing step</li>
+        <li><b class="mono" style="color:var(--accent)">3</b>&nbsp; Kane's reason</li>
+        <li><b class="mono" style="color:var(--accent)">4</b>&nbsp; root cause and fix</li>
+        <li><b class="mono" style="color:var(--accent)">5</b>&nbsp; this screenshot</li>
+      </ol>
+      <p class="note" style="margin-top:26px;font-size:24px">and if Kane blames its own run, a rerun comes first</p>
+    </div>
+  </div>
+  <div class="pg">9</div>
+</section>
+
+<!-- 10 FULL STACK -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">Second voyage · RealWorld Conduit</div>
+  <h1>The AngularJS Conduit app, rebuilt full stack in Next.js: <em>14 of 16</em> proven by round 2.</h1>
+  <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:56px;margin-top:40px;align-items:start">
+    <div class="shot"><img src="assets/conduit-home.jpg"></div>
+    <div>
+      <div id="rw"></div>
+      <p style="font-size:19px;color:var(--ink2);line-height:1.5;margin-top:24px">Sign in, articles, comments, follows and favorites, with its own API and storage. Before every Kane run, <span class="mono" style="font-size:17px;color:var(--ink)">POST /__theseus/reset</span> restores the same seed, so runs never see each other's writes.</p>
+    </div>
+  </div>
+  <div class="pg">10</div>
+</section>
+
+<!-- 11 LIVE -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">Live</div>
+  <h1>All three apps are live, and Kane reran a behavior on each <em>deployed</em> rebuild: both held.</h1>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:44px">
+    <div><div class="shot"><img src="assets/todo-original.jpg"></div><div class="mono" style="font-size:17px;margin-top:14px">theseus-todomvc-original.vercel.app</div><div style="font-size:17px;color:var(--ink3);margin-top:4px">the 2012 original</div></div>
+    <div><div class="shot"><img src="assets/todo-nextjs.jpg"></div><div class="mono" style="font-size:17px;margin-top:14px">theseus-todomvc-nextjs.vercel.app</div><div style="font-size:17px;margin-top:4px"><span class="ok" style="font-weight:600">The certificate stands</span> <span style="color:var(--ink3)">· add-many, 3 items left</span></div></div>
+    <div><div class="shot"><img src="assets/todo-sveltekit.jpg"></div><div class="mono" style="font-size:17px;margin-top:14px">theseus-todomvc-sveltekit.vercel.app</div><div style="font-size:17px;margin-top:4px"><span class="ok" style="font-weight:600">The certificate stands</span> <span style="color:var(--ink3)">· add-many, 3 items left</span></div></div>
+  </div>
+  <div class="foot">Certificates and round by round replays: theseus-umber.vercel.app</div>
+  <div class="pg">11</div>
+</section>
+
+<!-- 12 KANE RANGE -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">Kane inside the product</div>
+  <h1>Kane is the judge, the agent's eyes and the <em>certificate</em>, not a test step at the end.</h1>
+  <div style="margin-top:40px" id="range"></div>
+  <div class="pg">12</div>
+</section>
+
+<!-- 13 COST -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div class="kicker">Cost</div>
+  <h1>A native Android rebuild, proven behavior by behavior, cost <em>501</em> Kane credits.</h1>
+  <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:70px;margin-top:56px;align-items:start">
+    <div id="cost"></div>
+    <div>
+      <div class="big" style="font-size:110px">2,696</div>
+      <div style="font-size:22px;color:var(--ink2);margin-top:10px">Kane credits for the whole TodoMVC voyage: the baseline and three rebuilds</div>
+      <div style="height:1px;background:var(--rule);margin:30px 0"></div>
+      <div class="big" style="font-size:72px">89 s</div>
+      <div style="font-size:22px;color:var(--ink2);margin-top:10px">average Kane check on the original, about 25 credits each</div>
+    </div>
+  </div>
+  <div class="pg">13</div>
+</section>
+
+<!-- 14 CLOSE -->
+<section class="slide">
+  <div class="brand"><div class="mark"><i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i></div><b>Theseus</b></div>
+  <div style="margin-top:96px" class="big"><span style="font-size:120px">Delete the code.</span><br><span style="font-size:120px;font-style:italic;color:var(--accent)">Keep the ship.</span></div>
+  <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:56px;margin-top:64px">
+    <div class="card" style="padding:26px 30px;background:#16171b;border-color:#16171b;color:#e9e9ec">
+      <div class="mono" style="font-size:14px;color:#8d909a;letter-spacing:0.08em">TRY IT</div>
+      <div class="mono" style="font-size:16.5px;line-height:1.9;margin-top:10px;white-space:nowrap">theseus doctor<br>theseus demo runs/todomvc-jquery<br>theseus regrow http://localhost:3000 --to nextjs,expo-android<br>theseus verify runs/todomvc-jquery --behavior add-many</div>
+    </div>
+    <div style="font-size:21px;line-height:2.0">
+      <div><span class="label" style="display:inline-block;width:110px">Site</span>theseus-umber.vercel.app</div>
+      <div><span class="label" style="display:inline-block;width:110px">Code</span>github.com/Adwaitbytes/theseus</div>
+      <div><span class="label" style="display:inline-block;width:110px">Video</span>youtu.be/J3EE_QQQbhg</div>
+      <div><span class="label" style="display:inline-block;width:110px">Built</span>for the KaneCLI Online Hackathon by TestMu AI</div>
+    </div>
+  </div>
+  <div class="pg">14</div>
+</section>
+
+<script>
+const D = __DATA__;
+const C = { identical: 'var(--pass)', diverged: 'var(--div)', 'failed-candidate': 'var(--fail)', 'failed-original': 'none' };
+const dot = (v, s = 18) => {
+  if (v === 'failed-original') return `<span style="width:${s}px;height:${s}px;border-radius:50%;border:2.5px solid var(--ink3);display:inline-block"></span>`;
+  if (v === 'diverged') return `<span style="width:${s}px;height:${s}px;border-radius:50%;background:repeating-linear-gradient(135deg,var(--div) 0 3px,var(--div-soft) 3px 6px);border:2px solid var(--div);display:inline-block"></span>`;
+  return `<span style="width:${s}px;height:${s}px;border-radius:50%;background:${C[v]};display:inline-block"></span>`;
+};
+document.getElementById('cover-dots').innerHTML = D.behaviors.map(() => `<span style="width:14px;height:14px;border-radius:50%;background:var(--accent);display:inline-block"></span>`).join('');
+const nx = D.targets.nextjs;
+const r1 = nx.rounds[0];
+document.getElementById('p2-dots').innerHTML = D.behaviors.map(() => `<span style="width:16px;height:16px;border-radius:50%;background:var(--accent);display:inline-block"></span>`).join('');
+
+// flow
+const steps = [
+  ['1', 'Capture', 'Crawl the running app; an agent drafts 22 plain English tests', false],
+  ['2', 'Baseline', 'Only tests Kane proves on the original enter the spec', true],
+  ['3', 'Clean room', 'The code is gone: Codex gets the spec and screenshots only', false],
+  ['4', 'Regrow', 'Codex builds; Kane runs every test; each failure goes back, round after round, until Kane agrees', true],
+  ['5', 'Certificate', 'Values Kane read, compared with the original, cell by cell', true],
+];
+document.getElementById('flow').innerHTML = steps.map(([n, t, d, k], i) => `
+  <div style="padding:24px 24px 26px;border-left:${i ? '1px solid var(--rule)' : 'none'};background:${k ? 'var(--accent-soft)' : 'transparent'};border-radius:${k ? '14px' : '0'};margin:0 ${k ? 8 : 0}px;min-height:250px">
+    <div class="mono" style="font-size:18px;color:var(--accent);font-weight:600">${n}</div>
+    <div style="font-family:'Newsreader',serif;font-size:36px;font-weight:500;margin-top:8px">${t}</div>
+    <div style="font-size:20px;line-height:1.45;color:var(--ink2);margin-top:14px">${d}</div>
+    ${k ? '<div style="margin-top:22px"><span class="pill">KANE</span></div>' : ''}
+  </div>`).join('');
+
+// matrix
+const order = ['expo-android', 'sveltekit', 'nextjs'];
+const names = { 'expo-android': 'Android, native', sveltekit: 'SvelteKit', nextjs: 'Next.js' };
+const pIdx = D.behaviors.findIndex((b) => b.id === 'persist-items');
+document.getElementById('matrix').innerHTML = `<div style="position:relative">` + order.map((t) => {
+  const T = D.targets[t];
+  return `<div style="display:grid;grid-template-columns:240px 1fr 220px;align-items:center;height:78px;border-bottom:1px solid var(--rule)">
+    <div style="font-size:23px;font-weight:600">${names[t]}</div>
+    <div style="display:flex;gap:14px">${D.behaviors.map((b) => dot(T.verdicts[b.id], 26)).join('')}</div>
+    <div style="text-align:right"><span class="big" style="font-size:52px">${T.parity.identical}</span><span style="font-size:20px;color:var(--ink3)"> / 22 identical</span></div>
+  </div>`;
+}).join('') + `<svg class="ann" style="left:${240 + pIdx * 40 - 14}px;top:-12px" width="56" height="258" viewBox="0 0 56 258"><path d="M28 6 C 52 8, 54 60, 50 130 C 48 200, 52 250, 26 252 C 4 250, 2 190, 6 130 C 8 60, 4 6, 30 4" fill="none" stroke="#2a45d4" stroke-width="2.6" stroke-linecap="round"/></svg>
+  <div class="note" style="position:absolute;left:${240 + pIdx * 40 + 50}px;top:250px;width:520px;font-size:24px">persist-items: fails on the original too</div></div>`;
+document.getElementById('legend').innerHTML = [
+  ['identical', 'Identical: passed, every value matches'],
+  ['diverged', 'Passed, a value differs'],
+  ['failed-candidate', 'Failed on the rebuild'],
+  ['failed-original', 'Failed on the original'],
+].map(([v, l]) => `<span style="display:inline-flex;align-items:center;gap:10px">${dot(v, 18)}${l}</span>`).join('');
+
+// rounds
+const rounds = nx.rounds;
+const maxRun = 22;
+document.getElementById('rounds').innerHTML = rounds.map((r) => {
+  const label = r.n === 5 ? 'final regression pass' : r.n === 1 ? 'first build' : 'reruns of what failed';
+  return `<div style="display:grid;grid-template-columns:70px 1fr 120px;align-items:center;height:56px;gap:16px">
+    <div class="mono" style="font-size:17px;color:var(--ink3)">R${r.n}</div>
+    <div style="position:relative;height:26px">
+      <div style="position:absolute;left:0;top:0;height:26px;width:${(r.run / maxRun) * 56}%;background:var(--fail-soft);border-radius:5px"></div>
+      <div style="position:absolute;left:0;top:0;height:26px;width:${(r.passed / maxRun) * 56}%;background:var(--pass);border-radius:5px"></div>
+      <div style="position:absolute;left:calc(${(r.run / maxRun) * 56}% + 12px);top:1px;font-size:17px;color:var(--ink2);white-space:nowrap"><b style="color:var(--ink)">${r.passed} of ${r.run}</b> · ${label}</div>
+    </div>
+    <div class="mono" style="text-align:right;font-size:18px;${r.files === 0 && r.n > 1 ? 'color:var(--accent);font-weight:600' : 'color:var(--ink2)'}">${r.files} files</div>
+  </div>`;
+}).join('');
+
+// false green steps
+const st = [
+  [11, 'wait: Close and reopen the app', false],
+  [12, 'type: Typing A into the to-do input', true],
+  [13, 'press_key: Add "A"', true],
+  [14, 'type: Typing B into the textbox', true],
+  [15, 'press_key: Add "B"', true],
+  [16, 'click: Complete "A"', true],
+  [18, 'assert: both todos and their completion state remain', false],
+];
+document.getElementById('steps').innerHTML = st.map(([n, t, h]) => `<div style="display:flex;gap:18px;padding:0 10px;border-radius:6px;${h ? 'background:var(--fail-soft)' : ''}"><span style="color:var(--ink3);width:30px">${n}</span><span>${t}</span></div>`).join('') +
+  `<div class="note" style="font-size:24px;margin-top:14px">after reopening, the run typed the todos again, then said they remained</div>`;
+
+// rejects
+const rej = [
+  ['edit-own-article-and-keep-changes', 'application_issue', 'The article page does not display the description that was entered and saved.', true],
+  ['settings-update-profile-and-logout', 'application_issue', 'The service does not allow a hyphen in the username.', true],
+  ['profile-tabs-show-authored-and-favorited-articles', 'automation_bug', 'The page loaded correctly, but the run left the stored titles empty.', false],
+  ['signed-out-protected-pages-return-home', 'automation_bug', 'The page was correct after sign-out; the run did not save the values.', false],
+  ['publish-article-with-tags-and-remove-a-tag', 'timeout', 'Exceeded the 300 s limit; the run was stopped.', false],
+];
+document.getElementById('rejects').innerHTML = rej.map(([id, cat, why, hi]) => `
+  <div style="display:grid;grid-template-columns:520px 210px 1fr;gap:24px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--rule);${hi ? 'background:var(--accent-soft);border-radius:10px;border-bottom-color:transparent;margin-bottom:6px' : ''}">
+    <span class="mono" style="font-size:16px">${id}</span>
+    <span class="mono" style="font-size:15px;font-weight:600;color:${hi ? 'var(--accent)' : 'var(--ink3)'}">${cat}</span>
+    <span style="font-size:19px;color:var(--ink2)">${why}</span>
+  </div>`).join('') + `<div class="note" style="margin-top:18px;font-size:24px">The two highlighted are how the 2012 app really behaves. Our draft was wrong, and Kane said so.</div>`;
+
+// realworld stats
+document.getElementById('rw').innerHTML = [
+  ['21', 'tests drafted from a crawl of the original'],
+  ['16', 'proven by Kane on the original'],
+  ['0 / 16', 'round 1: the reset route returned 404, because Next.js treats _folders as private'],
+  ['14 / 16', 'round 2, after Codex read Kane\'s feedback'],
+  ['13', 'identical on the certificate'],
+].map(([n, l], i) => `<div style="display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--rule)"><span class="big" style="font-size:${i === 3 ? 46 : 40}px;white-space:nowrap;${i === 3 ? 'color:var(--accent);font-style:italic' : ''}">${n}</span><span style="font-size:19px;color:var(--ink2)">${l}</span></div>`).join('');
+
+// range
+const range = [
+  ['kane-cli run --agent', 'Every behavior check streams NDJSON into the live terminal view and the replay'],
+  ['Root cause triage', 'Test bugs are redrafted or rerun; only real app failures reach the agent'],
+  ['Stored values (final_state)', 'The exact values the parity certificate compares'],
+  ['Evidence packs', 'A screenshot behind every certificate cell, with account details kept out'],
+  ['Android emulator target', 'The same sentences drive the native Expo rebuild'],
+  ['testmd export and testrun', 'Each rebuild ships a committed Kane suite: theseus suite, and CI'],
+  ['Exit codes', 'Infrastructure errors are retried, never blamed on the app'],
+];
+document.getElementById('range').innerHTML = range.map(([k, v]) => `<div style="display:grid;grid-template-columns:420px 1fr;gap:30px;padding:15px 0;border-bottom:1px solid var(--rule);align-items:baseline"><span class="mono" style="font-size:19px;font-weight:500">${k}</span><span style="font-size:21px;color:var(--ink2)">${v}</span></div>`).join('');
+
+// cost
+const cost = [['Baseline on the original', D.baselineCredits, '22 checks'], ['SvelteKit', D.targets.sveltekit.credits, '1 round'], ['Android, native', D.targets['expo-android'].credits, '1 round'], ['Next.js', nx.credits, '6 rounds']];
+const cmax = 1200;
+document.getElementById('cost').innerHTML = cost.map(([l, v, s]) => `<div style="display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:center;height:84px">
+  <div><div style="font-size:21px;font-weight:600">${l}</div><div class="mono" style="font-size:15px;color:var(--ink3)">${s}</div></div>
+  <div style="display:flex;align-items:center;gap:14px"><div style="height:34px;width:${(v / cmax) * 100}%;background:${l.startsWith('Android') ? 'var(--accent)' : 'var(--ink)'};opacity:${l.startsWith('Android') ? 1 : 0.82};border-radius:6px"></div><span class="mono" style="font-size:20px;font-weight:500">${v.toLocaleString('en-US')}</span></div>
+</div>`).join('');
+</script>
+</body>
+</html>

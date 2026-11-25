@@ -21,3 +21,5 @@ apps/web/public/evidence/
 apps/web/next-env.d.ts
 .theseus/logs/
 .theseus/deploy/
+launch/deck/png/
+launch/deck/deck.built.html
